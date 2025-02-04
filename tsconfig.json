@@ -1,0 +1,55 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "allowJs": false,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "downlevelIteration": true,
+        "isolatedModules": true,
+        "jsx": "react-jsx",
+        "baseUrl": ".",
+        "noEmit": true,
+        "sourceMap": true,
+        "noFallthroughCasesInSwitch": true,
+        "types": [
+            "vite/client"
+        ],
+        "paths": {
+            "@app-components": ["src/components/index"],
+            "@app-compositions": ["src/compositions/index"],
+            "@app-connectors": ["src/connectors/index"],
+            "@app-containers": ["src/containers/index"],
+            "@app-context": ["src/context/index"],
+            "@app-entities": ["src/entities/index"],
+            "@app-enums": ["src/enums/index"],
+            "@app-helpers": ["src/helpers/index"],
+            "@app-hooks": ["src/hooks/index"],
+            "@app-providers": ["src/AppProviders"],
+            "@app-styles/*": ["src/styles/*"],
+            "@app-resources/*": ["res/*"]
+        }
+    },
+    "include": [
+        "src",
+        "scripts",
+    ],
+    "exclude": [
+        "node_modules",
+        "__tests__"
+    ],
+    "ts-node": {
+        "transpileOnly": true,
+        "esm": true
+    }
+}
