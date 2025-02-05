@@ -1,4 +1,4 @@
-import { FC, RefAttributes, useEffect, useRef, VideoHTMLAttributes } from 'react'
+import { FC, RefAttributes, useEffect, useRef, useState, VideoHTMLAttributes } from 'react'
 import { WebVTTParser, WebVTTSerializer } from 'webvtt-parser'
 
 import { cueToWebVTT } from '@app-helpers'
@@ -23,17 +23,27 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     className = '',
     ...htmlVideoProps
 }) => {
+    const [track, setTrack] = useState<TextTrack | null>(null)
+    const [cues, setCues] = useState<VTTCue[] | null>(null)
+
     const videoPlayerElement = useRef<HTMLVideoElement>(null)
+    const trackElement = useRef<HTMLTrackElement>(null)
 
     useEffect(() => {
-        if (showSubtitlesByDefault && videoPlayerElement?.current) {
-            const [firstTrack] = videoPlayerElement.current.textTracks
-            console.log({ firstTrack })
-            if (firstTrack) {
-                firstTrack.mode = 'showing'
-            }
+        if (! trackElement.current) {
+            return
         }
-    }, [videoPlayerElement])
+
+        setTrack(trackElement.current.track)
+
+        // Refresh cue list if the track (and its cues) changes
+        trackElement.current.addEventListener('cuechange', () => handleCuesChange())
+        void handleCuesChange()
+
+        if (showSubtitlesByDefault) {
+            trackElement.current.track.mode = 'showing'
+        }
+    }, [trackElement])
 
     const handleExport = () => {
         const parser = new WebVTTParser()
@@ -47,15 +57,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
         parsedVttData.cues[1].alignment = 'start'
 
         //const exportedVttData = serializer.serialize(parsedVttData.cues)
-
-        const currentTrack = videoPlayerElement.current?.textTracks[0]
-        if (!currentTrack) {
-            console.error('No text track found')
-            return
-        }
-
-        //const trackCues = Array.from(currentTrack.cues!)
-        //const parsedCues = trackCues.map((cue) => cueToWebVTT(cue as VTTCue))
+        //const parsedCues = cues?.map((cue) => cueToWebVTT(cue))
 
         //console.log({ parsedCues })
         const exportedVttData = serializer.serialize(parsedVttData.cues, [
@@ -69,6 +71,16 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
         videoPlayerElement.current!.currentTime = videoPlayerElement.current!.textTracks[0].cues![index].startTime
     }
 
+    const handleCuesChange = async () => {
+        // TODO: Uncomment if needed: Wait a second to make sure the cues are loaded
+        // await new Promise((resolve) => setTimeout(resolve, 1000))
+
+        // Set cue list when the video is ready
+        if (track?.cues) {
+            setCues(Array.from(track.cues).map((cue) => cue as VTTCue))
+        }
+    }
+
     // TODO: Add logic to convert .srt to .vtt
     return (
         <div>
@@ -77,19 +89,30 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
                 ref={videoPlayerElement}
                 controls
                 defaultChecked
+                onLoadedMetadata={handleCuesChange}
                 className={`video-player ${className}`}
             >
                 <source src={src} />
                 <track
+                    ref={trackElement}
                     label="Subs"
                     src={subtitleSrc}
                     defaultChecked
                 />
             </video>
-            <button onClick={() => setCueByIndex(0)}>Go to cue 1</button>
-            <button onClick={() => setCueByIndex(1)}>Go to cue 2</button>
-            <button onClick={() => setCueByIndex(2)}>Go to cue 3</button>
-            <button onClick={handleExport}>Export to vtt</button>
+
+            {cues && (
+                <ul>
+                    {cues.map((cue, index) => (
+                        <li key={index}>
+                            <p>{cue.text}</p>
+                            <button onClick={() => setCueByIndex(index)}>Go to cue {index + 1}</button>
+                        </li>
+                    ))}
+                </ul>
+            )}
+
+            <button onClick={handleExport}>Export</button>
         </div>
     )
 }
