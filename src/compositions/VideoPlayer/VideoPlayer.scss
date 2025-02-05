@@ -1,3 +1,22 @@
-video {
-    //
+.video-player {
+    position: relative;
+    width: fit-content;
+
+    &__video {
+        display: block;
+    }
+
+    &__cue-labels {
+        position: absolute;
+        inset-inline: 1rem;
+        bottom: 0;
+        height: 1rem;
+    }
+
+    &__cue-label {
+        position: absolute;
+        inset-block: 0;
+        background: yellow;
+        border: 1px solid black;
+    }
 }

@@ -80,22 +80,38 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     // TODO: Add logic to convert .srt to .vtt
     return (
         <div>
-            <video
-                {...htmlVideoProps}
-                ref={videoPlayerElement}
-                controls
-                defaultChecked
-                onLoadedMetadata={handleCuesChange}
-                className={`video-player ${className}`}
-            >
-                <source src={src} />
-                <track
-                    ref={trackElement}
-                    label="Subs"
-                    src={subtitleSrc}
+            <div className={`video-player ${className}`}>
+                <video
+                    {...htmlVideoProps}
+                    ref={videoPlayerElement}
+                    controls
                     defaultChecked
-                />
-            </video>
+                    onLoadedMetadata={handleCuesChange}
+                    className="video-player__video"
+                >
+                    <source src={src} />
+                    <track
+                        ref={trackElement}
+                        label="Subs"
+                        src={subtitleSrc}
+                        defaultChecked
+                    />
+                </video>
+                <div className="video-player__cue-labels">
+                    {cues && videoPlayerElement?.current && (cues.map((cue, index) => (
+                        <button
+                            key={index}
+                            title={cue.text}
+                            onClick={() => setCueByIndex(index)}
+                            className="video-player__cue-label"
+                            style={{
+                                left: `${cue.startTime / videoPlayerElement!.current!.duration * 100}%`,
+                                width: `${(cue.endTime - cue.startTime) / videoPlayerElement!.current!.duration * 100}%`,
+                            }}
+                        />
+                    )))}
+                </div>
+            </div>
 
             {cues && (
                 <ul>
