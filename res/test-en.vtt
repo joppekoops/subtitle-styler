@@ -1,8 +1,5 @@
 WEBVTT
 
-STYLE
-::cue { background: yellow; color: purple; }
-
 0
 00:00.000 --> 00:12.000 align:end
 <v Test>[Test]</v>

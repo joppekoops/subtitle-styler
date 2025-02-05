@@ -68,8 +68,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     }
 
     const handleCuesChange = async () => {
-        // TODO: Uncomment if needed: Wait a second to make sure the cues are loaded
-        // await new Promise((resolve) => setTimeout(resolve, 1000))
+        await new Promise((resolve) => setTimeout(resolve, 200))
 
         // Set cue list when the video is ready
         if (track?.cues) {
@@ -77,36 +76,98 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
         }
     }
 
+    function setProperty(property: string, value: string) {
+        videoPlayerElement.current?.style.setProperty(property, value);
+    }
+
     // TODO: Add logic to convert .srt to .vtt
     return (
-        <div>
-            <video
-                {...htmlVideoProps}
-                ref={videoPlayerElement}
-                controls
-                defaultChecked
-                onLoadedMetadata={handleCuesChange}
-                className={`video-player ${className}`}
-            >
-                <source src={src} />
-                <track
-                    ref={trackElement}
-                    label="Subs"
-                    src={subtitleSrc}
+        <div className="layout">
+            <section className="panel video-section">
+                <video
+                    {...htmlVideoProps}
+                    ref={videoPlayerElement}
+                    controls
                     defaultChecked
-                />
-            </video>
+                    onLoadedMetadata={handleCuesChange}
+                    className={`video-player ${className}`}
+                >
+                    <source src={src} />
+                    <track
+                        ref={trackElement}
+                        label="Subs"
+                        src={subtitleSrc}
+                        defaultChecked
+                    />
+                </video>
+            </section>
 
-            {cues && (
-                <ul>
-                    {cues.map((cue, index) => (
-                        <li key={index}>
-                            <p>{cue.text}</p>
-                            <button onClick={() => setCueByIndex(index)}>Go to cue {index + 1}</button>
-                        </li>
-                    ))}
-                </ul>
-            )}
+            <section className="panel styles-section">
+                <form action="" className="styles-form">
+                    <h2>Global Styles</h2>
+                    <div className="controls-row">
+                        <h3>Colour</h3>
+                        <label>
+                            Text
+                            <input type="color" id="textColor" defaultValue={'#FFFFFF'} onInput={(event) => setProperty('--text-color', event.currentTarget.value)}/>
+                        </label>
+                        <label>
+                            Background
+                            <input type="color" id="backgroundColor" defaultValue={'#000000'} onInput={(event) => setProperty('--background-color', event.currentTarget.value)}/>
+                        </label>
+                    </div>
+
+                    <div className="controls-row">
+                        <h3>Typography</h3>
+                        <label>
+                            Font Size
+                            <input type="number" id="fontSize" defaultValue={16} onInput={(event) => setProperty('--font-size', event.currentTarget.value + 'px')}/>
+                        </label>
+                        <label>
+                            Font Family
+                            <select id="fontFamily" defaultValue={'sans-serif'} onInput={(event) => setProperty('--font-family', event.currentTarget.value)}>
+                                <option value="sans-serif">Sans Serif</option>
+                                <option value="serif">Serif</option>
+                                <option value="fantasy">Fantasy</option>
+                                <option value="monospace">Monospace</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div className="controls-row">
+                        <h3>Shadow</h3>
+                        <label>
+                            Colour
+                            <input type="color" id="shadowColor" defaultValue={'#000000'} onInput={(event) => setProperty('--text-shadow-color', event.currentTarget.value)}/>
+                        </label>
+                        <label>
+                            X
+                            <input type="number" id="shadowX" defaultValue={0} onInput={(event) => setProperty('--text-shadow-x', event.currentTarget.value + 'px')}/>
+                        </label>
+                        <label>
+                            Y
+                            <input type="number" id="shadowY" defaultValue={0} onInput={(event) => setProperty('--text-shadow-y', event.currentTarget.value + 'px')}/>
+                        </label>
+                        <label>
+                            Blur
+                            <input type="number" id="shadowBlur" defaultValue={0} onInput={(event) => setProperty('--text-shadow-blur', event.currentTarget.value + 'px')}/>
+                        </label>
+                    </div>
+                </form>
+            </section>
+
+            <section className="panel timeline-section">
+                {cues && (
+                    <ul>
+                        {cues.map((cue, index) => (
+                            <li key={index}>
+                                <p>{cue.text}</p>
+                                <button onClick={() => setCueByIndex(index)}>Go to cue {index + 1}</button>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </section>
 
             <button onClick={handleExport}>Export</button>
         </div>
