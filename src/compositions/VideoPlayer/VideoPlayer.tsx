@@ -2,13 +2,9 @@ import { FC, RefAttributes, useEffect, useRef, useState, VideoHTMLAttributes } f
 import { WebVTTParser, WebVTTSerializer } from 'webvtt-parser'
 
 import { cueToWebVTT } from '@app-helpers'
-import encodedVttData from '@app-resources/test-en.vtt?inline'
+import vttData from '@app-resources/test-en.vtt'
 
 import './VideoPlayer.scss'
-
-console.log(encodedVttData)
-
-const vttData = atob(encodedVttData.split('data:text/vtt;base64,').join(''))
 
 export interface VideoPlayerProps extends VideoHTMLAttributes<HTMLVideoElement>, RefAttributes<HTMLVideoElement> {
     subtitleSrc?: string
