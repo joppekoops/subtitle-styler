@@ -35,6 +35,7 @@
             "@app-enums": ["src/enums/index"],
             "@app-helpers": ["src/helpers/index"],
             "@app-hooks": ["src/hooks/index"],
+            "@app-redux": ["src/redux/index"],
             "@app-providers": ["src/AppProviders"],
             "@app-styles/*": ["src/styles/*"],
             "@app-resources/*": ["res/*"]

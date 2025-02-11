@@ -1,0 +1,9 @@
+.timeline {
+    &__list-item {
+        background: yellow;
+
+        &--active {
+            background: red;
+        }
+    }
+}

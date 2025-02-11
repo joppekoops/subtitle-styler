@@ -1,10 +1,10 @@
 import { FC, ReactElement } from 'react'
 
-import { VideoPlayer } from '@app-compositions'
+import { Editor } from '@app-containers'
+import { AppProviders } from '@app-providers'
 
 export const App: FC = (): ReactElement => (
-    <VideoPlayer
-        src={'/res/test.mp4'}
-        subtitleSrc={'/res/test-en.vtt'}
-    />
+    <AppProviders>
+        <Editor />
+    </AppProviders>
 )
