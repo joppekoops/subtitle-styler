@@ -1,7 +1,14 @@
 import { FC } from 'react'
 
 import { VideoPlayer } from '@app-compositions'
-import { setActiveCueIndex, setCues, setVideoFile, useTypedDispatch, useTypedSelector } from '@app-redux'
+import {
+    setActiveCueIndex,
+    setCues,
+    setCurrentTime,
+    setVideoFile,
+    useTypedDispatch,
+    useTypedSelector,
+} from '@app-redux'
 
 export const ConnectedVideoPlayer: FC = () => {
     const dispatch = useTypedDispatch()
@@ -13,9 +20,13 @@ export const ConnectedVideoPlayer: FC = () => {
     }
 
     const handleActiveCuesChanged = (_activeCues: VTTCue[], index: number) => {
-        if (index > 0) {
+        if (index >= 0) {
             dispatch(setActiveCueIndex(index))
         }
+    }
+
+    const handleTimeChange = (time: number) => {
+        dispatch(setCurrentTime(time))
     }
 
     //const handleButtonClick = () => {
@@ -35,6 +46,7 @@ export const ConnectedVideoPlayer: FC = () => {
                     activeCueIndex={activeCueIndex}
                     onCuesLoaded={handleCuesLoaded}
                     onActiveCuesChanged={handleActiveCuesChanged}
+                    onTimeChanged={handleTimeChange}
                 />
             )}
         </>

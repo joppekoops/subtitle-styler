@@ -1,9 +1,89 @@
 .timeline {
-    &__list-item {
-        background: yellow;
+    --total-time: 120;
+    --current-time: 50;
+
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    &__cue-list {
+        position: relative;
+        display: flex;
+        margin: 0;
+        padding: .5rem;
+        width: 100%;
+        height: 6rem;
+        list-style: none;
+        background-color: #111;
+    }
+
+    &__cue-item {
+        --start-time: 0;
+        --end-time: 0;
+
+        container-name: cue-item;
+        container-type: inline-size;
+
+
+        position: absolute;
+        display: block;
+        left: calc(var(--start-time) / var(--total-time) * 100%);
+        width: calc((var(--end-time) - var(--start-time)) / var(--total-time) * 100%);
+        border-radius: .1875rem;
+        height: 5rem;
+        color: white;
+        background: #fff5;
+        overflow: hidden;
 
         &--active {
-            background: red;
+            outline: .125rem solid dodgerblue;
+            outline-offset: -.125rem;
+        }
+    }
+
+    &__cue-button {
+        display: flex;
+        position: absolute;
+        inset: 0;
+        border: none;
+        padding: .25rem .375rem;
+        color: inherit;
+        background-color: transparent;
+        font-size: max(min(40cqw, 1rem), .75rem);
+    }
+
+    &__timings {
+        height: 1rem;
+        background-repeat: repeat-x;
+        background-image:
+            linear-gradient(to right, black calc(100% - 2px), transparent calc(100% - 2px)),
+            linear-gradient(to right, transparent calc(100% - 1px), #fff5 calc(100% - 1px));
+        background-size:
+            calc(100% / var(--total-time) * 10),
+            calc(100% / var(--total-time));
+        background-position:
+            1px .5rem,
+            1px 0;
+    }
+
+    &__playhead {
+        position: absolute;
+        top: 0;
+        left: calc(var(--current-time) / var(--total-time) * 100% - 1px);
+        width: 2px;
+        height: 100%;
+        background-color: dodgerblue;
+        z-index: 999;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: calc(-.5rem + 1px);
+            border-top: 1rem solid dodgerblue;
+            border-right: .5rem solid transparent;
+            border-left: .5rem solid transparent;
         }
     }
 }
