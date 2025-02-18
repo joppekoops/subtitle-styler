@@ -1,0 +1,10 @@
+.video-picker {
+    justify-items: center;
+    align-content: center;
+    height: 100%;
+    background-image: linear-gradient(to bottom, #333d, #000);
+
+    &__button {
+        display: block;
+    }
+}

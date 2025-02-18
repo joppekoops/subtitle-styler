@@ -1,4 +1,6 @@
-import { FC, ReactElement, RefAttributes, useEffect, useRef, useState, VideoHTMLAttributes } from 'react'
+import { FC, ReactElement, RefAttributes, useEffect, useRef, VideoHTMLAttributes } from 'react'
+
+import './VideoPlayer.scss'
 
 export interface VideoPlayerProps extends VideoHTMLAttributes<HTMLVideoElement>, RefAttributes<HTMLVideoElement> {
     subtitleSrc?: string
