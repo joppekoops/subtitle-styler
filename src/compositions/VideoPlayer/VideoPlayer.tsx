@@ -25,6 +25,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
 }): ReactElement => {
     const videoPlayerElement = useRef<HTMLVideoElement>(null)
     const trackElement = useRef<HTMLTrackElement>(null)
+    const cueContainer = useRef<HTMLDivElement>(null)
 
     const handleCuesChange = async () => {
         if (! trackElement.current) {
@@ -51,6 +52,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
             const cues: VTTCue[] = Array.from(trackElement.current.track.cues).map((cue) => cue as VTTCue)
             const activeCues: VTTCue[] = Array.from(trackElement.current.track.activeCues).map((cue) => cue as VTTCue)
             onActiveCuesChanged(activeCues, cues.indexOf(activeCues[0]))
+            renderCues(activeCues)
         }
     }
 
@@ -62,6 +64,16 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
 
     const setCueByIndex = (index: number): void => {
         videoPlayerElement.current!.currentTime = videoPlayerElement.current!.textTracks[0].cues![index].startTime
+    }
+
+    const renderCues = (activeCues: VTTCue[]): void => {
+        cueContainer.current!.innerHTML = ''
+        activeCues.forEach((cue) => {
+            const element = document.createElement('div');
+            element.className = "video-player__cue"
+            element.innerHTML = cue.text
+            cueContainer.current!.appendChild(element)
+        })
     }
 
     useEffect(() => {
@@ -86,6 +98,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
 
     return (
         <div className={`video-player ${className}`}>
+            <div ref={cueContainer} className="video-player__cue-container"></div>
             <video
                 {...htmlVideoProps}
                 ref={videoPlayerElement}
