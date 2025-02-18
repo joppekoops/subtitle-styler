@@ -3,9 +3,10 @@
     --current-time: 50;
 
     position: relative;
-    height: 100%;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    height: 100%;
 
     &__cue-list {
         position: relative;
@@ -19,22 +20,21 @@
     }
 
     &__cue-item {
-        --start-time: 0;
-        --end-time: 0;
+        --cue-start-time: 0;
+        --cue-end-time: 0;
 
         container-name: cue-item;
         container-type: inline-size;
 
-
         position: absolute;
+        left: calc(var(--cue-start-time) / var(--total-time) * 100%);
         display: block;
-        left: calc(var(--start-time) / var(--total-time) * 100%);
-        width: calc((var(--end-time) - var(--start-time)) / var(--total-time) * 100%);
+        overflow: hidden;
         border-radius: .1875rem;
+        width: calc((var(--cue-end-time) - var(--cue-start-time)) / var(--total-time) * 100%);
         height: 5rem;
         color: white;
         background: #fff5;
-        overflow: hidden;
 
         &--active {
             outline: .125rem solid dodgerblue;
@@ -43,14 +43,14 @@
     }
 
     &__cue-button {
-        display: flex;
         position: absolute;
         inset: 0;
+        display: flex;
         border: none;
         padding: .25rem .375rem;
+        font-size: max(min(40cqw, 1rem), .75rem);
         color: inherit;
         background-color: transparent;
-        font-size: max(min(40cqw, 1rem), .75rem);
     }
 
     &__timings {
@@ -71,10 +71,10 @@
         position: absolute;
         top: 0;
         left: calc(var(--current-time) / var(--total-time) * 100% - 1px);
+        z-index: 10;
         width: 2px;
         height: 100%;
         background-color: dodgerblue;
-        z-index: 999;
 
         &::before {
             content: '';

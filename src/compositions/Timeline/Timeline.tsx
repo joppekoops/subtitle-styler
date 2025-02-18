@@ -13,8 +13,8 @@ export interface TimelineProps {
 export const Timeline: FC<TimelineProps> = ({
     cues,
     activeCueIndex,
-    onCueClick,
     currentTime,
+    onCueClick,
     className = '',
 }): ReactElement => (
     <div
@@ -28,7 +28,7 @@ export const Timeline: FC<TimelineProps> = ({
             {cues.map((cue, index) => (
                 <li key={index}
                     className={`timeline__cue-item ${activeCueIndex === index ? 'timeline__cue-item--active' : ''}`}
-                    style={{ '--start-time': cue.startTime, '--end-time': cue.endTime } as CSSProperties}
+                    style={{ '--cue-start-time': cue.startTime, '--cue-end-time': cue.endTime } as CSSProperties}
                 >
                     <button onClick={() => onCueClick(index)} className="timeline__cue-button">
                         <span className="timeline__cue-id">{cue.id}</span>
