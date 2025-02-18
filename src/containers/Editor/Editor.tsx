@@ -1,8 +1,7 @@
+import { Styling } from '@app-compositions'
+import { ConnectedTimeline, ConnectedVideoPicker, ConnectedVideoPlayer } from '@app-connectors'
 import { useTypedSelector } from '@app-redux'
 import { FC, ReactElement } from 'react'
-
-import { Styling } from '@app-compositions'
-import { ConnectedTimeline, ConnectedVideoPlayer, ConnectedVideoPicker } from '@app-connectors'
 
 import './Editor.scss'
 
@@ -18,9 +17,11 @@ export const Editor: FC<EditorProps> = ({
     return (
         <div className={`editor ${className}`}>
             <div className="editor__section editor__section--video">
-                {
-                    videoFile ? <ConnectedVideoPlayer/> : <ConnectedVideoPicker/>
-                }
+                {(
+                    videoFile
+                        ? <ConnectedVideoPlayer />
+                        : <ConnectedVideoPicker />
+                )}
             </div>
             <div className="editor__section editor__styling">
                 <Styling />

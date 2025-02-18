@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react'
-import * as path from 'node:path'
+import { join } from 'path'
 import { defineConfig } from 'vite'
 import plainText from 'vite-plugin-plain-text'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
@@ -16,7 +16,7 @@ export default defineConfig({
         viteStaticCopy({
             targets: [
                 {
-                    src: path.join(__dirname, 'node_modules', 'mediainfo.js', 'dist', 'MediaInfoModule.wasm'),
+                    src: join(__dirname, 'node_modules', 'mediainfo.js', 'dist', 'MediaInfoModule.wasm'),
                     dest: '',
                 },
             ],
