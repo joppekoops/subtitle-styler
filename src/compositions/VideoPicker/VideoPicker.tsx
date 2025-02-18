@@ -40,8 +40,17 @@ export const VideoPicker: FC<VideoPickerProps> = ({
 
             onFileChanged(handle as unknown as FileSystemFileHandle)
         } catch (error) {
-            // TODO: handle file picker aborted by user
-            console.error(error)
+            if (error instanceof DOMException) {
+                switch (error.name) {
+                    case 'AbortError':
+                        return
+                    default:
+                        console.error(error)
+                        return
+                }
+            } else {
+                console.error(error)
+            }
         }
     }
 
