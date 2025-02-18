@@ -1,6 +1,8 @@
 import react from '@vitejs/plugin-react'
+import * as path from 'node:path'
 import { defineConfig } from 'vite'
 import plainText from 'vite-plugin-plain-text'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
@@ -11,6 +13,14 @@ export default defineConfig({
             { namedExport: false },
         ),
         tsconfigPaths(),
+        viteStaticCopy({
+            targets: [
+                {
+                    src: path.join(__dirname, 'node_modules', 'mediainfo.js', 'dist', 'MediaInfoModule.wasm'),
+                    dest: '',
+                },
+            ],
+        }),
     ],
     resolve: {
         alias: {

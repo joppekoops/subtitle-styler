@@ -1,14 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { Media} from 'mediainfo.js'
 
 export interface VideoState {
-    videoFile: string | null // TODO: Change to support File?
+    videoFile: string | null
+    videoMetaData: Media | null
     subtitleFile: string | null // TODO: Change to support File?
     currentTime: number
     isPlaying: boolean
 }
 
 const initialState: VideoState = {
-    videoFile: null, // TODO: Make null initially and handle file browse?
+    videoFile: null,
+    videoMetaData: null,
     subtitleFile: '/res/test-en.vtt', // TODO: Make null initially and handle file browse?
     currentTime: 0,
     isPlaying: false,
@@ -22,6 +25,12 @@ export const videoSlice = createSlice({
             return {
                 ...state,
                 videoFile: action.payload,
+            }
+        },
+        setVideoMetaData(state, action) {
+            return {
+                ...state,
+                videoMetaData: action.payload,
             }
         },
         setSubtitleFile(state, action) {
@@ -41,6 +50,7 @@ export const videoSlice = createSlice({
 
 export const {
     setVideoFile,
+    setVideoMetaData,
     setSubtitleFile,
     setCurrentTime,
 } = videoSlice.actions

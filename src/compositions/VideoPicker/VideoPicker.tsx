@@ -14,7 +14,19 @@ export const VideoPicker: FC<VideoPickerProps> = ({
 
     const browseVideos = async () => {
         try {
-            const [handle] = await window.showOpenFilePicker()
+            const [handle] = await window.showOpenFilePicker({
+                types: [
+                    {
+                        description: "Video's",
+                        accept: {
+                            "video/*": [".mp4"],
+                        },
+                    },
+                ],
+                excludeAcceptAllOption: true,
+                multiple: false,
+            })
+
             onInput(handle)
         } catch (error) {
             // TODO: handle file picker aborted by user
