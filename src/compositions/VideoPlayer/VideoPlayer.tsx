@@ -6,6 +6,7 @@ export interface VideoPlayerProps extends VideoHTMLAttributes<HTMLVideoElement>,
     activeCueIndex?: number
     onCuesLoaded: (cues: VTTCue[]) => void
     onActiveCuesChanged: (cues: VTTCue[], index: number) => void
+    onTimeChanged: (time: number) => void
     className?: string
 }
 
@@ -16,6 +17,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     activeCueIndex,
     onCuesLoaded,
     onActiveCuesChanged,
+    onTimeChanged,
     className = '',
     ...htmlVideoProps
 }): ReactElement => {
@@ -47,6 +49,12 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
             const cues: VTTCue[] = Array.from(trackElement.current.track.cues).map((cue) => cue as VTTCue)
             const activeCues: VTTCue[] = Array.from(trackElement.current.track.activeCues).map((cue) => cue as VTTCue)
             onActiveCuesChanged(activeCues, cues.indexOf(activeCues[0]))
+        }
+    }
+
+    const handleTimeChange = () => {
+        if(videoPlayerElement.current) {
+            onTimeChanged(videoPlayerElement.current.currentTime)
         }
     }
 
@@ -82,6 +90,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
                 controls
                 defaultChecked
                 onLoadedMetadata={handleCuesChange}
+                onTimeUpdate={handleTimeChange}
                 className="video-player__video"
             >
                 <source src={src} />

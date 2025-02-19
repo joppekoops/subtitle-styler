@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react'
+import { CSSProperties, FC, ReactElement } from 'react'
 
 import './Timeline.scss'
 
@@ -6,28 +6,37 @@ export interface TimelineProps {
     cues: VTTCue[]
     activeCueIndex?: number
     onCueClick: (index: number) => void
+    currentTime: number
     className?: string
 }
 
 export const Timeline: FC<TimelineProps> = ({
     cues,
     activeCueIndex,
+    currentTime,
     onCueClick,
     className = '',
 }): ReactElement => (
-    <div className={`timeline ${className}`}>
-        <ul className="timeline__list">
+    <div
+        className={`timeline ${className}`}
+        style={{ '--current-time': currentTime } as CSSProperties}
+    >
+
+        <div className="timeline__timings"></div>
+
+        <ul className="timeline__cue-list">
             {cues.map((cue, index) => (
                 <li key={index}
-                    className={`timeline__list-item ${activeCueIndex === index ? 'timeline__list-item--active' : ''}`}
+                    className={`timeline__cue-item ${activeCueIndex === index ? 'timeline__cue-item--active' : ''}`}
+                    style={{ '--cue-start-time': cue.startTime, '--cue-end-time': cue.endTime } as CSSProperties}
                 >
                     <button onClick={() => onCueClick(index)} className="timeline__cue-button">
-                        <span className="timeline__cue-start">{cue.startTime}</span>
-                        <span className="timeline__cue-end">{cue.endTime}</span>
-                        <span className="timeline__cue-text">{cue.text}</span>
+                        <span className="timeline__cue-id">{cue.id}</span>
                     </button>
                 </li>
             ))}
         </ul>
+
+        <div className="timeline__playhead"></div>
     </div>
 )

@@ -6,6 +6,7 @@ import { Timeline } from '@app-compositions'
 export const ConnectedTimeline: FC = () => {
     const dispatch = useTypedDispatch()
     const { cues, activeCueIndex } = useTypedSelector((state) => state.cueSlice)
+    const { currentTime } = useTypedSelector((state) => state.videoSlice)
 
     const handleCueClick = (index: number): void => {
         dispatch(setActiveCueIndex(index))
@@ -15,6 +16,7 @@ export const ConnectedTimeline: FC = () => {
         <Timeline
             cues={cues}
             activeCueIndex={activeCueIndex}
+            currentTime={currentTime}
             onCueClick={handleCueClick}
         />
     )
