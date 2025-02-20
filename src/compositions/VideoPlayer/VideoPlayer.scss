@@ -10,14 +10,4 @@
         position: absolute;
         inset: 0;
     }
-
-    &__cue {
-        position: absolute;
-        background-color: #0005;
-        padding: .25rem .5rem;
-        border-radius: .375rem;
-        bottom: 10%;
-        left: 50%;
-        transform: translateX(-50%);
-    }
 }
