@@ -1,7 +1,7 @@
 .editor {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 200px;
+    grid-template-rows: auto min(15rem, 50vh);
     gap: .5rem;
     height: 100vh;
 

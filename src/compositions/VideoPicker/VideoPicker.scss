@@ -1,0 +1,17 @@
+.video-picker {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 1rem;
+    height: 100%;
+    background-image: linear-gradient(to bottom, #333d, #000);
+
+    &__button {
+        display: block;
+    }
+
+    &__icon {
+        fill: #fff8;
+        height: 5rem;
+    }
+}
