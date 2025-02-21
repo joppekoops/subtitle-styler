@@ -1,11 +1,14 @@
+import Plyr from 'plyr'
 import { FC, ReactElement, RefAttributes, useEffect, useRef, VideoHTMLAttributes } from 'react'
 
+import 'plyr/src/sass/plyr.scss'
 import './VideoPlayer.scss'
 
 export interface VideoPlayerProps extends VideoHTMLAttributes<HTMLVideoElement>, RefAttributes<HTMLVideoElement> {
     subtitleSrc?: string
     showSubtitlesByDefault?: boolean
     activeCueIndex?: number
+    plyrOptions?: Plyr.Options
     onCuesLoaded: (cues: VTTCue[]) => void
     onActiveCuesChanged: (cues: VTTCue[], index: number) => void
     onTimeChanged: (time: number) => void
@@ -17,14 +20,18 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     subtitleSrc,
     showSubtitlesByDefault = true,
     activeCueIndex,
+    plyrOptions,
     onCuesLoaded,
     onActiveCuesChanged,
     onTimeChanged,
     className = '',
     ...htmlVideoProps
 }): ReactElement => {
+    const videoPlayerContainerElement = useRef<HTMLDivElement>(null)
     const videoPlayerElement = useRef<HTMLVideoElement>(null)
     const trackElement = useRef<HTMLTrackElement>(null)
+
+    let player: Plyr | null = null
 
     const handleCuesChange = async () => {
         if (! trackElement.current) {
@@ -84,13 +91,44 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
         }
     }, [activeCueIndex])
 
+    useEffect(() => {
+        if (! videoPlayerElement.current || ! videoPlayerContainerElement.current || player) {
+            return
+        }
+
+        player = new Plyr(videoPlayerElement.current, {
+            controls: [
+                'play-large',
+                'play',
+                'progress',
+                'current-time',
+                'mute',
+                'volume',
+                'captions',
+                'settings',
+                'airplay',
+                'fullscreen',
+            ],
+            ...plyrOptions,
+        })
+
+        player.fullscreen.toggle = async () => {
+            await videoPlayerContainerElement?.current?.requestFullscreen()
+
+            // TODO: Make player fit the parent container
+        }
+
+    }, [videoPlayerContainerElement.current, videoPlayerElement.current])
+
     return (
-        <div className={`video-player ${className}`}>
+        <div ref={videoPlayerContainerElement} className={`video-player ${className}`}>
+            <div style={{ position: 'absolute', left: 0, bottom: '30px', zIndex: 2, width: '300px', height: '40px', background: 'red' }}></div>
             <video
                 {...htmlVideoProps}
                 ref={videoPlayerElement}
                 controls
                 defaultChecked
+                disablePictureInPicture
                 onLoadedMetadata={handleCuesChange}
                 onTimeUpdate={handleTimeChange}
                 className="video-player__video"
