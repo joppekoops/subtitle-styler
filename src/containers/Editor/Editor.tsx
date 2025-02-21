@@ -1,7 +1,8 @@
+import { FC, ReactElement } from 'react'
+
 import { Styling } from '@app-compositions'
 import { ConnectedTimeline, ConnectedVideoPicker, ConnectedVideoPlayer } from '@app-connectors'
 import { useTypedSelector } from '@app-redux'
-import { FC, ReactElement } from 'react'
 
 import './Editor.scss'
 

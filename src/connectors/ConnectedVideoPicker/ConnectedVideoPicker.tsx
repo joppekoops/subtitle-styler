@@ -1,7 +1,8 @@
+import { FC } from 'react'
+
 import { VideoPicker } from '@app-compositions'
 import { getFileMetadata } from '@app-helpers'
 import { setVideoFile, setVideoMetadata, useTypedDispatch } from '@app-redux'
-import { FC } from 'react'
 
 export const ConnectedVideoPicker: FC = () => {
     const dispatch = useTypedDispatch()

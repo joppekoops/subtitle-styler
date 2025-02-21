@@ -1,6 +1,8 @@
 import { FC, ReactElement } from 'react'
 import { showOpenFilePicker } from 'show-open-file-picker'
 
+import { Icon } from '@app-components'
+
 import './VideoPicker.scss'
 
 declare global {
@@ -56,6 +58,7 @@ export const VideoPicker: FC<VideoPickerProps> = ({
 
     return (
         <div className={`video-picker ${className}`}>
+            <Icon name="videoFile" className="video-picker__icon" />
             <button
                 className={'video-picker__button'}
                 onClick={() => browseVideos()}
