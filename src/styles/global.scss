@@ -23,6 +23,20 @@ h3 {
     font-weight: bold;
 }
 
+// TODO: Move to its own file that can be output to a separate .css file by Vite
+c {
+    display: block;
+}
+
+@keyframes drop {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
 //.layout {
 //    display: grid;
 //    grid-template-columns: 1fr 1fr;

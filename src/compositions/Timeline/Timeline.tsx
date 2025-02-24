@@ -1,4 +1,5 @@
 import { CSSProperties, FC, ReactElement } from 'react'
+import { getCueHtml } from '@app-helpers'
 
 import './Timeline.scss'
 
@@ -32,6 +33,13 @@ export const Timeline: FC<TimelineProps> = ({
                 >
                     <button onClick={() => onCueClick(index)} className="timeline__cue-button">
                         <span className="timeline__cue-id">{cue.id}</span>
+
+                        {/* @Joppe: feel free to remove this */}
+                        <span
+                            dangerouslySetInnerHTML={{ __html: getCueHtml(cue) }}
+                            className="timeline__cue-text"
+                        />
+
                     </button>
                 </li>
             ))}

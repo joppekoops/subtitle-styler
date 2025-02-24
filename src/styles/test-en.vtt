@@ -1,41 +1,25 @@
 WEBVTT
 
-STYLE
-::cue(.preset-1) {
-    color: pink;
-    animation: drop 0.5s ease;
-}
-
-STYLE
-::cue(.preset-2) {
-    color: yellow;
-}
-
-STYLE
-::cue(.preset-3) {
-    color: purple;
-}
-
 0
 00:00.000 --> 00:12.000 align:end
-<c.preset-1>[Test]</c>
+<v Test>[Test]</v>
 
 1
 00:18.700 --> 00:21.500 align:start
-<c.preset-2>This blade has a dark past.</c>
+This blade has a dark past.
 
 2
 00:22.800 --> 00:26.800
-<c.preset-2>It has shed much innocent blood.</c>
+It has shed much innocent blood.
 
 3
 00:29.000 --> 00:32.450
-<c.preset-1>You're a fool for traveling alone,
-so completely unprepared.</c>
+You're a fool for traveling alone,
+so completely unprepared.
 
 4
 00:32.750 --> 00:35.800
-<c.preset-3>You're lucky your blood's still flowing.</c>
+You're lucky your blood's still flowing.
 
 5
 00:36.250 --> 00:37.300
