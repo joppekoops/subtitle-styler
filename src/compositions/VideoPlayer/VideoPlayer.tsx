@@ -1,5 +1,6 @@
-import { Cue } from '@app-components'
 import { FC, ReactElement, RefAttributes, useEffect, useRef, useState, VideoHTMLAttributes } from 'react'
+
+import { Cue } from '@app-components'
 
 import './VideoPlayer.scss'
 
@@ -92,11 +93,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
                 {activeCues.map((cue, index) => (
                     <Cue
                         key={index}
-                        align={cue.align}
-                        line={cue.line}
-                        snapToLines={cue.snapToLines}
-                        position={cue.position}
-                        size={cue.size}
+                        cueProperties={{...cue}}
                     >
                         <span dangerouslySetInnerHTML={{ __html: cue.text }}></span>
                     </Cue>
