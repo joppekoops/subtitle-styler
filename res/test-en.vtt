@@ -1,8 +1,13 @@
 WEBVTT
 
+STYLE
+::cue(.testclass) {
+    color: yellow;
+}
+
 0
 00:00.000 --> 00:12.000 align:end line:0 position:80%
-<v Test>[Test]</v>
+<c.testclass>[Test]</c>
 
 1
 00:18.700 --> 00:21.500 align:start line:1 position:20%

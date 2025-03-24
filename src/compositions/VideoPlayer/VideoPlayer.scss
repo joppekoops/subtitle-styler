@@ -7,6 +7,8 @@
     }
 
     &__cue-container {
+        container-type: size;
+        container-name: --cue-container;
         position: absolute;
         inset: 0;
     }

@@ -29,6 +29,8 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     const trackElement = useRef<HTMLTrackElement>(null)
     const [activeCues, setActiveCues] = useState<VTTCue[]>([])
 
+    const serializer = new XMLSerializer()
+
     const handleCuesChange = async () => {
         if (! trackElement.current) {
             return
@@ -93,9 +95,9 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
                 {activeCues.map((cue, index) => (
                     <Cue
                         key={index}
-                        cueProperties={{...cue}}
+                        cueProperties={cue}
                     >
-                        <span dangerouslySetInnerHTML={{ __html: cue.text }}></span>
+                        <span dangerouslySetInnerHTML={{ __html: serializer.serializeToString(cue.getCueAsHTML()) }}></span>
                     </Cue>
                 ))}
             </div>
@@ -112,7 +114,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
                 <track
                     ref={trackElement}
                     label="Subtitles"
-                    kind="metadata"
+                    kind="subtitles"
                     src={subtitleSrc}
                     defaultChecked
                 />

@@ -1,6 +1,7 @@
-import { CSSProperties, FC, ReactElement, ReactNode } from 'react'
+import { FC, ReactElement, ReactNode } from 'react'
 
-import { CueProperties, getCuePosition } from '@app-helpers'
+import { getCuePosition, getCueStyles } from '@app-helpers'
+import { CueProperties } from '@app-entities'
 
 import './Cue.scss'
 
@@ -15,21 +16,11 @@ export const Cue: FC<CueProps> = ({
     children,
     className = '',
 }): ReactElement => {
-    const { align, top, bottom, left, width, size } = getCuePosition(cueProperties)
-
-    const cueStyles: CSSProperties = {
-        '--cue-align': align,
-        '--cue-top': top,
-        '--cue-bottom': bottom,
-        '--cue-left': left,
-        '--cue-width': width,
-        '--cue-size': size,
-    } as CSSProperties
-
+    const cuePosition = getCuePosition(cueProperties)
     return (
         <div
             className={`cue ${className}`}
-            style={cueStyles}
+            style={getCueStyles(cuePosition)}
         >
             <span className="cue__text">
                 { children }
