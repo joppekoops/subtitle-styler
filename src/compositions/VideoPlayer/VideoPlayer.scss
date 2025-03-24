@@ -1,13 +1,30 @@
 .video-player {
     position: relative;
-
-    &__video {
-        display: block;
-        width: 100%;
-    }
+    padding-bottom: 3.25rem;
 
     &__cue-container {
+        container-type: size;
+        container-name: --cue-container;
         position: absolute;
         inset: 0;
+        z-index: 1;
+        margin-bottom: 3.25rem;
+        pointer-events: none;
+    }
+}
+
+.plyr {
+    --plyr-color-main: dodgerblue;
+    --plyr-video-controls-background: #333;
+
+    overflow: visible;
+    height: 100%;
+}
+
+.plyr--video .plyr {
+    &__controls {
+        top: 100%;
+        bottom: unset;
+        padding: var(--plyr-control-spacing, 10px);
     }
 }
