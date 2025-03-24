@@ -1,13 +1,17 @@
+import Plyr from 'plyr'
 import { FC, ReactElement, RefAttributes, useEffect, useRef, useState, VideoHTMLAttributes } from 'react'
 
 import { Cue } from '@app-components'
+import { renderCueHtml } from '@app-helpers'
 
+import 'plyr/src/sass/plyr.scss'
 import './VideoPlayer.scss'
 
 export interface VideoPlayerProps extends VideoHTMLAttributes<HTMLVideoElement>, RefAttributes<HTMLVideoElement> {
     subtitleSrc?: string
     showSubtitlesByDefault?: boolean
     activeCueIndex?: number
+    plyrOptions?: Plyr.Options
     onCuesLoaded: (cues: VTTCue[]) => void
     onActiveCuesChanged: (cues: VTTCue[], index: number) => void
     onTimeChanged: (time: number) => void
@@ -19,15 +23,21 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     subtitleSrc,
     showSubtitlesByDefault = true,
     activeCueIndex,
+    plyrOptions,
     onCuesLoaded,
     onActiveCuesChanged,
     onTimeChanged,
     className = '',
     ...htmlVideoProps
 }): ReactElement => {
+    const videoPlayerContainerElement = useRef<HTMLDivElement>(null)
     const videoPlayerElement = useRef<HTMLVideoElement>(null)
     const trackElement = useRef<HTMLTrackElement>(null)
     const [activeCues, setActiveCues] = useState<VTTCue[]>([])
+
+    let player: Plyr | null = null
+
+    const activeCuesWithHtml = activeCues.map(cue => renderCueHtml(cue))
 
     const handleCuesChange = async () => {
         if (! trackElement.current) {
@@ -87,15 +97,57 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
         }
     }, [activeCueIndex])
 
+    useEffect(() => {
+        if (! videoPlayerElement.current || ! videoPlayerContainerElement.current || player) {
+            return
+        }
+
+        player = new Plyr(videoPlayerElement.current, {
+            controls: [
+                'play',
+                'progress',
+                'current-time',
+                'mute',
+                'volume',
+                'settings',
+                'fullscreen',
+            ],
+            hideControls: false,
+            invertTime: false,
+            ...plyrOptions,
+        })
+
+        player.fullscreen.toggle = async () => {
+            if (document.fullscreenElement) {
+                await document.exitFullscreen()
+            } else {
+                await videoPlayerContainerElement?.current?.requestFullscreen()
+            }
+        }
+    }, [videoPlayerContainerElement.current, videoPlayerElement.current])
+
     return (
-        <div className={`video-player ${className}`}>
+        <div
+            ref={videoPlayerContainerElement}
+            className={`video-player ${className}`}
+            style={{
+                width: videoPlayerElement.current
+                    && videoPlayerElement.current.offsetWidth > videoPlayerElement.current.offsetHeight
+                        ? '100%'
+                        : 'auto',
+                height: videoPlayerElement.current
+                    && videoPlayerElement.current.offsetWidth < videoPlayerElement.current.offsetHeight
+                        ? '100%'
+                        : 'auto',
+            }}
+        >
             <div className="video-player__cue-container">
-                {activeCues.map((cue, index) => (
+                {activeCuesWithHtml.map((cue, index) => (
                     <Cue
                         key={index}
-                        cueProperties={{...cue}}
+                        cueProperties={cue}
                     >
-                        <span dangerouslySetInnerHTML={{ __html: cue.text }}></span>
+                        <span dangerouslySetInnerHTML={{ __html: cue.html }}></span>
                     </Cue>
                 ))}
             </div>
@@ -111,7 +163,6 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
                 <source src={src} />
                 <track
                     ref={trackElement}
-                    label="Subtitles"
                     kind="metadata"
                     src={subtitleSrc}
                     defaultChecked

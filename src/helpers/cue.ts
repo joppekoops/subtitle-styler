@@ -1,52 +1,48 @@
-import { isNumber } from './type-guards'
+import { CSSProperties } from 'react'
 
-export interface CuePosition {
-    align?: AlignSetting,
-    top: string,
-    bottom: string,
-    left: string,
-    width: string,
-    size?: number,
-}
-
-export interface CueProperties {
-    align: AlignSetting
-    line: LineAndPositionSetting
-    snapToLines: boolean
-    position: LineAndPositionSetting
-    size?: number
-}
+import { CuePosition, CueProperties, CueWithHtml } from '@app-entities'
+import { isNumber } from '@app-helpers'
 
 const getLineValue = (line: number, snapToLines: boolean): string =>
-    snapToLines ? `${Math.abs(line)}rem` : `${Math.abs(line)}%`; // TODO: Multiply by line-height when available
+    snapToLines ? `${Math.abs(line)}rem` : `${Math.abs(line)}%` // TODO: Multiply by line-height when available
 
 export const getCueTop = (line: LineAndPositionSetting, snapToLines: boolean): string =>
-    isNumber(line)
-        ? line >= 0
-            ? getLineValue(line, snapToLines)
-            : 'auto'
-        : 'auto'
-
-export const getCueBottom = (line: LineAndPositionSetting, snapToLines: boolean): string =>
-    isNumber(line) && line < 0
+    (isNumber(line) && line >= 0)
         ? getLineValue(line, snapToLines)
-        : getCueTop(line, snapToLines) === 'auto'
-        ? '20%'
         : 'auto'
 
-export const getCueLeft = (position: LineAndPositionSetting, align: AlignSetting) =>
+export const getCueBottom = (line: LineAndPositionSetting, snapToLines: boolean): string => {
+    if (isNumber(line) && line < 0) {
+        return getLineValue(line, snapToLines)
+    }
+
+    else if (getCueTop(line, snapToLines) === 'auto') {
+        return '20%'
+    }
+
+    return 'auto'
+}
+
+export const getCueLeft = (position: LineAndPositionSetting, align: AlignSetting): string =>
     isNumber(position) && (align === 'left' || align === 'start')
         ? `${position}%`
         : '0%'
 
-export const getCueWidth = (position: LineAndPositionSetting, align: AlignSetting) =>
-    isNumber(position)
-        ? align === 'right' || align === 'end'
-            ? `${position}%`
-            : align === 'center'
-                ? `${position * 2}%`
-                : '100%'
-        : '100%'
+export const getCueWidth = (position: LineAndPositionSetting, align: AlignSetting): string => {
+    if (! isNumber(position)) {
+        return '100%'
+    }
+
+    else if (align === 'end' || align === 'right') {
+        return `${position}%`
+    }
+
+    else if (align === 'center') {
+        return `${position * 2}%`
+    }
+
+    return '100%'
+}
 
 export const getCuePosition = (cueProperties: CueProperties): CuePosition => ({
     align: cueProperties.align,
@@ -56,3 +52,23 @@ export const getCuePosition = (cueProperties: CueProperties): CuePosition => ({
     width: getCueWidth(cueProperties.position, cueProperties.align),
     size: cueProperties.size,
 })
+
+export const getCueStyles = (cuePosition: CuePosition) : CSSProperties => ({
+    '--cue-align': cuePosition.align,
+    '--cue-top': cuePosition.top,
+    '--cue-bottom': cuePosition.bottom,
+    '--cue-left': cuePosition.left,
+    '--cue-width': cuePosition.width,
+    '--cue-size': cuePosition.size,
+} as CSSProperties)
+
+export const renderCueHtml = (cue: VTTCue) : CueWithHtml => {
+    const cueRenderElement = document.createElement('div')
+
+    cueRenderElement.replaceChildren(cue.getCueAsHTML())
+
+    return {
+        ...cue,
+        html: cueRenderElement.innerHTML,
+    }
+}

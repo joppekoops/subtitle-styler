@@ -13,13 +13,13 @@ export interface EditorProps {
 export const Editor: FC<EditorProps> = ({
     className = '',
 }): ReactElement => {
-    const { videoFile } = useTypedSelector((state) => state.videoSlice)
+    const { videoFile, videoMetadata } = useTypedSelector((state) => state.videoSlice)
 
     return (
         <div className={`editor ${className}`}>
-            <div className="editor__section editor__section--video">
+            <div className="editor__section editor__video">
                 {(
-                    videoFile
+                    videoFile && videoMetadata
                         ? <ConnectedVideoPlayer />
                         : <ConnectedVideoPicker />
                 )}

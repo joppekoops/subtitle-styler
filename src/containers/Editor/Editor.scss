@@ -5,6 +5,15 @@
     gap: .5rem;
     height: 100vh;
 
+    &__section {
+        contain: size;
+    }
+
+    &__video {
+        align-content: center;
+        justify-items: center;
+    }
+
     &__timeline {
         grid-column: 1/-1;
     }

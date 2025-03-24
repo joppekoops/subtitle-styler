@@ -11,7 +11,7 @@ import {
 
 export const ConnectedVideoPlayer: FC = () => {
     const dispatch = useTypedDispatch()
-    const { videoFile, subtitleFile } = useTypedSelector((state) => state.videoSlice)
+    const { videoFile, subtitleFile, videoMetadata } = useTypedSelector((state) => state.videoSlice)
     const { cues, activeCueIndex } = useTypedSelector((state) => state.cueSlice)
 
     const handleCuesLoaded = (cues: VTTCue[]) => {
