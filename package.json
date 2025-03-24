@@ -2,10 +2,11 @@
     "name": "subtitle-styler",
     "version": "0.0.1",
     "type": "module",
+    "homepage": ".",
     "scripts": {
         "start": "vite",
         "dev": "vite",
-        "prod": "vite build --mode production"
+        "build": "vite build"
     },
     "dependencies": {
         "@reduxjs/toolkit": "^2.5.1",
