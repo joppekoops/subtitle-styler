@@ -2,9 +2,11 @@
     "name": "subtitle-styler",
     "version": "0.0.1",
     "type": "module",
+    "homepage": ".",
     "scripts": {
         "start": "vite",
         "dev": "vite",
+        "build": "vite build",
         "prod": "vite build --mode production"
     },
     "dependencies": {

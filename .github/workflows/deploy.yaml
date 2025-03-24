@@ -1,0 +1,59 @@
+name: Deploy Release to GitHub Pages
+
+on:
+    release:
+        types: [published]
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '22'
+
+            - name: Install dependencies and build
+              run: |
+                  npm ci
+                  npm run prod
+
+            - name: Checkout GitHub Pages branch
+              run: |
+                  git fetch origin gh-pages
+                  git checkout gh-pages || git checkout --orphan gh-pages
+
+            - name: Copy new release files
+              run: |
+                  TAG=${{ github.event.release.tag_name }}
+                  mkdir -p releases/$TAG
+                  cp -r dist/* releases/$TAG/
+
+            - name: Update index.html
+              run: |
+                  echo "<header><h1>Available Releases</h1></header><main><nav><ul>" > index.html
+                  for dir in releases/*; do
+                    version=$(basename $dir)
+                    echo "<li><a href='$dir/'>$version</a></li>" >> index.html
+                  done
+                  echo "</ul></nav></main>" >> index.html
+
+            - name: Commit and push changes
+              run: |
+                  git config --global user.name "github-actions"
+                  git config --global user.email "github-actions@github.com"
+                  git add releases index.html
+                  git commit -m "Deploy release ${{ github.event.release.tag_name }}"
+                  git push origin gh-pages
+
+            - name: Update GitHub Release with Preview Link
+              run: |
+                  TAG=${{ github.event.release.tag_name }}
+                  PREVIEW_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/releases/$TAG/"
+                  gh release edit "$TAG" --repo "${{ github.repository }}" --notes "🔗 [View Preview]($PREVIEW_URL)"
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
