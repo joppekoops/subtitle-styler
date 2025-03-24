@@ -19,8 +19,8 @@ jobs:
 
             - name: Install dependencies and build
               run: |
-                  npm install
-                  npm run build
+                  npm ci
+                  npm run prod
 
             - name: Checkout GitHub Pages branch
               run: |
