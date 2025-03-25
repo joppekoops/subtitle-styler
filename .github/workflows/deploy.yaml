@@ -30,7 +30,7 @@ jobs:
                   else
                     git switch --orphan gh-pages
                   fi
-            
+
             - name: Copy new release files
               run: |
                   TAG=${{ github.event.release.tag_name }}

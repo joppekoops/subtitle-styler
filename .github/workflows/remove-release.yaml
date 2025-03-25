@@ -1,0 +1,39 @@
+name: Remove Release Preview from GitHub Pages
+
+on:
+    release:
+        types: [deleted]
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Checkout GitHub Pages branch
+              run: |
+                  git fetch origin gh-pages || echo "gh-pages branch does not exist."
+
+            - name: Copy new release files
+              run: |
+                  TAG=${{ github.event.release.tag_name }}
+                  rm -rf releases/$TAG
+
+            - name: Update index.html
+              run: |
+                  echo "<header><h1>Available Releases</h1></header><main><nav><ul>" > index.html
+                  for dir in releases/*; do
+                    version=$(basename $dir)
+                    echo "<li><a href='$dir/'>$version</a></li>" >> index.html
+                  done
+                  echo "</ul></nav></main>" >> index.html
+
+            - name: Commit and push changes
+              run: |
+                  git config --global user.name "github-actions"
+                  git config --global user.email "github-actions@github.com"
+                  git add releases index.html
+                  git commit -m "Remove release ${{ github.event.release.tag_name }}"
+                  git push origin gh-pages
