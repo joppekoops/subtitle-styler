@@ -54,6 +54,8 @@ jobs:
               run: |
                   TAG=${{ github.event.release.tag_name }}
                   PREVIEW_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/releases/$TAG/"
-                  gh release edit "$TAG" --repo "${{ github.repository }}" --notes "🔗 [View Preview]($PREVIEW_URL)"
+                  EXISTING_NOTES=$(gh release view "$TAG" --repo "${{ github.repository }}" --json body -q ".body")
+                  UPDATED_NOTES="$EXISTING_NOTES\n\n🔗 [View Preview]($PREVIEW_URL)"
+                  gh release edit "$TAG" --repo "${{ github.repository }}" --notes "$UPDATED_NOTES"
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
