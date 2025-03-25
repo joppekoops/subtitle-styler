@@ -15,8 +15,9 @@ jobs:
             - name: Checkout GitHub Pages branch
               run: |
                   git fetch origin gh-pages || echo "gh-pages branch does not exist."
+                  git checkout gh-pages
 
-            - name: Copy new release files
+            - name: Remove release
               run: |
                   TAG=${{ github.event.release.tag_name }}
                   rm -rf releases/$TAG
