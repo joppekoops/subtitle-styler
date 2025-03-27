@@ -1,4 +1,6 @@
-import { FC, ReactElement, RefAttributes, useEffect, useRef, VideoHTMLAttributes } from 'react'
+import { FC, ReactElement, RefAttributes, useEffect, useRef, useState, VideoHTMLAttributes } from 'react'
+
+import { Cue } from '@app-components'
 
 import './VideoPlayer.scss'
 
@@ -25,6 +27,9 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
 }): ReactElement => {
     const videoPlayerElement = useRef<HTMLVideoElement>(null)
     const trackElement = useRef<HTMLTrackElement>(null)
+    const [activeCues, setActiveCues] = useState<VTTCue[]>([])
+
+    const serializer = new XMLSerializer()
 
     const handleCuesChange = async () => {
         if (! trackElement.current) {
@@ -35,7 +40,8 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
 
         // Set cue list when the video is ready
         if (trackElement.current.track?.cues) {
-            onCuesLoaded(Array.from(trackElement.current.track.cues).map((cue) => cue as VTTCue))
+            const cues = Array.from(trackElement.current.track.cues).map((cue) => cue as VTTCue)
+            onCuesLoaded(cues)
         }
     }
 
@@ -44,18 +50,17 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
             return
         }
 
-        await new Promise((resolve) => setTimeout(resolve, 200))
-
         // Update active cues when one or more (dis)appear
-        if (trackElement.current.track?.cues && trackElement.current.track?.activeCues) {
-            const cues: VTTCue[] = Array.from(trackElement.current.track.cues).map((cue) => cue as VTTCue)
-            const activeCues: VTTCue[] = Array.from(trackElement.current.track.activeCues).map((cue) => cue as VTTCue)
+        if (trackElement.current.track?.activeCues && trackElement.current.track?.cues) {
+            const cues = Array.from(trackElement.current.track.cues).map((cue) => cue as VTTCue)
+            const activeCues = Array.from(trackElement.current.track.activeCues).map((cue) => cue as VTTCue)
+            setActiveCues(activeCues)
             onActiveCuesChanged(activeCues, cues.indexOf(activeCues[0]))
         }
     }
 
     const handleTimeChange = () => {
-        if(videoPlayerElement.current) {
+        if (videoPlayerElement.current) {
             onTimeChanged(videoPlayerElement.current.currentTime)
         }
     }
@@ -86,6 +91,16 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
 
     return (
         <div className={`video-player ${className}`}>
+            <div className="video-player__cue-container">
+                {activeCues.map((cue, index) => (
+                    <Cue
+                        key={index}
+                        cueProperties={cue}
+                    >
+                        <span dangerouslySetInnerHTML={{ __html: serializer.serializeToString(cue.getCueAsHTML()) }}></span>
+                    </Cue>
+                ))}
+            </div>
             <video
                 {...htmlVideoProps}
                 ref={videoPlayerElement}
@@ -99,6 +114,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
                 <track
                     ref={trackElement}
                     label="Subtitles"
+                    kind="subtitles"
                     src={subtitleSrc}
                     defaultChecked
                 />
