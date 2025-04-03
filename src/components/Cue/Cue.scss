@@ -1,0 +1,15 @@
+.cue {
+    position: absolute;
+    top: var(--cue-top);
+    bottom: var(--cue-bottom);
+    left: var(--cue-left);
+    width: var(--cue-width);
+    text-align: var(--cue-align, center);
+    font-size: 5cqh;
+    scale: calc(var(--cue-size, 100) / 100);
+
+    &__text {
+        background-color: black;
+        white-space: pre;
+    }
+}

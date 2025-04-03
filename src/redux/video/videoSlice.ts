@@ -12,7 +12,7 @@ export interface VideoState {
 const initialState: VideoState = {
     videoFile: null,
     videoMetadata: null,
-    subtitleFile: '/res/test-en.vtt', // TODO: Make null initially and handle file browse?
+    subtitleFile: '/res/highlighted.vtt', // TODO: Make null initially and handle file browse?
     currentTime: 0,
     isPlaying: false,
 }
@@ -30,7 +30,7 @@ export const videoSlice = createSlice({
         setVideoMetadata(state, action) {
             return {
                 ...state,
-                videoMetaData: action.payload,
+                videoMetadata: action.payload,
             }
         },
         setSubtitleFile(state, action) {
