@@ -31,6 +31,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     ...htmlVideoProps
 }): ReactElement => {
     const videoPlayerContainerElement = useRef<HTMLDivElement>(null)
+    const cueContainerElement = useRef<HTMLDivElement>(null)
     const videoPlayerElement = useRef<HTMLVideoElement>(null)
     const trackElement = useRef<HTMLTrackElement>(null)
     const [activeCues, setActiveCues] = useState<VTTCue[]>([])
@@ -107,9 +108,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
                 'play',
                 'progress',
                 'current-time',
-                'mute',
-                'volume',
-                'settings',
+                'duration',
                 'fullscreen',
             ],
             hideControls: false,
@@ -124,24 +123,44 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
                 await videoPlayerContainerElement?.current?.requestFullscreen()
             }
         }
+
+        videoPlayerElement.current.addEventListener('loadedmetadata', () => {
+            if (!videoPlayerElement.current || !videoPlayerContainerElement.current || !cueContainerElement.current) {
+                return
+            }
+
+            const updateCueContainerStyle = () => {
+                const videoAspectRatio = videoPlayerElement.current!.videoWidth / videoPlayerElement.current!.videoHeight
+                const containerAspectRatio = videoPlayerContainerElement.current!.clientWidth / (videoPlayerContainerElement.current!.clientHeight - 52)
+
+                cueContainerElement.current!.style.setProperty('width', videoAspectRatio > containerAspectRatio ? '100%' : 'auto')
+                cueContainerElement.current!.style.setProperty('height', videoAspectRatio < containerAspectRatio ? 'calc(100% - 3.25rem)' : 'auto')
+                cueContainerElement.current!.style.setProperty('aspect-ratio', `${videoPlayerElement.current!.videoWidth} / ${videoPlayerElement.current!.videoHeight}`)
+            };
+
+            updateCueContainerStyle()
+
+            const resizeObserver = new ResizeObserver(() => {
+                updateCueContainerStyle()
+            });
+
+            resizeObserver.observe(videoPlayerContainerElement.current!)
+
+            return () => {
+                resizeObserver.disconnect()
+            }
+        })
     }, [videoPlayerContainerElement.current, videoPlayerElement.current])
 
     return (
         <div
             ref={videoPlayerContainerElement}
             className={`video-player ${className}`}
-            style={{
-                width: videoPlayerElement.current
-                    && videoPlayerElement.current.offsetWidth > videoPlayerElement.current.offsetHeight
-                        ? '100%'
-                        : 'auto',
-                height: videoPlayerElement.current
-                    && videoPlayerElement.current.offsetWidth < videoPlayerElement.current.offsetHeight
-                        ? '100%'
-                        : 'auto',
-            }}
         >
-            <div className="video-player__cue-container">
+            <div
+                ref={cueContainerElement}
+                className="video-player__cue-container"
+            >
                 {activeCuesWithHtml.map((cue, index) => (
                     <Cue
                         key={index}

@@ -10,8 +10,9 @@
     }
 
     &__video {
-        align-content: center;
-        justify-items: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     &__timeline {
