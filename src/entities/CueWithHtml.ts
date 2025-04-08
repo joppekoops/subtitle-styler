@@ -1,3 +1,3 @@
 export interface CueWithHtml extends VTTCue {
-    html: string,
+    html: string
 }
