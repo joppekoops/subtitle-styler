@@ -1,0 +1,71 @@
+.tabs {
+    display: grid;
+    grid-template-rows: max-content 1fr;
+    height: 100%;
+
+    &__handles-container {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        border-bottom: 1px solid #555;
+        list-style: none;
+        background-color: #333;
+    }
+
+    &__handle {
+        label {
+            position: relative;
+            display: block;
+            padding: var(--spacing-xs) var(--spacing-m);
+            cursor: pointer;
+        }
+
+        input {
+            display: none;
+        }
+
+        &:has(input:checked) {
+            border-bottom: 2px solid var(--color-primary);
+            background-color: #555;
+        }
+
+        &:hover {
+            background-color: #444;
+        }
+
+        &:has(:focus-visible) {
+            outline: 2px solid var(--color-primary);
+            outline-offset: -2px;
+        }
+    }
+
+    &__active-indicator {
+        display: none;
+    }
+
+    @supports (anchor-name: --active-tab) {
+        &__handle {
+            &:has(input:checked) {
+                anchor-name: --active-tab;
+                border: none;
+                background-color: #555;
+            }
+        }
+
+        &__active-indicator {
+            display: block;
+            position: absolute;
+            left: anchor(--active-tab left);
+            bottom: anchor(--active-tab bottom);
+            height: 2px;
+            width: anchor-size(--active-tab width);
+            background-color: var(--color-primary);
+        }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        &__active-indicator {
+            transition: .2s ease-in-out;
+        }
+    }
+}
