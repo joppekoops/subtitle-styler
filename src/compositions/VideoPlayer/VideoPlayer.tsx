@@ -2,7 +2,8 @@ import Plyr from 'plyr'
 import { FC, ReactElement, RefAttributes, useEffect, useRef, useState, VideoHTMLAttributes } from 'react'
 
 import { Cue } from '@app-components'
-import { renderCueHtml } from '@app-helpers'
+import { waitUntil, renderCueHtml, updateCueContainerStyle } from '@app-helpers'
+import { CueWithHtml } from '@app-entities'
 
 import 'plyr/src/sass/plyr.scss'
 import './VideoPlayer.scss'
@@ -34,38 +35,34 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     const cueContainerElement = useRef<HTMLDivElement>(null)
     const videoPlayerElement = useRef<HTMLVideoElement>(null)
     const trackElement = useRef<HTMLTrackElement>(null)
-    const [activeCues, setActiveCues] = useState<VTTCue[]>([])
+    const [activeCues, setActiveCues] = useState<CueWithHtml[]>([])
 
     let player: Plyr | null = null
-
-    const activeCuesWithHtml = activeCues.map(cue => renderCueHtml(cue))
 
     const handleCuesChange = async () => {
         if (! trackElement.current) {
             return
         }
 
-        await new Promise((resolve) => setTimeout(resolve, 200))
+        await waitUntil(() => trackElement.current?.track?.cues !== null)
 
-        // Set cue list when the video is ready
-        if (trackElement.current.track?.cues) {
-            const cues = Array.from(trackElement.current.track.cues).map((cue) => cue as VTTCue)
+        if (trackElement.current?.track?.cues) {
+            const cues = Array.from(trackElement.current.track.cues) as VTTCue[]
             onCuesLoaded(cues)
         }
     }
 
-    const handleActiveCuesChange = async () => {
-        if (! trackElement.current) {
+    const handleActiveCuesChange = () => {
+        if (! trackElement.current || ! trackElement.current.track.activeCues || ! trackElement.current.track.cues) {
             return
         }
 
         // Update active cues when one or more (dis)appear
-        if (trackElement.current.track?.activeCues && trackElement.current.track?.cues) {
-            const cues = Array.from(trackElement.current.track.cues).map((cue) => cue as VTTCue)
-            const activeCues = Array.from(trackElement.current.track.activeCues).map((cue) => cue as VTTCue)
-            setActiveCues(activeCues)
-            onActiveCuesChanged(activeCues, cues.indexOf(activeCues[0]))
-        }
+        const cues = Array.from(trackElement.current.track.cues) as VTTCue[]
+        const activeCues = Array.from(trackElement.current.track.activeCues) as VTTCue[]
+        const activeCuesWithHtml = activeCues.map(cue => renderCueHtml(cue))
+        setActiveCues(activeCuesWithHtml)
+        onActiveCuesChanged(activeCues, cues.indexOf(activeCues[0]))
     }
 
     const handleTimeChange = () => {
@@ -75,7 +72,43 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     }
 
     const setCueByIndex = (index: number): void => {
-        videoPlayerElement.current!.currentTime = videoPlayerElement.current!.textTracks[0].cues![index].startTime
+        if (! videoPlayerElement.current || ! videoPlayerElement.current.textTracks[0].cues) {
+            return
+        }
+
+        videoPlayerElement.current.currentTime = videoPlayerElement.current.textTracks[0].cues[index].startTime
+    }
+
+    // Resize observer to update cue container style when the video player is resized
+    const videoResizeHandler = () => {
+        if (! videoPlayerContainerElement.current) {
+            return
+        }
+
+        const resizeObserver = new ResizeObserver(() => updateCueContainerStyle(
+            videoPlayerElement.current,
+            videoPlayerContainerElement.current,
+            cueContainerElement.current,
+        ))
+
+        resizeObserver.observe(videoPlayerContainerElement.current)
+
+        return () => {
+            resizeObserver.disconnect()
+        }
+    }
+
+    const plyrToggleFullscreen = async () => {
+        if (document.fullscreenElement) {
+            await document.exitFullscreen()
+        } else {
+            await videoPlayerContainerElement?.current?.requestFullscreen()
+        }
+    }
+
+    const handleMetadataLoaded = async () => {
+        videoResizeHandler()
+        await handleCuesChange()
     }
 
     useEffect(() => {
@@ -84,11 +117,15 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
         }
 
         // Refresh cue list if the track (and its cues) changes
-        trackElement.current.addEventListener('cuechange', () => handleActiveCuesChange())
+        trackElement.current.addEventListener('cuechange', handleActiveCuesChange)
         void handleCuesChange()
 
         if (showSubtitlesByDefault) {
             trackElement.current.track.mode = 'showing'
+        }
+
+        return () => {
+            trackElement.current?.removeEventListener('cuechange', handleCuesChange)
         }
     }, [trackElement])
 
@@ -116,40 +153,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
             ...plyrOptions,
         })
 
-        player.fullscreen.toggle = async () => {
-            if (document.fullscreenElement) {
-                await document.exitFullscreen()
-            } else {
-                await videoPlayerContainerElement?.current?.requestFullscreen()
-            }
-        }
-
-        videoPlayerElement.current.addEventListener('loadedmetadata', () => {
-            if (!videoPlayerElement.current || !videoPlayerContainerElement.current || !cueContainerElement.current) {
-                return
-            }
-
-            const updateCueContainerStyle = () => {
-                const videoAspectRatio = videoPlayerElement.current!.videoWidth / videoPlayerElement.current!.videoHeight
-                const containerAspectRatio = videoPlayerContainerElement.current!.clientWidth / (videoPlayerContainerElement.current!.clientHeight - 52)
-
-                cueContainerElement.current!.style.setProperty('width', videoAspectRatio > containerAspectRatio ? '100%' : 'auto')
-                cueContainerElement.current!.style.setProperty('height', videoAspectRatio < containerAspectRatio ? 'calc(100% - 3.25rem)' : 'auto')
-                cueContainerElement.current!.style.setProperty('aspect-ratio', `${videoPlayerElement.current!.videoWidth} / ${videoPlayerElement.current!.videoHeight}`)
-            };
-
-            updateCueContainerStyle()
-
-            const resizeObserver = new ResizeObserver(() => {
-                updateCueContainerStyle()
-            });
-
-            resizeObserver.observe(videoPlayerContainerElement.current!)
-
-            return () => {
-                resizeObserver.disconnect()
-            }
-        })
+        player.fullscreen.toggle = plyrToggleFullscreen
     }, [videoPlayerContainerElement.current, videoPlayerElement.current])
 
     return (
@@ -161,7 +165,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
                 ref={cueContainerElement}
                 className="video-player__cue-container"
             >
-                {activeCuesWithHtml.map((cue, index) => (
+                {activeCues.map((cue, index) => (
                     <Cue
                         key={index}
                         cueProperties={cue}
@@ -174,8 +178,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
                 {...htmlVideoProps}
                 ref={videoPlayerElement}
                 controls
-                defaultChecked
-                onLoadedMetadata={handleCuesChange}
+                onLoadedMetadata={handleMetadataLoaded}
                 onTimeUpdate={handleTimeChange}
                 className="video-player__video"
             >
@@ -184,7 +187,6 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
                     ref={trackElement}
                     kind="metadata"
                     src={subtitleSrc}
-                    defaultChecked
                 />
             </video>
         </div>
