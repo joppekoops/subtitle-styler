@@ -2,11 +2,13 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto min(15rem, 50vh);
-    gap: .5rem;
+    gap: var(--spacing-s);
+    padding: var(--spacing-s);
     height: 100vh;
 
     &__section {
         contain: size;
+        background-color: #222;
     }
 
     &__video {

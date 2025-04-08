@@ -12,6 +12,7 @@ body {
     background: #000000;
     color: #ffffff;
     margin: 0;
+    font-family: system-ui, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -23,25 +24,32 @@ h3 {
     font-weight: bold;
 }
 
-//.layout {
-//    display: grid;
-//    grid-template-columns: 1fr 1fr;
-//    grid-template-rows: auto 1fr;
-//    gap: .5rem;
-//}
-//
-//.panel {
-//    background: #333;
-//    padding: 1em;
-//    border-radius: .375em;
-//    overflow: hidden;
-//}
-//
-//.timeline-section {
-//    grid-column: 1/-1;
-//}
-//
-//.video-section {
-//    align-content: center;
-//    padding: 0;
-//}
+button {
+    font: inherit;
+}
+
+label, legend {
+    padding: 0;
+    font-weight: 400;
+}
+
+input, select, textarea {
+    font: inherit;
+}
+
+fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
