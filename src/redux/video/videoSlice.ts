@@ -14,7 +14,7 @@ const initialState: VideoState = {
     videoMetadata: null,
     subtitleFile: '/res/test-en_highlighted.vtt', // TODO: Make null initially and handle file browse?
     currentTime: 0,
-    isPlaying: false
+    isPlaying: false,
 }
 
 export const videoSlice = createSlice({

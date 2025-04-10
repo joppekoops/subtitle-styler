@@ -16,11 +16,11 @@ export const updateCueContainerStyle = (
 
     cueContainerElement.style.setProperty(
         'width',
-        videoAspectRatio > containerAspectRatio ? '100%' : 'auto',
+        (videoAspectRatio > containerAspectRatio) ? '100%' : 'auto',
     )
     cueContainerElement.style.setProperty(
         'height',
-        videoAspectRatio < containerAspectRatio ? 'calc(100% - var(--plyr-controls-height))' : 'auto',
+        (videoAspectRatio < containerAspectRatio) ? 'calc(100% - var(--plyr-controls-height))' : 'auto',
     )
     cueContainerElement.style.setProperty(
         'aspect-ratio',

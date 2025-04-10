@@ -23,7 +23,7 @@ export const Cue: FC<CueProps> = ({
             style={getCueStyles(cuePosition)}
         >
             <span className="cue__text">
-                { children }
+                {children}
             </span>
         </div>
     )
