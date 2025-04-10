@@ -21,8 +21,8 @@ export interface VideoPickerProps {
 }
 
 export const VideoPicker: FC<VideoPickerProps> = ({
-  onFileChanged,
-  className = '',
+    onFileChanged,
+    className = '',
 }): ReactElement => {
     const browseVideos = async () => {
         try {

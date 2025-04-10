@@ -77,7 +77,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     }
 
     function setProperty(property: string, value: string) {
-        videoPlayerElement.current?.style.setProperty(property, value);
+        videoPlayerElement.current?.style.setProperty(property, value)
     }
 
     // TODO: Add logic to convert .srt to .vtt
