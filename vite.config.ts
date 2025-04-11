@@ -21,6 +21,10 @@ export default defineConfig({
                     src: join(__dirname, 'node_modules', 'mediainfo.js', 'dist', 'MediaInfoModule.wasm'),
                     dest: '',
                 },
+                {
+                    src: join(__dirname, 'res'),
+                    dest: '',
+                },
             ],
         }),
         svgr({
