@@ -1,2 +1,6 @@
 export * from './Cue/Cue'
 export * from './Icon/Icon'
+export * from './Tab/Tab'
+export * from './Tabs/Tabs'
+export * from './OptionsBar/OptionsBar'
+export * from './ToggleButton/ToggleButton'

@@ -1,0 +1,19 @@
+.toggle-button {
+    border-radius: .375rem;
+    padding-inline: var(--spacing-m);
+    padding-block: var(--spacing-xs);
+    background-color: #555555;
+
+    svg {
+        width: 1em;
+        fill: currentColor;
+    }
+
+    &:has(input:checked) {
+        background-color: var(--color-primary);
+    }
+
+    input[type="checkbox"], input[type="radio"] {
+        display: none;
+    }
+}
