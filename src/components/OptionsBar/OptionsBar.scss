@@ -1,0 +1,8 @@
+.options-bar {
+    &__options {
+        display: flex;
+        border-radius: .375rem;
+        overflow: clip;
+        background-color: #555555;
+    }
+}
