@@ -1,15 +1,15 @@
 import { FC, ReactElement } from 'react'
 
+import { Icon, OptionsBar, Tab, Tabs, ToggleButton } from '@app-components'
+
 import './Styling.scss'
-import { Tab } from '../../components/Tab/Tab'
-import { Tabs } from '../../components/Tabs/Tabs'
 
 export interface StylingProps {
     className?: string
 }
 
 export const Styling: FC<StylingProps> = ({
-  className = '',
+    className = '',
 }): ReactElement => (
     <div className={`styling ${className}`}>
         <Tabs>
@@ -48,17 +48,22 @@ export const Styling: FC<StylingProps> = ({
 
                         <div className="styling__control-row">
                             <label>
-                                <input type="checkbox" name="bold" />
-                                Bold
+                                <span className="sr-only">Font variant</span>
+                                <select name="font-variant">
+                                    <option value="">Variant</option>
+                                    <option value="">Variant</option>
+                                    <option value="">Variant</option>
+                                </select>
                             </label>
-                            <label>
-                                <input type="checkbox" name="italics" />
-                                Italic
-                            </label>
-                            <label>
-                                <input type="checkbox" name="underline" />
-                                Underline
-                            </label>
+                            <ToggleButton name="bold" value="bold">
+                                <Icon name="bold" aria-label="bold" />
+                            </ToggleButton>
+                            <ToggleButton name="italics" value="italics">
+                                <Icon name="italics" aria-label="italics" />
+                            </ToggleButton>
+                            <ToggleButton name="underline" value="underline">
+                                <Icon name="underline" aria-label="underline" />
+                            </ToggleButton>
                         </div>
 
                         <div className="styling__control-row">
@@ -69,21 +74,17 @@ export const Styling: FC<StylingProps> = ({
                         </div>
 
                         <div className="styling__control-row">
-                            <fieldset role="radiogroup">
-                                <legend>Alignment</legend>
-                                <label>
-                                    <input type="radio" name="alignment" value="left" />
-                                    Left
-                                </label>
-                                <label>
-                                    <input type="radio" name="alignment" value="center" defaultChecked />
-                                    Center
-                                </label>
-                                <label>
-                                    <input type="radio" name="alignment" value="right" />
-                                    Right
-                                </label>
-                            </fieldset>
+                            <OptionsBar label="Alignment">
+                                <ToggleButton name="alignment" value="left" type="radio">
+                                    <Icon name="alignLeft" aria-label="left" />
+                                </ToggleButton>
+                                <ToggleButton name="alignment" value="center" type="radio" defaultChecked>
+                                    <Icon name="alignCenter" aria-label="center" />
+                                </ToggleButton>
+                                <ToggleButton name="alignment" value="right" type="radio">
+                                    <Icon name="alignRight" aria-label="right" />
+                                </ToggleButton>
+                            </OptionsBar>
                         </div>
 
                         <div className="styling__control-row">
@@ -140,6 +141,7 @@ export const Styling: FC<StylingProps> = ({
 
                     <section className="styling__section">
                         <h3>Shadow</h3>
+
                         <div>
                             <div className="styling__control-row">
                                 <label>
@@ -147,6 +149,7 @@ export const Styling: FC<StylingProps> = ({
                                     <input type="color" name="shadow-color[]" />
                                 </label>
                             </div>
+
                             <div className="styling__control-row">
                                 <label>
                                     X offset
@@ -157,6 +160,7 @@ export const Styling: FC<StylingProps> = ({
                                     <input type="range" name="shadow-offset-y[]" />
                                 </label>
                             </div>
+
                             <div className="styling__control-row">
                                 <label>
                                     Blur
@@ -168,6 +172,7 @@ export const Styling: FC<StylingProps> = ({
                                 </label>
                             </div>
                         </div>
+
                         <div>
                             <div className="styling__control-row">
                                 <label>
@@ -175,6 +180,7 @@ export const Styling: FC<StylingProps> = ({
                                     <input type="color" name="shadow-color[]" />
                                 </label>
                             </div>
+
                             <div className="styling__control-row">
                                 <label>
                                     X offset
@@ -185,6 +191,7 @@ export const Styling: FC<StylingProps> = ({
                                     <input type="range" name="shadow-offset-y[]" />
                                 </label>
                             </div>
+
                             <div className="styling__control-row">
                                 <label>
                                     Blur
@@ -227,6 +234,7 @@ export const Styling: FC<StylingProps> = ({
                                     </select>
                                 </label>
                             </fieldset>
+
                             <fieldset className="styling__transition styling__transition-end">
                                 <legend>End</legend>
                                 <label>
