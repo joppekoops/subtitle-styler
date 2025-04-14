@@ -38,7 +38,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 <h3>Typography</h3>
 
                 <div className="global-styles__control-row">
-                    <label>
+                    <label className="full-width">
                         <span className="sr-only">Font family</span>
                         <select name="fontFamily" defaultValue={globalStyles.fontFamily}>
                             <option value="sans-serif">Sans Serif</option>
@@ -50,7 +50,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 </div>
 
                 <div className="global-styles__control-row">
-                    <label>
+                    <label className="full-width">
                         <span className="sr-only">Font variant</span>
                         <select name="fontVariant" defaultValue={globalStyles.fontVariant}>
                             <option value="100">Thin</option>
@@ -76,7 +76,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 </div>
 
                 <div className="global-styles__control-row">
-                    <label>
+                    <label className="full-width">
                         Font size
                         <input type="range"
                                name="fontSize"
@@ -137,7 +137,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 <h3>Position</h3>
 
                 <div className="global-styles__control-row">
-                    <label>
+                    <label className="full-width">
                         Horizontal
                         <input type="range"
                                name="position.horizontal"
@@ -146,15 +146,29 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                     </label>
                 </div>
 
-                <div className="global-styles__control-row">
-                    <label>
-                        Vertical
-                        <input type="range"
-                               name="position.vertical"
-                               defaultValue={globalStyles.position.vertical}
-                        />
-                    </label>
-                </div>
+                {globalStyles.position.useLines
+                    ?
+                    <div className="global-styles__control-row">
+                        <label>
+                            Vertical
+                            <input type="number"
+                                   name="position.vertical"
+                                   defaultValue={globalStyles.position.vertical}
+                            />
+                        </label>
+                    </div>
+
+                    :
+                    <div className="global-styles__control-row">
+                        <label className="full-width">
+                            Vertical
+                            <input type="range"
+                                   name="position.vertical"
+                                   defaultValue={globalStyles.position.vertical}
+                            />
+                        </label>
+                    </div>
+                }
 
                 <div className="global-styles__control-row">
                     <label>
@@ -178,7 +192,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 </div>
 
                 <div className="global-styles__control-row">
-                    <label>
+                    <label className="full-width">
                         Opacity
                         <input type="range"
                                name="box.opacity"
@@ -190,7 +204,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 </div>
 
                 <div className="global-styles__control-row">
-                    <fieldset>
+                    <fieldset className="global-styles__padding-controls">
                         <legend>Padding</legend>
                         <label>
                             <span className="sr-only">Top</span>
@@ -251,7 +265,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 <h3>Transitions</h3>
 
                 <div className="global-styles__transition-container">
-                    <fieldset className="global-styles__transition global-styles__transition-start">
+                    <fieldset className="global-styles__transition-controls global-styles__transition-start">
                         <legend>Start</legend>
                         <label>
                             <span className="sr-only">Preset</span>
@@ -286,7 +300,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                         </label>
                     </fieldset>
 
-                    <fieldset className="global-styles__transition global-styles__transition-end">
+                    <fieldset className="global-styles__transition-controls global-styles__transition-end">
                         <legend>End</legend>
                         <label>
                             <span className="sr-only">Preset</span>

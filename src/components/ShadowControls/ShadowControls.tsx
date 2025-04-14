@@ -37,7 +37,7 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
         </div>
 
         <div className="global-styles__control-row">
-            <label>
+            <label className="full-width">
                 X offset
                 <input type="range"
                        name={`shadow[${index}].offsetX`}
@@ -46,7 +46,7 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
                        max={100}
                 />
             </label>
-            <label>
+            <label className="full-width">
                 Y offset
                 <input type="range"
                        name={`shadow[${index}].offsetY`}
@@ -58,7 +58,7 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
         </div>
 
         <div className="global-styles__control-row">
-            <label>
+            <label className="full-width">
                 Blur
                 <input type="range"
                        name={`shadow[${index}].blur`}
@@ -67,7 +67,7 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
                        max={100}
                 />
             </label>
-            <label>
+            <label className="full-width">
                 Spread
                 <input type="range"
                        name={`shadow[${index}].spread`}
