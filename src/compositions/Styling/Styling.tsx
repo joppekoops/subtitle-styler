@@ -36,7 +36,6 @@ export const Styling: FC<StylingProps> = ({
 
     }, [globalStyles, stylesElement.current])
 
-
     return (
         <div className={`styling ${className}`}>
             <style ref={stylesElement}></style>
@@ -60,7 +59,7 @@ export const Styling: FC<StylingProps> = ({
                         </div>
                     </section>
 
-                    <GlobalStyles></GlobalStyles>
+                    <GlobalStyles />
                 </Tab>
                 <Tab name={'Export'}>Export</Tab>
             </Tabs>
