@@ -5,6 +5,7 @@ import AlignRight from './AlignRight.svg'
 import Bold from './Bold.svg'
 import Italics from './Italics.svg'
 import Underline from './Underline.svg'
+import X from './X.svg'
 
 export const icons = {
     videoFile: VideoFile,
@@ -14,4 +15,5 @@ export const icons = {
     bold: Bold,
     italics: Italics,
     underline: Underline,
+    x: X,
 }

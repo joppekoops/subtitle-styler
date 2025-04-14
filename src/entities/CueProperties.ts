@@ -4,4 +4,6 @@ export interface CueProperties {
     snapToLines: boolean
     position: LineAndPositionSetting
     size?: number
+    startTime: number
+    endTime: number
 }
