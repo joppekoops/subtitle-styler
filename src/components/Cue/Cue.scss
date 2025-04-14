@@ -12,5 +12,6 @@
         background-color: black;
         white-space: pre;
         animation-fill-mode: both;
+        paint-order: stroke fill;
     }
 }
