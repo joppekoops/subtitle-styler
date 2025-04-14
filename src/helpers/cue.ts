@@ -56,13 +56,18 @@ export const getCueStyles = (cuePosition: CuePosition): CSSProperties => ({
     '--cue-size': cuePosition.size,
 } as CSSProperties)
 
-export const renderCueHtml = (cue: VTTCue): CueWithHtml => {
-    const cueRenderElement = document.createElement('div')
+const cueRenderElement = document.createElement('div')
 
+export const getCueWithHtml = (cue: VTTCue): CueWithHtml => {
     cueRenderElement.replaceChildren(cue.getCueAsHTML())
 
-    return {
-        ...cue,
-        html: cueRenderElement.innerHTML,
-    }
+    // Workaround to extend VTTCue with html property, because VTTCue is not extensible
+    return new Proxy(cue, {
+        get(target, prop) {
+            if (prop === 'html') {
+                return cueRenderElement.innerHTML
+            }
+            return target[prop as keyof VTTCue]
+        },
+    }) as CueWithHtml
 }

@@ -2,7 +2,7 @@ import Plyr from 'plyr'
 import { FC, ReactElement, RefAttributes, useEffect, useRef, useState, VideoHTMLAttributes } from 'react'
 
 import { Cue } from '@app-components'
-import { waitUntil, renderCueHtml, updateCueContainerStyle } from '@app-helpers'
+import { waitUntil, getCueWithHtml, updateCueContainerStyle } from '@app-helpers'
 import { CueWithHtml } from '@app-entities'
 
 import 'plyr/src/sass/plyr.scss'
@@ -60,7 +60,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
         // Update active cues when one or more (dis)appear
         const cues = Array.from(trackElement.current.track.cues) as VTTCue[]
         const activeCues = Array.from(trackElement.current.track.activeCues) as VTTCue[]
-        const activeCuesWithHtml = activeCues.map(cue => renderCueHtml(cue))
+        const activeCuesWithHtml = activeCues.map(cue => getCueWithHtml(cue))
         setActiveCues(activeCuesWithHtml)
         onActiveCuesChanged(activeCues, cues.indexOf(activeCues[0]))
     }
