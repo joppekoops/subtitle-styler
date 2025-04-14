@@ -1,0 +1,35 @@
+.global-styles {
+    display: grid;
+    gap: 1px;
+    background-color: #999999;
+
+    &__section {
+        display: grid;
+        gap: var(--spacing-m);
+        padding: var(--spacing-m);
+        background-color: #222222;
+    }
+
+    &__control-row {
+        display: flex;
+        gap: var(--spacing-m);
+        flex-wrap: wrap;
+        width: 100%
+    }
+
+    label {
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        gap: var(--spacing-s);
+        flex-grow: 1;
+    }
+
+    label:has([type="checkbox"], [type="radio"], [type="color"]) {
+        flex-grow: 0;
+    }
+
+    legend {
+        margin-bottom: var(--spacing-s);
+    }
+}

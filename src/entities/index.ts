@@ -1,3 +1,6 @@
 export * from './CueProperties'
 export * from './CuePosition'
 export * from './CueWithHtml'
+export * from './CaptionStyles'
+export * from './ShadowStyles'
+export * from './TransitionStyles'
