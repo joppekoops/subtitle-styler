@@ -45,6 +45,7 @@ export const getCuePosition = (cueProperties: CueProperties): CuePosition => ({
     left: getCueLeft(cueProperties.position, cueProperties.align),
     width: getCueWidth(cueProperties.position, cueProperties.align),
     size: cueProperties.size,
+    duration: cueProperties.endTime - cueProperties.startTime,
 })
 
 export const getCueStyles = (cuePosition: CuePosition): CSSProperties => ({
@@ -54,6 +55,7 @@ export const getCueStyles = (cuePosition: CuePosition): CSSProperties => ({
     '--cue-left': cuePosition.left,
     '--cue-width': cuePosition.width,
     '--cue-size': cuePosition.size,
+    '--cue-duration': `${cuePosition.duration}s`,
 } as CSSProperties)
 
 const cueRenderElement = document.createElement('div')

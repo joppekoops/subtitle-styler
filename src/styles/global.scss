@@ -46,8 +46,25 @@ button {
     background-color: #555555;
     cursor: pointer;
 
+    & svg {
+        fill: #ffffff;
+        width: 1rem;
+    }
+
     &:hover {
         background-color: var(--color-primary);
+    }
+
+    &--negative {
+
+        &:hover {
+            background-color: #cc0000;
+        }
+    }
+
+    &--icon {
+        padding: var(--spacing-xs);
+        aspect-ratio: 1/1;
     }
 }
 
@@ -85,4 +102,22 @@ fieldset {
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     border: 0;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }

@@ -5,4 +5,5 @@ export interface CuePosition {
     left: string
     width: string
     size?: number
+    duration?: number
 }

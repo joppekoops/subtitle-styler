@@ -1,9 +1,10 @@
 import { FC, FormEvent, ReactElement } from 'react'
-import { updateGlobalStyles, useTypedDispatch, useTypedSelector } from '@app-redux'
+import { addShadow, removeShadow, updateGlobalStyles, useTypedDispatch, useTypedSelector } from '@app-redux'
 
 import { Icon, OptionsBar, ToggleButton } from '@app-components'
 
 import './GlobalStyles.scss'
+import { ShadowControls } from '../../components/ShadowControls/ShadowControls'
 
 export interface GlobalStylesProps {
     className?: string
@@ -23,6 +24,14 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
         dispatch(updateGlobalStyles({ key: input.name, value: input.value }))
     }
 
+    const handleAddShadow = () => {
+        dispatch(addShadow({}))
+    }
+
+    const handleRemoveShadow = (index: number) => {
+        dispatch(removeShadow(index))
+    }
+
     return (
         <form onInput={handleInput} className={`global-styles ${className}`}>
             <section className="global-styles__section">
@@ -35,7 +44,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             <option value="sans-serif">Sans Serif</option>
                             <option value="serif">Serif</option>
                             <option value="monospace">Monospace</option>
-                            <option value="fantsasy">Fantasy</option>
+                            <option value="fantasy">Fantasy</option>
                         </select>
                     </label>
                 </div>
@@ -174,8 +183,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                         <input type="range"
                                name="box.opacity"
                                min={0}
-                               max={1}
-                               step={0.01}
+                               max={255}
                                defaultValue={globalStyles.box.opacity}
                         />
                     </label>
@@ -189,6 +197,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             <input type="number"
                                    name="box.padding.top"
                                    defaultValue={globalStyles.box.padding.top}
+                                   min={0}
                             />
                         </label>
                         <label>
@@ -196,6 +205,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             <input type="number"
                                    name="box.padding.right"
                                    defaultValue={globalStyles.box.padding.right}
+                                   min={0}
                             />
                         </label>
                         <label>
@@ -203,6 +213,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             <input type="number"
                                    name="box.padding.bottom"
                                    defaultValue={globalStyles.box.padding.bottom}
+                                   min={0}
                             />
                         </label>
                         <label>
@@ -210,6 +221,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             <input type="number"
                                    name="box.padding.left"
                                    defaultValue={globalStyles.box.padding.left}
+                                   min={0}
                             />
                         </label>
                     </fieldset>
@@ -221,53 +233,18 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
 
                 {
                     globalStyles.shadow.map((shadow, index) => (
-                        <div key={index}>
-                            <div className="global-styles__control-row">
-                                <label>
-                                    Color
-                                    <input type="color"
-                                           name={`shadow[${index}].color`}
-                                           defaultValue={shadow.color}
-                                    />
-                                </label>
-                            </div>
-
-                            <div className="global-styles__control-row">
-                                <label>
-                                    X offset
-                                    <input type="range"
-                                           name={`shadow[${index}].offsetX`}
-                                           defaultValue={shadow.offsetX}
-                                    />
-                                </label>
-                                <label>
-                                    Y offset
-                                    <input type="range"
-                                           name={`shadow[${index}].offsetY`}
-                                           defaultValue={shadow.offsetY}
-                                    />
-                                </label>
-                            </div>
-
-                            <div className="global-styles__control-row">
-                                <label>
-                                    Blur
-                                    <input type="range"
-                                           name={`shadow[${index}].blur`}
-                                           defaultValue={shadow.blur}
-                                    />
-                                </label>
-                                <label>
-                                    Spread
-                                    <input type="range"
-                                           name={`shadow[${index}].spread`}
-                                           defaultValue={shadow.spread}
-                                    />
-                                </label>
-                            </div>
-                        </div>
+                        <ShadowControls
+                            key={index}
+                            shadowStyles={shadow}
+                            index={index}
+                            onRemoveShadow={handleRemoveShadow}
+                        />
                     ))
                 }
+
+                <div className="controls-row">
+                    <button type="button" className="button" onClick={handleAddShadow}>Add Shadow</button>
+                </div>
             </section>
 
             <section className="global-styles__section">
@@ -281,9 +258,8 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             <select name="transition.start.preset"
                                     defaultValue={globalStyles.transition.start.preset}
                             >
-                                <option value="">Preset</option>
-                                <option value="">Preset</option>
-                                <option value="">Preset</option>
+                                <option value="none">None</option>
+                                <option value="fade-in">Fade-in</option>
                             </select>
                         </label>
 
@@ -317,9 +293,8 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             <select name="transition.end.preset"
                                     defaultValue={globalStyles.transition.end.preset}
                             >
-                                <option value="">Preset</option>
-                                <option value="">Preset</option>
-                                <option value="">Preset</option>
+                                <option value="none">None</option>
+                                <option value="fade-out">Fade-out</option>
                             </select>
                         </label>
 

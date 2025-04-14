@@ -26,7 +26,7 @@ const initialState: StyleState = {
         },
         box: {
             color: '#000000',
-            opacity: 1,
+            opacity: 255,
             padding: {
                 top: 0,
                 right: 0,
@@ -45,17 +45,18 @@ const initialState: StyleState = {
         ],
         transition: {
             start: {
-                preset: 'None',
+                preset: 'none',
                 duration: 0,
                 easing: 'linear',
             },
             end: {
-                preset: 'None',
+                preset: 'none',
                 duration: 0,
                 easing: 'linear',
             },
         },
     },
+    presets: [],
 }
 
 export const styleSlice = createSlice({
@@ -73,9 +74,21 @@ export const styleSlice = createSlice({
 
             const useQoutes = (isNaN(parseInt(value)) && value !== 'true' && value !== 'false')
 
-            console.log(`state.globalStyles.${key} = ${useQoutes ? '\'' : ''}${value}${useQoutes ? '\'' : ''}`)
-
             eval(`state.globalStyles.${key} = ${useQoutes ? '\'' : ''}${value}${useQoutes ? '\'' : ''}`)
+        },
+        addShadow(state, action) {
+            const { color, offsetX, offsetY, blur, spread } = action.payload
+
+            state.globalStyles.shadow.push({
+                color: color || '#000000',
+                offsetX: offsetX || 0,
+                offsetY: offsetY || 0,
+                blur: blur || 0,
+                spread: spread || 0,
+            })
+        },
+        removeShadow(state, action) {
+            state.globalStyles.shadow.splice(action.payload, 1)
         },
     },
 })
@@ -83,4 +96,6 @@ export const styleSlice = createSlice({
 export const {
     setGlobalStyles,
     updateGlobalStyles,
+    addShadow,
+    removeShadow,
 } = styleSlice.actions

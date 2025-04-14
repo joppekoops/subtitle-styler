@@ -1,0 +1,18 @@
+.shadow-controls {
+    position: relative;
+    display: grid;
+    gap: var(--spacing-m);
+    border-radius: .375rem;
+    padding: var(--spacing-m);
+    background-color: #444444;
+
+    &__remove-button {
+        position: absolute;
+        top: var(--spacing-s);
+        right: var(--spacing-s);
+    }
+
+    & div {
+        grid-column: 1;
+    }
+}
