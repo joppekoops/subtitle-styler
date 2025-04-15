@@ -1,3 +1,4 @@
+export * from './CaptionPicker/CaptionPicker'
 export * from './GlobalStyles/GlobalStyles'
 export * from './Presets/Presets'
 export * from './Timeline/Timeline'

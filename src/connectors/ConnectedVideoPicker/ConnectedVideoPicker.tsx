@@ -1,29 +1,34 @@
 import { FC } from 'react'
 
 import { VideoPicker } from '@app-compositions'
-import { getFileMetadata } from '@app-helpers'
-import { setVideoFile, setVideoMetadata, useTypedDispatch } from '@app-redux'
+import { fileReadDataURL, getFileMetadata } from '@app-helpers'
+import { setVideoFile, setVideoMetadata, useTypedDispatch, useTypedSelector } from '@app-redux'
 
 export const ConnectedVideoPicker: FC = () => {
     const dispatch = useTypedDispatch()
 
-    const processVideoFile = async (fileHandle: FileSystemFileHandle): Promise<void> => {
-        const file = await fileHandle.getFile()
-        const reader = new FileReader()
+    const { videoFile } = useTypedSelector(state => state.videoSlice)
 
-        reader.addEventListener('load', () => {
-            dispatch(setVideoFile(reader.result))
-        })
-        reader.readAsDataURL(file)
+    const processVideoFile = async (fileHandle: FileSystemFileHandle | null): Promise<void> => {
+        if (! fileHandle) {
+            dispatch(setVideoFile(null))
+            dispatch(setVideoMetadata(null))
+            return
+        }
+
+        const file = await fileHandle.getFile()
 
         const metadata = await getFileMetadata(file)
+        const dataUrl = await fileReadDataURL(file)
 
+        dispatch(setVideoFile(dataUrl))
         dispatch(setVideoMetadata(metadata))
     }
 
     return (
         <VideoPicker
             onFileChanged={(fileHandle) => processVideoFile(fileHandle)}
+            videoFile={videoFile}
         />
     )
 }

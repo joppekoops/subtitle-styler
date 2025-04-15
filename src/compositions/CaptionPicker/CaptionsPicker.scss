@@ -1,0 +1,11 @@
+.caption-picker {
+    display: grid;
+    gap: var(--spacing-m);
+    padding: var(--spacing-l);
+
+    &__container {
+        display: flex;
+        gap: var(--spacing-m);
+        align-items: start;
+    }
+}

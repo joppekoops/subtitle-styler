@@ -4,7 +4,7 @@ import { Media } from 'mediainfo.js'
 export interface VideoState {
     videoFile: string | null
     videoMetadata: Media | null
-    subtitleFile: string | null // TODO: Change to support File?
+    subtitleFile: string | null
     currentTime: number
     isPlaying: boolean
 }
@@ -12,7 +12,7 @@ export interface VideoState {
 const initialState: VideoState = {
     videoFile: null,
     videoMetadata: null,
-    subtitleFile: '/res/test-en_highlighted.vtt', // TODO: Make null initially and handle file browse?
+    subtitleFile: null,
     currentTime: 0,
     isPlaying: false,
 }
