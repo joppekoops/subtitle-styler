@@ -1,6 +1,6 @@
 import { CaptionStyles } from '@app-entities'
 
-export const captionStylesToCss = (styles: CaptionStyles, selector: string): string => `${selector} {
+export const captionStylesToCss = (styles: CaptionStyles, selector: string): string => `.${selector} {
     font-family: ${styles.fontFamily};
     font-weight: ${styles.fontVariant};
     font-size: max(calc(${styles.fontSize} / 16 * 5cqh), 14px);

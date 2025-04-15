@@ -56,13 +56,18 @@
 
     &__option {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr;
         gap: var(--spacing-s);
         border-radius: .375rem;
         padding: var(--spacing-s);
+
+        &:has( > .button) {
+            grid-template-columns: 1fr auto;
+        }
     }
 
     &__option-preview {
+        position: static;
         grid-row: 1/4;
         display: grid;
         place-items: center;
@@ -70,6 +75,10 @@
         min-height: 5rem;
         background-color: #000000;
         cursor: pointer;
+
+        & .cue__text {
+            font-size: max(3cqw, 14px);
+        }
     }
 
     &__selected-option {
