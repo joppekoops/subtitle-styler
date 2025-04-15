@@ -1,11 +1,19 @@
 import { FC, ReactElement, useEffect, useRef } from 'react'
 
-import { GlobalStyles } from '@app-compositions'
+import {
+    addPreset,
+    removePreset,
+    renamePreset,
+    updatePreset,
+    useTypedSelector,
+    useTypedDispatch,
+    selectPreset,
+} from '@app-redux'
+import { captionStylesToCss } from '@app-helpers'
+import { GlobalStyles, Presets } from '@app-compositions'
 import { Tab, Tabs } from '@app-components'
 
 import './Styling.scss'
-import { useTypedSelector } from '@app-redux'
-import { captionStylesToCss } from '../../helpers/caption-styles-to-css'
 
 export interface StylingProps {
     className?: string
@@ -14,8 +22,10 @@ export interface StylingProps {
 export const Styling: FC<StylingProps> = ({
     className = '',
 }): ReactElement => {
-    const { globalStyles } = useTypedSelector((state) => state.styleSlice)
+    const { globalStyles, presets, selectedPresetId } = useTypedSelector((state) => state.styleSlice)
     const { cues } = useTypedSelector((state) => state.cueSlice)
+
+    const dispatch = useTypedDispatch()
 
     // TODO: where to put this?
     const stylesElement = useRef<HTMLStyleElement>(null)
@@ -46,17 +56,16 @@ export const Styling: FC<StylingProps> = ({
 
                     <section className="styling__section">
                         <h3>Preset</h3>
-                        <button type="button">Add preset</button>
-                        <div className="styling__control-row">
-                            <label>
-                                <span className="sr-only">Preset</span>
-                                <select name="preset">
-                                    <option value="">Preset</option>
-                                    <option value="">Preset</option>
-                                    <option value="">Preset</option>
-                                </select>
-                            </label>
-                        </div>
+                        <Presets
+                            presets={presets}
+                            selectedPresetId={selectedPresetId}
+                            onAddPreset={(name: string) => dispatch(addPreset(name))}
+                            onRemovePreset={(index: number) => dispatch(removePreset(index))}
+                            onUpdatePreset={(index: number) => dispatch(updatePreset(index))}
+                            onRenamePreset={(index: number, name: string) => dispatch(renamePreset({ index, name }))}
+                            onSelectPreset={(index: number | null) => dispatch(selectPreset(index))}
+                            onExportPreset={(index: number) => console.log(presets[index])}
+                        />
                     </section>
 
                     <GlobalStyles />

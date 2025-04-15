@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { CaptionStyles } from '@app-entities'
+import { CaptionStyles, Preset } from '@app-entities'
 
 export interface StyleState {
     globalStyles: CaptionStyles
+    presets: Preset[]
+    selectedPresetId: number | null
 }
 
 const initialState: StyleState = {
@@ -57,6 +59,7 @@ const initialState: StyleState = {
         },
     },
     presets: [],
+    selectedPresetId: null,
 }
 
 export const styleSlice = createSlice({
@@ -90,6 +93,31 @@ export const styleSlice = createSlice({
         removeShadow(state, action) {
             state.globalStyles.shadow.splice(action.payload, 1)
         },
+        addPreset(state, action) {
+            state.presets.push({
+                name: action.payload,
+                styles: state.globalStyles,
+            })
+        },
+        removePreset(state, action) {
+            state.presets.splice(action.payload, 1)
+        },
+        updatePreset(state, action) {
+            state.presets[action.payload].styles = state.globalStyles
+        },
+        renamePreset(state, action) {
+            const { index, name } = action.payload
+            state.presets[index].name = name
+        },
+        selectPreset(state, action) {
+            state.selectedPresetId = action.payload
+
+            if (state.selectedPresetId === null) {
+                return
+            }
+            
+            state.globalStyles = state.presets[action.payload].styles
+        },
     },
 })
 
@@ -98,4 +126,9 @@ export const {
     updateGlobalStyles,
     addShadow,
     removeShadow,
+    addPreset,
+    removePreset,
+    updatePreset,
+    renamePreset,
+    selectPreset,
 } = styleSlice.actions
