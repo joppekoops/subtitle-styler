@@ -12,6 +12,7 @@
     "dependencies": {
         "@reduxjs/toolkit": "^2.5.1",
         "classnames": "^2.5.1",
+        "lodash": "^4.17.21",
         "mediainfo.js": "^0.3.4",
         "plyr": "^3.7.8",
         "react": "^19.0.0",
@@ -25,6 +26,7 @@
         "webvtt-parser": "^2.2.0"
     },
     "devDependencies": {
+        "@types/lodash": "^4.17.16",
         "@types/node": "^22.13.1",
         "@types/react": "^19.0.8",
         "@types/react-dom": "^19.0.3",
