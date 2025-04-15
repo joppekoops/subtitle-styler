@@ -1,3 +1,5 @@
 export * from './ConnectedTimeline/ConnectedTimeline'
 export * from './ConnectedVideoPlayer/ConnectedVideoPlayer'
 export * from './ConnectedVideoPicker/ConnectedVideoPicker'
+export * from './ConnectedPresets/ConnectedPresets'
+export * from './ConnectedGlobalStyles/ConnectedGlobalStyles'

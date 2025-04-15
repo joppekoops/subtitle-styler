@@ -2,9 +2,9 @@
     position: relative;
     display: grid;
     gap: var(--spacing-m);
-    border-radius: .375rem;
+    border-radius: var(--border-radius);
     padding: var(--spacing-m);
-    background-color: #444444;
+    background-color: var(--color-control-group-bg);
 
     &__remove-button {
         position: absolute;

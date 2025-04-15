@@ -10,7 +10,7 @@ interface OptionsBarProps {
 
 export const OptionsBar: FC<OptionsBarProps> = ({
     label,
-    className,
+    className = '',
     children,
 }): ReactElement => (
     <fieldset role="radio-group" className={`options-bar ${className}`}>

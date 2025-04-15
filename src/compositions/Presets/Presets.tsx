@@ -1,25 +1,25 @@
 import { FC, ReactElement, useState } from 'react'
 
 import { Preset } from '@app-entities'
-import { isNumber, toKebabCase } from '@app-helpers'
+import { toKebabCase } from '@app-helpers'
 
 import './Presets.scss'
 
 export interface PresetsProps {
     presets: Preset[]
-    selectedPresetId: number | null
+    selectedPreset: Preset | null
     onAddPreset: (name: string) => void
     onRemovePreset: (index: number) => void
     onUpdatePreset: (index: number) => void
     onRenamePreset: (index: number, name: string) => void
-    onSelectPreset: (index: number | null) => void
-    onExportPreset: (index: number) => void
+    onSelectPreset: (preset: Preset | null) => void
+    onExportPreset: (preset: Preset) => void
     className?: string
 }
 
 export const Presets: FC<PresetsProps> = ({
     presets,
-    selectedPresetId,
+    selectedPreset,
     onAddPreset,
     onRemovePreset,
     onUpdatePreset,
@@ -41,8 +41,8 @@ export const Presets: FC<PresetsProps> = ({
         onAddPreset(name)
     }
 
-    const handleSelectPreset = (index: number | null) => {
-        onSelectPreset(index)
+    const handleSelectPreset = (preset: Preset | null) => {
+        onSelectPreset(preset)
         setIsOpen(false)
     }
 
@@ -51,8 +51,8 @@ export const Presets: FC<PresetsProps> = ({
         setIsOpen(false)
     }
 
-    const handleExportPreset = (index: number) => {
-        onExportPreset(index)
+    const handleExportPreset = (preset: Preset) => {
+        onExportPreset(preset)
         setIsOpen(false)
     }
 
@@ -67,10 +67,10 @@ export const Presets: FC<PresetsProps> = ({
                     type="button"
                 >
                     <div className="presets__selected-option">
-                        {isNumber(selectedPresetId)
+                        {selectedPreset
                             ?
-                            <div className="presets__option-preview cue">
-                                <span className="cue__text">{presets[selectedPresetId].name}</span>
+                            <div className={`presets__option-preview cue ${toKebabCase(selectedPreset.name)}`}>
+                                <span className="cue__text">{selectedPreset.name}</span>
                             </div>
                             :
                             <div className="presets__option-preview">
@@ -95,7 +95,7 @@ export const Presets: FC<PresetsProps> = ({
                             presets.map((preset, index) => (
                                 <div key={index} className="presets__option">
                                     <button className="presets__option-preview cue"
-                                            onClick={() => handleSelectPreset(index)}
+                                            onClick={() => handleSelectPreset(preset)}
                                     >
                                         <span className={`cue__text ${toKebabCase(preset.name)}`}>{preset.name}</span>
                                     </button>
@@ -111,7 +111,7 @@ export const Presets: FC<PresetsProps> = ({
                                     </button>
                                     <button type="button"
                                             className="button"
-                                            onClick={() => handleExportPreset(index)}
+                                            onClick={() => handleExportPreset(preset)}
                                     >Export
                                     </button>
                                 </div>

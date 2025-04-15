@@ -1,14 +1,15 @@
-import { FC, ReactElement } from 'react'
+import { ChangeEvent, FC, ReactElement } from 'react'
 
 import { ShadowStyles } from '@app-entities'
+import { Icon } from '@app-components'
 
 import './ShadowControls.scss'
-import { Icon } from '@app-components'
 
 interface ShadowControlsProps {
     shadowStyles: ShadowStyles
     index: number
     onRemoveShadow: (index: number) => void
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void
     className?: string
 }
 
@@ -16,6 +17,7 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
     shadowStyles,
     index,
     onRemoveShadow,
+    onChange,
     className = '',
 }): ReactElement => (
     <div className={`shadow-controls ${className}`}>
@@ -31,7 +33,8 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
                 Color
                 <input type="color"
                        name={`shadow[${index}].color`}
-                       defaultValue={shadowStyles.color}
+                       value={shadowStyles.color}
+                       onChange={onChange}
                 />
             </label>
         </div>
@@ -41,7 +44,8 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
                 X offset
                 <input type="range"
                        name={`shadow[${index}].offsetX`}
-                       defaultValue={shadowStyles.offsetX}
+                       value={shadowStyles.offsetX}
+                       onChange={onChange}
                        min={-100}
                        max={100}
                 />
@@ -50,7 +54,8 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
                 Y offset
                 <input type="range"
                        name={`shadow[${index}].offsetY`}
-                       defaultValue={shadowStyles.offsetY}
+                       value={shadowStyles.offsetY}
+                       onChange={onChange}
                        min={-100}
                        max={100}
                 />
@@ -62,7 +67,8 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
                 Blur
                 <input type="range"
                        name={`shadow[${index}].blur`}
-                       defaultValue={shadowStyles.blur}
+                       value={shadowStyles.blur}
+                       onChange={onChange}
                        min={0}
                        max={100}
                 />
@@ -71,7 +77,8 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
                 Spread
                 <input type="range"
                        name={`shadow[${index}].spread`}
-                       defaultValue={shadowStyles.spread}
+                       value={shadowStyles.spread}
+                       onChange={onChange}
                        min={0}
                        max={100}
                 />
