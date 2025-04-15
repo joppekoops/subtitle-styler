@@ -1,13 +1,17 @@
+import { set } from 'lodash'
+
 import { createSlice } from '@reduxjs/toolkit'
 import { CaptionStyles, Preset } from '@app-entities'
 
 export interface StyleState {
+    cueStyleElement: HTMLStyleElement
     globalStyles: CaptionStyles
     presets: Preset[]
-    selectedPresetId: number | null
+    selectedPreset: Preset | null //TODO make Preset
 }
 
 const initialState: StyleState = {
+    cueStyleElement: document.getElementById('cueStyleElement') as HTMLStyleElement,
     globalStyles: {
         fontFamily: 'sans-serif',
         fontVariant: '400',
@@ -59,7 +63,7 @@ const initialState: StyleState = {
         },
     },
     presets: [],
-    selectedPresetId: null,
+    selectedPreset: null,
 }
 
 export const styleSlice = createSlice({
@@ -75,9 +79,7 @@ export const styleSlice = createSlice({
         updateGlobalStyles(state, action) {
             const { key, value } = action.payload
 
-            const useQoutes = (isNaN(parseInt(value)) && value !== 'true' && value !== 'false')
-
-            eval(`state.globalStyles.${key} = ${useQoutes ? '\'' : ''}${value}${useQoutes ? '\'' : ''}`)
+            set(state.globalStyles, key, isNaN(parseInt(value)) ? value : parseInt(value))
         },
         addShadow(state, action) {
             const { color, offsetX, offsetY, blur, spread } = action.payload
@@ -110,13 +112,13 @@ export const styleSlice = createSlice({
             state.presets[index].name = name
         },
         selectPreset(state, action) {
-            state.selectedPresetId = action.payload
+            state.selectedPreset = action.payload
 
-            if (state.selectedPresetId === null) {
+            if (action.payload === null) {
                 return
             }
-            
-            state.globalStyles = state.presets[action.payload].styles
+
+            state.globalStyles = action.payload.styles
         },
     },
 })

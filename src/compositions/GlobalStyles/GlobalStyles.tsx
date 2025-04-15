@@ -1,10 +1,9 @@
-import { FC, FormEvent, ReactElement } from 'react'
-import { addShadow, removeShadow, updateGlobalStyles, useTypedDispatch, useTypedSelector } from '@app-redux'
+import { ChangeEvent, FC, ReactElement } from 'react'
 
-import { Icon, OptionsBar, ToggleButton } from '@app-components'
+import { addShadow, removeShadow, updateGlobalStyles, useTypedDispatch, useTypedSelector } from '@app-redux'
+import { Icon, OptionsBar, ToggleButton, ShadowControls } from '@app-components'
 
 import './GlobalStyles.scss'
-import { ShadowControls } from '../../components/ShadowControls/ShadowControls'
 
 export interface GlobalStylesProps {
     className?: string
@@ -16,12 +15,11 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
     const dispatch = useTypedDispatch()
     const { globalStyles } = useTypedSelector((state) => state.styleSlice)
 
-    const handleInput = (event: FormEvent) => {
-        const input = event.target as HTMLInputElement
-        if (input.type === 'checkbox') {
-            input.value = input.checked ? 'true' : 'false'
-        }
-        dispatch(updateGlobalStyles({ key: input.name, value: input.value }))
+    const handleInput = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        dispatch(updateGlobalStyles({
+            key: event.target.name,
+            value: event.target.type === 'checkbox' ? event.target.checked : event.target.value,
+        }))
     }
 
     const handleAddShadow = () => {
@@ -33,14 +31,14 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
     }
 
     return (
-        <form onInput={handleInput} className={`global-styles ${className}`}>
+        <form className={`global-styles ${className}`}>
             <section className="global-styles__section">
                 <h3>Typography</h3>
 
                 <div className="global-styles__control-row">
                     <label className="full-width">
                         <span className="sr-only">Font family</span>
-                        <select name="fontFamily" defaultValue={globalStyles.fontFamily}>
+                        <select name="fontFamily" value={globalStyles.fontFamily} onChange={handleInput}>
                             <option value="sans-serif">Sans Serif</option>
                             <option value="serif">Serif</option>
                             <option value="monospace">Monospace</option>
@@ -52,7 +50,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 <div className="global-styles__control-row">
                     <label className="full-width">
                         <span className="sr-only">Font variant</span>
-                        <select name="fontVariant" defaultValue={globalStyles.fontVariant}>
+                        <select name="fontVariant" value={globalStyles.fontVariant} onChange={handleInput}>
                             <option value="100">Thin</option>
                             <option value="200">Extra Light</option>
                             <option value="300">Light</option>
@@ -64,13 +62,25 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             <option value="900">Black</option>
                         </select>
                     </label>
-                    <ToggleButton name="bold" value="bold">
+                    <ToggleButton name="bold"
+                                  value="bold"
+                                  checked={globalStyles.bold}
+                                  onChange={handleInput}
+                    >
                         <Icon name="bold" aria-label="bold" />
                     </ToggleButton>
-                    <ToggleButton name="italics" value="italics">
+                    <ToggleButton name="italics"
+                                  value="italics"
+                                  checked={globalStyles.italics}
+                                  onChange={handleInput}
+                    >
                         <Icon name="italics" aria-label="italics" />
                     </ToggleButton>
-                    <ToggleButton name="underline" value="underline">
+                    <ToggleButton name="underline"
+                                  value="underline"
+                                  checked={globalStyles.underline}
+                                  onChange={handleInput}
+                    >
                         <Icon name="underline" aria-label="underline" />
                     </ToggleButton>
                 </div>
@@ -78,35 +88,43 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 <div className="global-styles__control-row">
                     <label className="full-width">
                         Font size
-                        <input type="range"
-                               name="fontSize"
-                               min={14}
-                               max={128}
-                               defaultValue={globalStyles.fontSize}
+                        <input
+                            type="range"
+                            name="fontSize"
+                            min={14}
+                            max={128}
+                            value={globalStyles.fontSize}
+                            onChange={handleInput}
                         />
                     </label>
                 </div>
 
                 <div className="global-styles__control-row">
                     <OptionsBar label="Alignment">
-                        <ToggleButton name="alignment"
-                                      value="left"
-                                      type="radio"
-                                      defaultChecked={globalStyles.alignment === 'left' || globalStyles.alignment === 'start'}
+                        <ToggleButton
+                            name="alignment"
+                            value="left"
+                            type="radio"
+                            checked={globalStyles.alignment === 'left' || globalStyles.alignment === 'start'}
+                            onChange={handleInput}
                         >
                             <Icon name="alignLeft" aria-label="left" />
                         </ToggleButton>
-                        <ToggleButton name="alignment"
-                                      value="center"
-                                      type="radio"
-                                      defaultChecked={globalStyles.alignment === 'center' || ! globalStyles.alignment}
+                        <ToggleButton
+                            name="alignment"
+                            value="center"
+                            type="radio"
+                            checked={globalStyles.alignment === 'center' || ! globalStyles.alignment}
+                            onChange={handleInput}
                         >
                             <Icon name="alignCenter" aria-label="center" />
                         </ToggleButton>
-                        <ToggleButton name="alignment"
-                                      value="right"
-                                      type="radio"
-                                      defaultChecked={globalStyles.alignment === 'right' || globalStyles.alignment === 'end'}
+                        <ToggleButton
+                            name="alignment"
+                            value="right"
+                            type="radio"
+                            checked={globalStyles.alignment === 'right' || globalStyles.alignment === 'end'}
+                            onChange={handleInput}
                         >
                             <Icon name="alignRight" aria-label="right" />
                         </ToggleButton>
@@ -116,18 +134,24 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 <div className="global-styles__control-row">
                     <label>
                         Fill
-                        <input type="color" name="fill" defaultValue={globalStyles.fill} />
+                        <input type="color" name="fill" value={globalStyles.fill} onChange={handleInput}
+                        />
                     </label>
                     <label>
                         Stroke
-                        <input type="color" name="stroke.color" defaultValue={globalStyles.stroke.color} />
+                        <input type="color"
+                               name="stroke.color"
+                               value={globalStyles.stroke.color}
+                               onChange={handleInput}
+                        />
                     </label>
                     <label>
                         <span className="sr-only">Stroke width</span>
                         <input type="number"
                                name="stroke.width"
                                min={0}
-                               defaultValue={globalStyles.stroke.width}
+                               value={globalStyles.stroke.width}
+                               onChange={handleInput}
                         />
                     </label>
                 </div>
@@ -141,7 +165,8 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                         Horizontal
                         <input type="range"
                                name="position.horizontal"
-                               defaultValue={globalStyles.position.horizontal}
+                               value={globalStyles.position.horizontal}
+                               onChange={handleInput}
                         />
                     </label>
                 </div>
@@ -153,7 +178,8 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             Vertical
                             <input type="number"
                                    name="position.vertical"
-                                   defaultValue={globalStyles.position.vertical}
+                                   value={globalStyles.position.vertical}
+                                   onChange={handleInput}
                             />
                         </label>
                     </div>
@@ -164,7 +190,8 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             Vertical
                             <input type="range"
                                    name="position.vertical"
-                                   defaultValue={globalStyles.position.vertical}
+                                   value={globalStyles.position.vertical}
+                                   onChange={handleInput}
                             />
                         </label>
                     </div>
@@ -174,7 +201,8 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                     <label>
                         <input type="checkbox"
                                name="position.useLines"
-                               defaultChecked={globalStyles.position.useLines}
+                               checked={globalStyles.position.useLines}
+                               onChange={handleInput}
                         />
                         Use Lines
                     </label>
@@ -187,7 +215,11 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 <div className="global-styles__control-row">
                     <label>
                         Background color
-                        <input type="color" name="box.color" defaultValue={globalStyles.box.color} />
+                        <input type="color"
+                               name="box.color"
+                               value={globalStyles.box.color}
+                               onChange={handleInput}
+                        />
                     </label>
                 </div>
 
@@ -198,7 +230,8 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                                name="box.opacity"
                                min={0}
                                max={255}
-                               defaultValue={globalStyles.box.opacity}
+                               value={globalStyles.box.opacity}
+                               onChange={handleInput}
                         />
                     </label>
                 </div>
@@ -210,7 +243,8 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             <span className="sr-only">Top</span>
                             <input type="number"
                                    name="box.padding.top"
-                                   defaultValue={globalStyles.box.padding.top}
+                                   value={globalStyles.box.padding.top}
+                                   onChange={handleInput}
                                    min={0}
                             />
                         </label>
@@ -218,7 +252,8 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             <span className="sr-only">Right</span>
                             <input type="number"
                                    name="box.padding.right"
-                                   defaultValue={globalStyles.box.padding.right}
+                                   value={globalStyles.box.padding.right}
+                                   onChange={handleInput}
                                    min={0}
                             />
                         </label>
@@ -226,7 +261,8 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             <span className="sr-only">Bottom</span>
                             <input type="number"
                                    name="box.padding.bottom"
-                                   defaultValue={globalStyles.box.padding.bottom}
+                                   value={globalStyles.box.padding.bottom}
+                                   onChange={handleInput}
                                    min={0}
                             />
                         </label>
@@ -234,7 +270,8 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             <span className="sr-only">Left</span>
                             <input type="number"
                                    name="box.padding.left"
-                                   defaultValue={globalStyles.box.padding.left}
+                                   value={globalStyles.box.padding.left}
+                                   onChange={handleInput}
                                    min={0}
                             />
                         </label>
@@ -247,11 +284,11 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
 
                 {
                     globalStyles.shadow.map((shadow, index) => (
-                        <ShadowControls
-                            key={index}
-                            shadowStyles={shadow}
-                            index={index}
-                            onRemoveShadow={handleRemoveShadow}
+                        <ShadowControls key={index}
+                                        shadowStyles={shadow}
+                                        index={index}
+                                        onRemoveShadow={handleRemoveShadow}
+                                        onChange={handleInput}
                         />
                     ))
                 }
@@ -270,7 +307,8 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                         <label>
                             <span className="sr-only">Preset</span>
                             <select name="transition.start.preset"
-                                    defaultValue={globalStyles.transition.start.preset}
+                                    value={globalStyles.transition.start.preset}
+                                    onChange={handleInput}
                             >
                                 <option value="none">None</option>
                                 <option value="fade-in">Fade-in</option>
@@ -282,14 +320,16 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             <input type="number"
                                    name="transition.start.duration"
                                    min={0}
-                                   defaultValue={globalStyles.transition.start.duration}
+                                   value={globalStyles.transition.start.duration}
+                                   onChange={handleInput}
                             />
                         </label>
 
                         <label>
                             <span className="sr-only">Easing</span>
                             <select name="transtition.start.easing"
-                                    defaultValue={globalStyles.transition.start.easing}
+                                    value={globalStyles.transition.start.easing}
+                                    onChange={handleInput}
                             >
                                 <option value="linear">Linear</option>
                                 <option value="ease">Ease</option>
@@ -305,7 +345,8 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                         <label>
                             <span className="sr-only">Preset</span>
                             <select name="transition.end.preset"
-                                    defaultValue={globalStyles.transition.end.preset}
+                                    value={globalStyles.transition.end.preset}
+                                    onChange={handleInput}
                             >
                                 <option value="none">None</option>
                                 <option value="fade-out">Fade-out</option>
@@ -317,14 +358,16 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             <input type="number"
                                    name="transition.end.duration"
                                    min={0}
-                                   defaultValue={globalStyles.transition.end.duration}
+                                   value={globalStyles.transition.end.duration}
+                                   onChange={handleInput}
                             />
                         </label>
 
                         <label>
                             <span className="sr-only">Easing</span>
                             <select name="transtition.start.easing"
-                                    defaultValue={globalStyles.transition.end.easing}
+                                    value={globalStyles.transition.end.easing}
+                                    onChange={handleInput}
                             >
                                 <option value="linear">Linear</option>
                                 <option value="ease">Ease</option>

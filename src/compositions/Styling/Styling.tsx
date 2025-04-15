@@ -1,4 +1,4 @@
-import { FC, ReactElement, useEffect, useRef } from 'react'
+import { FC, ReactElement, useEffect } from 'react'
 
 import {
     addPreset,
@@ -12,6 +12,7 @@ import {
 import { captionStylesToCss, toKebabCase } from '@app-helpers'
 import { GlobalStyles, Presets } from '@app-compositions'
 import { Tab, Tabs } from '@app-components'
+import { Preset } from '@app-entities'
 
 import './Styling.scss'
 
@@ -22,27 +23,24 @@ export interface StylingProps {
 export const Styling: FC<StylingProps> = ({
     className = '',
 }): ReactElement => {
-    const { globalStyles, presets, selectedPresetId } = useTypedSelector((state) => state.styleSlice)
+    const { cueStyleElement, globalStyles, presets, selectedPreset } = useTypedSelector((state) => state.styleSlice)
     const { cues } = useTypedSelector((state) => state.cueSlice)
 
     const dispatch = useTypedDispatch()
 
-    // TODO: where to put this?
-    const stylesElement = useRef<HTMLStyleElement>(null)
-
     useEffect(() => {
-        if (! stylesElement.current) {
+        if (! cueStyleElement) {
             return
         }
 
-        stylesElement.current.innerHTML = captionStylesToCss(globalStyles, 'cue__text')
+        cueStyleElement.innerHTML = captionStylesToCss(globalStyles, 'cue__text')
 
         presets.forEach((preset) => {
-            if (! stylesElement.current) {
+            if (! cueStyleElement) {
                 return
             }
 
-            stylesElement.current.innerHTML += captionStylesToCss(preset.styles, toKebabCase(preset.name))
+            cueStyleElement.innerHTML += captionStylesToCss(preset.styles, toKebabCase(preset.name))
         })
 
         cues.forEach(cue => {
@@ -52,11 +50,10 @@ export const Styling: FC<StylingProps> = ({
             cue.align = globalStyles.alignment
         })
 
-    }, [globalStyles, stylesElement.current])
+    }, [globalStyles, presets, cueStyleElement])
 
     return (
         <div className={`styling ${className}`}>
-            <style ref={stylesElement}></style>
             <Tabs>
                 <Tab name={'Text'}>Text</Tab>
                 <Tab name={'Global Styles'}>
@@ -66,13 +63,13 @@ export const Styling: FC<StylingProps> = ({
                         <h3>Preset</h3>
                         <Presets
                             presets={presets}
-                            selectedPresetId={selectedPresetId}
+                            selectedPreset={selectedPreset}
                             onAddPreset={(name: string) => dispatch(addPreset(name))}
                             onRemovePreset={(index: number) => dispatch(removePreset(index))}
                             onUpdatePreset={(index: number) => dispatch(updatePreset(index))}
                             onRenamePreset={(index: number, name: string) => dispatch(renamePreset({ index, name }))}
-                            onSelectPreset={(index: number | null) => dispatch(selectPreset(index))}
-                            onExportPreset={(index: number) => console.log(presets[index])}
+                            onSelectPreset={(preset: Preset | null) => dispatch(selectPreset(preset))}
+                            onExportPreset={(preset: Preset) => console.log(preset)}
                         />
                     </section>
 

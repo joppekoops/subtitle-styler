@@ -1,5 +1,4 @@
 import { ShadowStyles, TransitionStyles } from '@app-entities'
-import { DataType } from 'csstype'
 
 export interface CaptionStyles {
     fontFamily: string
@@ -9,9 +8,9 @@ export interface CaptionStyles {
     underline: boolean
     fontSize: number
     alignment: AlignSetting
-    fill: DataType.Color
+    fill: string
     stroke: {
-        color: DataType.Color
+        color: string
         width: number
     },
     position: {
@@ -20,7 +19,7 @@ export interface CaptionStyles {
         useLines: boolean
     }
     box: {
-        color: DataType.Color
+        color: string
         opacity: number
         padding: {
             top: number
