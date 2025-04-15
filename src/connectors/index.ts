@@ -1,3 +1,4 @@
+export * from './ConnectedCaptionPicker/ConnectedCaptionPicker'
 export * from './ConnectedGlobalStyles/ConnectedGlobalStyles'
 export * from './ConnectedPresets/ConnectedPresets'
 export * from './ConnectedTimeline/ConnectedTimeline'

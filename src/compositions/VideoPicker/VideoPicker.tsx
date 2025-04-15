@@ -16,12 +16,14 @@ if (! window.showOpenFilePicker) {
 }
 
 export interface VideoPickerProps {
-    onFileChanged: (fileHandle: FileSystemFileHandle) => void
+    onFileChanged: (fileHandle: FileSystemFileHandle | null) => void
+    videoFile?: string | null
     className?: string
 }
 
 export const VideoPicker: FC<VideoPickerProps> = ({
     onFileChanged,
+    videoFile,
     className = '',
 }): ReactElement => {
     const browseVideos = async () => {
@@ -56,15 +58,33 @@ export const VideoPicker: FC<VideoPickerProps> = ({
         }
     }
 
+    const removeVideo = () => {
+        onFileChanged(null)
+    }
+
     return (
         <div className={`video-picker ${className}`}>
             <Icon name="videoFile" className="video-picker__icon" />
-            <button
-                className="video-picker__button button"
-                onClick={() => browseVideos()}
-            >
-                Choose Video…
-            </button>
+            <p>Select a video to start creating your captions</p>
+
+            {
+                videoFile
+                    ? <div className="video-picker__preview">
+                        <video src={videoFile} />
+                        <button className="video-picker__delete-button button button--icon button--negative"
+                                onClick={removeVideo}
+                        >
+                            <Icon name="cross" />
+                        </button>
+                    </div>
+                    : <button
+                        className="video-picker__button button"
+                        onClick={browseVideos}
+                    >
+                        Choose Video…
+                    </button>
+
+            }
         </div>
     )
 }

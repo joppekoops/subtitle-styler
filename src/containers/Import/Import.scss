@@ -1,0 +1,21 @@
+.import {
+    display: flex;
+    flex-direction: column;
+    justify-items: start;
+    align-items: center;
+    gap: var(--spacing-xl);
+    padding: var(--spacing-l);
+    width: 100%;
+    height: 100vh;
+    background-color: #222222;
+
+    main, header {
+        display: grid;
+        padding-block: var(--spacing-l);
+        width: min(100%, 50rem);
+    }
+
+    &__wrapper {
+        padding-inline: var(--spacing-l);
+    }
+}

@@ -1,7 +1,7 @@
 import { FC, ReactElement } from 'react'
 
-import { Styling } from '@app-containers'
-import { ConnectedTimeline, ConnectedVideoPicker, ConnectedVideoPlayer } from '@app-connectors'
+import { Styling, Import } from '@app-containers'
+import { ConnectedTimeline, ConnectedVideoPlayer } from '@app-connectors'
 import { useTypedSelector } from '@app-redux'
 
 import './Editor.scss'
@@ -13,23 +13,23 @@ export interface EditorProps {
 export const Editor: FC<EditorProps> = ({
     className = '',
 }): ReactElement => {
-    const { videoFile, videoMetadata } = useTypedSelector((state) => state.videoSlice)
+    const { videoFile, subtitleFile } = useTypedSelector((state) => state.videoSlice)
 
-    return (
-        <div className={`editor ${className}`}>
-            <div className="editor__section editor__video">
-                {(
-                    videoFile && videoMetadata
-                        ? <ConnectedVideoPlayer />
-                        : <ConnectedVideoPicker />
-                )}
+    if (! videoFile || ! subtitleFile) {
+        return <Import />
+    } else {
+        return (
+            <div className={`editor ${className}`}>
+                <div className="editor__section editor__video">
+                    <ConnectedVideoPlayer />
+                </div>
+                <div className="editor__section editor__styling">
+                    <Styling />
+                </div>
+                <div className="editor__section editor__timeline">
+                    <ConnectedTimeline />
+                </div>
             </div>
-            <div className="editor__section editor__styling">
-                <Styling />
-            </div>
-            <div className="editor__section editor__timeline">
-                <ConnectedTimeline />
-            </div>
-        </div>
-    )
+        )
+    }
 }
