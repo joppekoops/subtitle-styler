@@ -85,6 +85,10 @@ label, legend {
 
 input, select, textarea {
     font: inherit;
+
+    &:user-invalid {
+        outline-color: #cc0000;
+    }
 }
 
 input[type="text"], input[type="number"], select, textarea {

@@ -1,6 +1,7 @@
 export * from './ConnectedCaptionPicker/ConnectedCaptionPicker'
 export * from './ConnectedGlobalStyles/ConnectedGlobalStyles'
 export * from './ConnectedPresets/ConnectedPresets'
+export * from './ConnectedTextControls/ConnectedTextControls'
 export * from './ConnectedTimeline/ConnectedTimeline'
 export * from './ConnectedVideoPicker/ConnectedVideoPicker'
 export * from './ConnectedVideoPlayer/ConnectedVideoPlayer'

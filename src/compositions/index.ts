@@ -1,6 +1,7 @@
 export * from './CaptionPicker/CaptionPicker'
 export * from './GlobalStyles/GlobalStyles'
 export * from './Presets/Presets'
+export * from './TextControls/TextControls'
 export * from './Timeline/Timeline'
 export * from './VideoPicker/VideoPicker'
 export * from './VideoPlayer/VideoPlayer'

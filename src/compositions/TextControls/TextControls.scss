@@ -1,0 +1,47 @@
+.text-controls {
+    display: grid;
+    gap: var(--spacing-m);
+    padding: var(--spacing-m);
+
+    &__cue-list {
+        display: grid;
+        gap: var(--spacing-m);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    &__cue {
+        display: grid;
+        grid-template-columns: min-content 1fr;
+        gap: var(--spacing-s);
+        border-radius: .375rem;
+        padding: var(--spacing-s);
+        width: 100%;
+        background-color: #444444;
+
+        &--active {
+            outline: 2px solid var(--color-primary);
+        }
+
+        & input {
+            width: 7rem;
+            text-align: right;
+        }
+
+        & textarea {
+            grid-column: 2;
+            grid-row: 1/4;
+            height: 8rem;
+            resize: none;
+        }
+    }
+
+    &__empty {
+        display: grid;
+        place-items: center;
+        border-radius: .375rem;
+        padding: var(--spacing-s);
+        background-color: #444444;
+    }
+}
