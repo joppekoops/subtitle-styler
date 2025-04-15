@@ -9,7 +9,7 @@ import {
     useTypedDispatch,
     selectPreset,
 } from '@app-redux'
-import { captionStylesToCss } from '@app-helpers'
+import { captionStylesToCss, toKebabCase } from '@app-helpers'
 import { GlobalStyles, Presets } from '@app-compositions'
 import { Tab, Tabs } from '@app-components'
 
@@ -35,7 +35,15 @@ export const Styling: FC<StylingProps> = ({
             return
         }
 
-        stylesElement.current.innerHTML = captionStylesToCss(globalStyles, '.cue__text')
+        stylesElement.current.innerHTML = captionStylesToCss(globalStyles, 'cue__text')
+
+        presets.forEach((preset) => {
+            if (! stylesElement.current) {
+                return
+            }
+
+            stylesElement.current.innerHTML += captionStylesToCss(preset.styles, toKebabCase(preset.name))
+        })
 
         cues.forEach(cue => {
             cue.position = globalStyles.position.horizontal

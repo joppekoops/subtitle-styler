@@ -1,9 +1,9 @@
 import { FC, ReactElement, useState } from 'react'
 
 import { Preset } from '@app-entities'
+import { isNumber, toKebabCase } from '@app-helpers'
 
 import './Presets.scss'
-import { isNumber } from '@app-helpers'
 
 export interface PresetsProps {
     presets: Preset[]
@@ -69,12 +69,12 @@ export const Presets: FC<PresetsProps> = ({
                     <div className="presets__selected-option">
                         {isNumber(selectedPresetId)
                             ?
-                            <div className="presets__option-preview">
-                                <span>{presets[selectedPresetId].name}</span>
+                            <div className="presets__option-preview cue">
+                                <span className="cue__text">{presets[selectedPresetId].name}</span>
                             </div>
                             :
                             <div className="presets__option-preview">
-                                <span>None</span>
+                                <span className="">None</span>
                             </div>
                         }
                     </div>
@@ -94,10 +94,10 @@ export const Presets: FC<PresetsProps> = ({
                         {
                             presets.map((preset, index) => (
                                 <div key={index} className="presets__option">
-                                    <button className="presets__option-preview"
+                                    <button className="presets__option-preview cue"
                                             onClick={() => handleSelectPreset(index)}
                                     >
-                                        <span>{preset.name}</span>
+                                        <span className={`cue__text ${toKebabCase(preset.name)}`}>{preset.name}</span>
                                     </button>
                                     <button type="button"
                                             className="button"
