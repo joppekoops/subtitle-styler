@@ -13,6 +13,7 @@ import { captionStylesToCss, toKebabCase } from '@app-helpers'
 import { GlobalStyles, Presets } from '@app-compositions'
 import { Tab, Tabs } from '@app-components'
 import { Preset } from '@app-entities'
+import { ConnectedTextControls } from '@app-connectors'
 
 import './Styling.scss'
 
@@ -55,7 +56,10 @@ export const Styling: FC<StylingProps> = ({
     return (
         <div className={`styling ${className}`}>
             <Tabs>
-                <Tab name={'Text'}>Text</Tab>
+                <Tab name={'Text'}>
+                    <h2 className="sr-only">Text</h2>
+                    <ConnectedTextControls />
+                </Tab>
                 <Tab name={'Global Styles'}>
                     <h2 className="sr-only">Global Styles</h2>
 

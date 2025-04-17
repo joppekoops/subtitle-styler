@@ -26,10 +26,25 @@ export const cueSlice = createSlice({
                 activeCueIndex: action.payload,
             }
         },
+        updateCue(state, action) {
+            const { cueIndex, updates } = action.payload
+            const updatedCues = [...state.cues]
+            const cue = updatedCues[cueIndex]
+
+            if (cue) {
+                Object.assign(cue, updates)
+            }
+
+            return {
+                ...state,
+                cues: updatedCues,
+            }
+        },
     },
 })
 
 export const {
     setCues,
     setActiveCueIndex,
+    updateCue,
 } = cueSlice.actions
