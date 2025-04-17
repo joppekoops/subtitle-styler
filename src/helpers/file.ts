@@ -12,7 +12,10 @@ export const getFileMetadata = async (file: File): Promise<Media | undefined> =>
             reader.readAsArrayBuffer(file)
         })
 
-    const mediainfo: MediaInfo = await new Promise((resolve) => MediaInfoFactory({ format: 'object' }, resolve))
+    const mediainfo: MediaInfo = await new Promise((resolve) => MediaInfoFactory({
+        format: 'object',
+        locateFile: (path) => `./${path}`,
+    }, resolve))
 
     const result = await mediainfo.analyzeData(getSize, readChunk)
 
