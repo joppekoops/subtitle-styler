@@ -7,9 +7,9 @@
         display: flex;
         margin: 0;
         padding: 0;
-        border-bottom: 1px solid #555;
+        border-bottom: 1px solid #555555;
         list-style: none;
-        background-color: #333;
+        background-color: #333333;
     }
 
     &__handle {
@@ -25,12 +25,12 @@
         }
 
         &:has(input:checked) {
-            border-bottom: 2px solid var(--color-primary);
-            background-color: #555;
+            border-bottom: 2px solid var(--color-control-active);
+            background-color: #555555;
         }
 
         &:hover {
-            background-color: #444;
+            background-color: #444444;
         }
 
         &:has(:focus-visible) {
@@ -48,7 +48,7 @@
             &:has(input:checked) {
                 anchor-name: --active-tab;
                 border: none;
-                background-color: #555;
+                background-color: #555555;
             }
         }
 
@@ -59,7 +59,7 @@
             bottom: anchor(--active-tab bottom);
             height: 2px;
             width: anchor-size(--active-tab width);
-            background-color: var(--color-primary);
+            background-color: var(--color-control-active);
         }
     }
 

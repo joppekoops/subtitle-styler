@@ -8,7 +8,7 @@
         display: grid;
         gap: var(--spacing-m);
         padding: var(--spacing-m);
-        background-color: #222222;
+        background-color: var(--color-panel-bg);
     }
 
     &__control-row {
@@ -38,9 +38,9 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-s);
-        border-radius: .375rem;
+        border-radius: var(--border-radius);
         padding: var(--spacing-m);
-        background-color: #444444;
+        background-color: var(--color-control-group-bg);
         width: max(calc(50% - var(--spacing-m) / 2), 15rem);
 
         & legend {

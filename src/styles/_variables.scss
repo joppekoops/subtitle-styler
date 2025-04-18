@@ -1,9 +1,39 @@
 :root {
-    // TODO: Add your variables here
-    //--cue-color: white;
-    //--cue-background-color: black;
 
     --color-primary: dodgerblue;
+    --color-grey: #aaaaaa;
+    --color-negative: red;
+
+    $steps: 50;
+
+    @for $i from 0 through 1000 / $steps {
+
+        @if ($i < 500 / $steps) {
+            --color-grey-#{$i * $steps}: color-mix(in srgb, #ffffff, var(--color-grey) #{$i * 10}%);
+            --color-primary-#{$i * $steps}: color-mix(in srgb, #ffffff, var(--color-primary) #{$i * 10}%);
+            --color-negative-#{$i * $steps}: color-mix(in srgb, #ffffff, var(--color-negative) #{$i * 10}%);
+        } @else {
+            --color-grey-#{$i * $steps}: color-mix(in srgb, #000000, var(--color-grey) #{($i * -1 + 1000 / $steps) * 10}%);
+            --color-primary-#{$i * $steps}: color-mix(in srgb, #000000, var(--color-primary) #{($i * -1 + 1000 / $steps) * 10}%);
+            --color-negative-#{$i * $steps}: color-mix(in srgb, #000000, var(--color-negative) #{($i * -1 + 1000 / $steps) * 10}%);
+        }
+
+    }
+
+    --color-text: var(--color-grey-0);
+    --color-bg: var(--color-grey-1000);
+
+    --color-panel-bg: var(--color-grey-900);
+
+    --color-control-group-bg: var(--color-grey-800);
+
+    --color-control-bg: var(--color-grey-750);
+    --color-control-hover: var(--color-primary-400);
+    --color-control-active: var(--color-primary-500);
+    --color-control-negative: var(--color-negative-600);
+
+    --color-input-border: var(--color-control-bg);
+    --color-input-bg: var(--color-grey-900);
 
     --spacing-xxs: .125rem;
     --spacing-xs: .25rem;
@@ -11,4 +41,6 @@
     --spacing-m: 1rem;
     --spacing-l: 2rem;
     --spacing-xl: 4rem;
+
+    --border-radius: .375rem;
 }
