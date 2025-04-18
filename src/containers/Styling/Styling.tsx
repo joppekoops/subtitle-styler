@@ -1,18 +1,10 @@
 import { FC, ReactElement, useEffect } from 'react'
 
-import {
-    addPreset,
-    removePreset,
-    renamePreset,
-    updatePreset,
-    useTypedSelector,
-    useTypedDispatch,
-    selectPreset,
-} from '@app-redux'
+import { useTypedSelector } from '@app-redux'
 import { captionStylesToCss, toKebabCase } from '@app-helpers'
-import { GlobalStyles, Presets } from '@app-compositions'
+import { GlobalStyles } from '@app-compositions'
 import { Tab, Tabs } from '@app-components'
-import { Preset } from '@app-entities'
+import { ConnectedGlobalStyles, ConnectedPresets } from '@app-connectors'
 
 import './Styling.scss'
 
@@ -23,10 +15,8 @@ export interface StylingProps {
 export const Styling: FC<StylingProps> = ({
     className = '',
 }): ReactElement => {
-    const { cueStyleElement, globalStyles, presets, selectedPreset } = useTypedSelector((state) => state.styleSlice)
+    const { cueStyleElement, globalStyles, presets } = useTypedSelector((state) => state.styleSlice)
     const { cues } = useTypedSelector((state) => state.cueSlice)
-
-    const dispatch = useTypedDispatch()
 
     useEffect(() => {
         if (! cueStyleElement) {
@@ -61,19 +51,10 @@ export const Styling: FC<StylingProps> = ({
 
                     <section className="styling__section">
                         <h3>Preset</h3>
-                        <Presets
-                            presets={presets}
-                            selectedPreset={selectedPreset}
-                            onAddPreset={(name: string) => dispatch(addPreset(name))}
-                            onRemovePreset={(index: number) => dispatch(removePreset(index))}
-                            onUpdatePreset={(index: number) => dispatch(updatePreset(index))}
-                            onRenamePreset={(index: number, name: string) => dispatch(renamePreset({ index, name }))}
-                            onSelectPreset={(preset: Preset | null) => dispatch(selectPreset(preset))}
-                            onExportPreset={(preset: Preset) => console.log(preset)}
-                        />
+                        <ConnectedPresets />
                     </section>
 
-                    <GlobalStyles />
+                    <ConnectedGlobalStyles />
                 </Tab>
                 <Tab name={'Export'}>Export</Tab>
             </Tabs>
