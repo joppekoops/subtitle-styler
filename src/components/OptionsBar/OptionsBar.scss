@@ -1,0 +1,8 @@
+.options-bar {
+    &__options {
+        display: flex;
+        border-radius: var(--border-radius);
+        overflow: clip;
+        background-color: var(--color-control-bg);
+    }
+}

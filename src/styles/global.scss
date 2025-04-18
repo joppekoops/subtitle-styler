@@ -9,9 +9,15 @@
 }
 
 body {
-    background: #000000;
-    color: #ffffff;
+    background: var(--color-bg);
+    color: var(--color-text);
     margin: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: clip;
+    font-family: system-ui, sans-serif;
+    accent-color: var(--color-control-active);
+    caret-color: var(--color-primary);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -23,25 +29,102 @@ h3 {
     font-weight: bold;
 }
 
-//.layout {
-//    display: grid;
-//    grid-template-columns: 1fr 1fr;
-//    grid-template-rows: auto 1fr;
-//    gap: .5rem;
-//}
-//
-//.panel {
-//    background: #333;
-//    padding: 1em;
-//    border-radius: .375em;
-//    overflow: hidden;
-//}
-//
-//.timeline-section {
-//    grid-column: 1/-1;
-//}
-//
-//.video-section {
-//    align-content: center;
-//    padding: 0;
-//}
+button {
+    appearance: none;
+    border: none;
+    padding: 0;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-s);
+    border-radius: var(--border-radius);
+    border: none;
+    padding-block: var(--spacing-xs);
+    padding-inline: var(--spacing-m);
+    background-color: var(--color-control-bg);
+    cursor: pointer;
+
+    & svg {
+        fill: var(--color-text);
+        width: 1rem;
+    }
+
+    &:hover {
+        background-color: var(--color-control-hover);
+    }
+
+    &:active {
+        background-color: var(--color-control-active);
+    }
+
+    &--negative {
+
+        &:hover {
+            background-color: var(--color-control-negative);
+        }
+    }
+
+    &--icon {
+        padding: var(--spacing-xs);
+        aspect-ratio: 1/1;
+    }
+}
+
+label, legend {
+    padding: 0;
+    font-weight: 400;
+}
+
+input, select, textarea {
+    font: inherit;
+}
+
+input[type="text"], input[type="number"], select, textarea {
+    --border-width: 2px;
+
+    border: var(--border-width) solid var(--color-input-border);
+    border-radius: var(--border-radius);
+    padding-inline: calc(var(--spacing-s) - var(--border-width));
+    padding-block: calc(var(--spacing-xs) - var(--border-width));
+    background-color: var(--color-input-bg);
+}
+
+fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

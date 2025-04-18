@@ -1,0 +1,88 @@
+.presets {
+    display: grid;
+    gap: var(--spacing-m);
+
+    & > button {
+        justify-self: end;
+    }
+
+    &__select {
+        --border-width: 2px;
+
+        position: relative;
+        border: var(--border-width) solid var(--color-input-border);
+        border-radius: var(--border-radius);
+        background-color: var(--color-input-bg);
+
+        &--active {
+            box-shadow: 0 0 0 200vw #00000055;
+        }
+    }
+
+
+    &__select-button {
+        display: flex;
+        gap: var(--spacing-s);
+        justify-content: center;
+        align-items: center;
+        padding-inline: calc(var(--spacing-s) - var(--border-width));
+        padding-block: calc(var(--spacing-xs) - var(--border-width));
+        width: 100%;
+    }
+
+    &__select-marker {
+        border-bottom: 2px solid var(--color-text);
+        border-right: 2px solid var(--color-text);
+        width: .5rem;
+        height: .5rem;
+        transform: translateY(-25%) rotate(45deg);
+
+        &--active {
+            transform: scale(-1) translateY(-25%) rotate(45deg);
+        }
+    }
+
+    &__options {
+        position: absolute;
+        top: calc(100% + 4px);
+        left: calc(var(--border-width) * -1);
+        right: calc(var(--border-width) * -1);
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        border-radius: var(--border-radius);
+        background-color: var(--color-control-group-bg);
+    }
+
+    &__option {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--spacing-s);
+        border-radius: var(--border-radius);
+        padding: var(--spacing-s);
+
+        &:has( > .button) {
+            grid-template-columns: 1fr auto;
+        }
+    }
+
+    &__option-preview {
+        position: static;
+        grid-row: 1/4;
+        display: grid;
+        place-items: center;
+        width: 100%;
+        min-height: 5rem;
+        background-color: #000000;
+        cursor: pointer;
+
+        & .cue__text {
+            font-size: max(3cqw, 14px);
+        }
+    }
+
+    &__selected-option {
+        display: grid;
+        width: 100%;
+    }
+}

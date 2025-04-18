@@ -1,0 +1,10 @@
+.styling {
+    height: 100%;
+
+    &__section {
+        display: grid;
+        gap: var(--spacing-m);
+        padding: var(--spacing-m);
+        background-color: var(--color-panel-bg);
+    }
+}
