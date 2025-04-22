@@ -18,23 +18,23 @@
         border-radius: .375rem;
         padding: var(--spacing-s);
         width: 100%;
-        background-color: #444444;
+        background-color: var(--color-control-group-bg);
 
         &--active {
             outline: 2px solid var(--color-primary);
         }
+    }
 
-        & input {
-            width: 7rem;
-            text-align: right;
-        }
+    &__input {
+        width: 7rem;
+        text-align: right;
+    }
 
-        & textarea {
-            grid-column: 2;
-            grid-row: 1/4;
-            height: 8rem;
-            resize: none;
-        }
+    &__textarea {
+        grid-column: 2;
+        grid-row: 1/4;
+        height: 8rem;
+        resize: none;
     }
 
     &__empty {
@@ -42,6 +42,6 @@
         place-items: center;
         border-radius: .375rem;
         padding: var(--spacing-s);
-        background-color: #444444;
+        background-color: var(--color-control-group-bg);
     }
 }
