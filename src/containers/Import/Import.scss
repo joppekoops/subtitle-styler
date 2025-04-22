@@ -9,7 +9,7 @@
     height: 100vh;
     background-color: var(--color-panel-bg);
 
-    main, header {
+    &__main, &__header {
         display: grid;
         padding-block: var(--spacing-l);
         width: min(100%, 50rem);

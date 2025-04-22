@@ -52,9 +52,9 @@ export const CaptionPicker: FC<CaptionPickerProps> = ({
                 </button>
                 <div>
                     <button className="button" onClick={browseCaptionFiles}>
-                        Import Caption File
+                        Import Caption File...
                     </button>
-                    <span>*.srt, *.vtt</span>
+                    <span className="caption-picker__allowed-extensions">*.srt, *.vtt</span>
                 </div>
             </div>
         </div>

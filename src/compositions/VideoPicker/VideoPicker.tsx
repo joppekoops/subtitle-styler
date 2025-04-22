@@ -70,7 +70,7 @@ export const VideoPicker: FC<VideoPickerProps> = ({
             {
                 videoFile
                     ? <div className="video-picker__preview">
-                        <video src={videoFile} />
+                        <video className="video-picker__preview-video" src={videoFile} />
                         <button className="video-picker__delete-button button button--icon button--negative"
                                 onClick={removeVideo}
                         >

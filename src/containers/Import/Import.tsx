@@ -6,16 +6,18 @@ import { useTypedSelector } from '@app-redux'
 import './Import.scss'
 
 export interface ImportProps {
-
+    className: string
 }
 
-export const Import: FC<ImportProps> = ({}): ReactElement => {
+export const Import: FC<ImportProps> = ({
+    className = '',
+}): ReactElement => {
 
     const { videoFile } = useTypedSelector(state => state.videoSlice)
 
     return (
-        <div className="import">
-            <header>
+        <div className={`import ${className}`}>
+            <header className="import__header">
                 <div className="import__wrapper">
                     <h1>Caption Styler</h1>
                     <p>Create stylish subtitles for videos on your website using fonts, color, animations and more.
@@ -26,7 +28,7 @@ export const Import: FC<ImportProps> = ({}): ReactElement => {
                 </div>
             </header>
 
-            <main>
+            <main className="import__main">
                 <ConnectedVideoPicker />
 
                 {

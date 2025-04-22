@@ -8,4 +8,8 @@
         gap: var(--spacing-m);
         align-items: start;
     }
+
+    &__allowed-extensions {
+        color: var(--color-grey-500);
+    }
 }
