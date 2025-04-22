@@ -3,6 +3,8 @@ import { set } from 'lodash'
 import { createSlice } from '@reduxjs/toolkit'
 import { CaptionStyles, Preset } from '@app-entities'
 
+import { defaultPresets } from './default-presets'
+
 export interface StyleState {
     cueStyleElement: HTMLStyleElement
     globalStyles: CaptionStyles
@@ -60,7 +62,7 @@ const initialState: StyleState = {
             },
         },
     },
-    presets: [],
+    presets: defaultPresets,
     selectedPreset: null,
 }
 

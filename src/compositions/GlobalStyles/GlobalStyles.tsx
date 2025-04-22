@@ -302,6 +302,12 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                         >
                             <option value="none">None</option>
                             <option value="fade-in">Fade-in</option>
+                            <option value="slide-in">Slide-in Bottom</option>
+                            <option value="slide-in-top">Slide-in Top</option>
+                            <option value="slide-in-left">Slide-in Left</option>
+                            <option value="blur-in">Blur</option>
+                            <option value="scale-up-in">Scale-up</option>
+                            <option value="scale-down-in">Scale-down</option>
                         </select>
                     </label>
 
@@ -344,6 +350,12 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                         >
                             <option value="none">None</option>
                             <option value="fade-out">Fade-out</option>
+                            <option value="slide-out">Slide-out Bottom</option>
+                            <option value="slide-out-top">Slide-out Top</option>
+                            <option value="slide-out-left">Slide-out Left</option>
+                            <option value="blur-out">Blur</option>
+                            <option value="scale-up-out">Scale-up</option>
+                            <option value="scale-down-out">Scale-down</option>
                         </select>
                     </label>
 
