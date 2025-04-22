@@ -1,0 +1,137 @@
+@keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fade-out {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes slide-in {
+    0% {
+        transform: translateY(300%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-out {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(300%);
+        opacity: 0;
+    }
+}
+
+@keyframes slide-in-top {
+    0% {
+        transform: translateY(-300%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-out-top {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-300%);
+        opacity: 0;
+    }
+}
+
+@keyframes blur-in {
+    0% {
+        filter: blur(10rem);
+    }
+    100% {
+        filter: blur(0);
+    }
+}
+
+@keyframes blur-out {
+    0% {
+        filter: blur(0);
+    }
+    100% {
+        filter: blur(10rem);
+    }
+}
+
+@keyframes slide-in-left {
+    0% {
+        transform: translateX(-300%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-out-right {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(300%);
+        opacity: 0;
+    }
+}
+
+@keyframes scale-up-in {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(100%);
+        opacity: 1;
+    }
+}
+
+@keyframes scale-down-out {
+    0% {
+        transform: scale(100%);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes scale-down-in {
+    0% {
+        transform: scale(5000%);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(100%);
+        opacity: 1;
+    }
+}
+
+@keyframes scale-up-out {
+    0% {
+        transform: scale(100%);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(5000%);
+        opacity: 0;
+    }
+}
