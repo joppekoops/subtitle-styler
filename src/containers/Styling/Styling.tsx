@@ -45,8 +45,8 @@ export const Styling: FC<StylingProps> = ({
     return (
         <div className={`styling ${className}`}>
             <Tabs>
-                <Tab name={'Text'}>Text</Tab>
-                <Tab name={'Global Styles'}>
+                <Tab name="Text">Text</Tab>
+                <Tab name="Global Styles">
                     <h2 className="sr-only">Global Styles</h2>
 
                     <section className="styling__section">
@@ -56,7 +56,7 @@ export const Styling: FC<StylingProps> = ({
 
                     <ConnectedGlobalStyles />
                 </Tab>
-                <Tab name={'Export'}>Export</Tab>
+                <Tab name="Export">Export</Tab>
             </Tabs>
         </div>
     )

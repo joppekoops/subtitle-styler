@@ -7,7 +7,7 @@ export interface StyleState {
     cueStyleElement: HTMLStyleElement
     globalStyles: CaptionStyles
     presets: Preset[]
-    selectedPreset: Preset | null //TODO make Preset
+    selectedPreset: Preset | null
 }
 
 const initialState: StyleState = {

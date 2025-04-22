@@ -24,10 +24,11 @@ export const ConnectedGlobalStyles: FC = () => {
     }
 
     return (
-        <GlobalStyles globalStyles={globalStyles}
-                      onInput={handleInput}
-                      onAddShadow={handleAddShadow}
-                      onRemoveShadow={handleRemoveShadow}
+        <GlobalStyles
+            globalStyles={globalStyles}
+            onInput={handleInput}
+            onAddShadow={handleAddShadow}
+            onRemoveShadow={handleRemoveShadow}
         />
     )
 }

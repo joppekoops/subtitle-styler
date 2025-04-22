@@ -18,14 +18,15 @@ export const ConnectedPresets: FC = () => {
     const dispatch = useTypedDispatch()
 
     return (
-        <Presets presets={presets}
-                 selectedPreset={selectedPreset}
-                 onAddPreset={(name: string) => dispatch(addPreset(name))}
-                 onRemovePreset={(index: number) => dispatch(removePreset(index))}
-                 onUpdatePreset={(index: number) => dispatch(updatePreset(index))}
-                 onRenamePreset={(index: number, name: string) => dispatch(renamePreset({ index, name }))}
-                 onSelectPreset={(preset: Preset | null) => dispatch(selectPreset(preset))}
-                 onExportPreset={(preset: Preset) => console.log(preset)}
+        <Presets
+            presets={presets}
+            selectedPreset={selectedPreset}
+            onAddPreset={(name: string) => dispatch(addPreset(name))}
+            onRemovePreset={(index: number) => dispatch(removePreset(index))}
+            onUpdatePreset={(index: number) => dispatch(updatePreset(index))}
+            onRenamePreset={(index: number, name: string) => dispatch(renamePreset({ index, name }))}
+            onSelectPreset={(preset: Preset | null) => dispatch(selectPreset(preset))}
+            onExportPreset={(preset: Preset) => console.log(preset)}
         />
     )
 }

@@ -58,7 +58,9 @@ export const Presets: FC<PresetsProps> = ({
 
     return (
         <div className={`presets ${className}`}>
-            <button type="button" className="button" onClick={handleCreatePreset}>Add Preset</button>
+            <button type="button" className="presets__add-button button" onClick={handleCreatePreset}>
+                Add Preset
+            </button>
             <div className={`presets__select ${isOpen ? 'presets__select--active' : ''}`}>
 
                 <button
@@ -79,14 +81,15 @@ export const Presets: FC<PresetsProps> = ({
                         }
                     </div>
 
-                    <span className={`presets__select-marker ${isOpen ? 'presets__select-marker--active' : ''}`}></span>
+                    <span className={`presets__select-marker ${isOpen ? 'presets__select-marker--active' : ''}`} />
                 </button>
 
                 {isOpen &&
                     <div className="presets__options">
                         <div className="presets__option">
-                            <button className="presets__option-preview"
-                                    onClick={() => handleSelectPreset(null)}
+                            <button
+                                className="presets__option-preview"
+                                onClick={() => handleSelectPreset(null)}
                             >
                                 <span>None</span>
                             </button>
@@ -94,25 +97,34 @@ export const Presets: FC<PresetsProps> = ({
                         {
                             presets.map((preset, index) => (
                                 <div key={index} className="presets__option">
-                                    <button className="presets__option-preview cue"
-                                            onClick={() => handleSelectPreset(preset)}
+                                    <button
+                                        className="presets__option-preview cue"
+                                        onClick={() => handleSelectPreset(preset)}
                                     >
-                                        <span className={`cue__text ${toKebabCase(preset.name)}`}>{preset.name}</span>
+                                        <span className={`presets__option-preview-cue__text cue__text ${toKebabCase(preset.name)}`}>
+                                            {preset.name}
+                                        </span>
                                     </button>
-                                    <button type="button"
-                                            className="button"
-                                            onClick={() => handleRenamePreset(preset, index)}
-                                    >Rename
+                                    <button
+                                        type="button"
+                                        className="button"
+                                        onClick={() => handleRenamePreset(preset, index)}
+                                    >
+                                        Rename
                                     </button>
-                                    <button type="button"
-                                            className="button"
-                                            onClick={() => handleUpdatePreset(index)}
-                                    >Update
+                                    <button
+                                        type="button"
+                                        className="button"
+                                        onClick={() => handleUpdatePreset(index)}
+                                    >
+                                        Update
                                     </button>
-                                    <button type="button"
-                                            className="button"
-                                            onClick={() => handleExportPreset(preset)}
-                                    >Export
+                                    <button
+                                        type="button"
+                                        className="button"
+                                        onClick={() => handleExportPreset(preset)}
+                                    >
+                                        Export
                                     </button>
                                 </div>
                             ))

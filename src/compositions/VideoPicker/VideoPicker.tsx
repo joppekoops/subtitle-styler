@@ -60,7 +60,7 @@ export const VideoPicker: FC<VideoPickerProps> = ({
         <div className={`video-picker ${className}`}>
             <Icon name="videoFile" className="video-picker__icon" />
             <button
-                className={'video-picker__button button'}
+                className="video-picker__button button"
                 onClick={() => browseVideos()}
             >
                 Choose Video…

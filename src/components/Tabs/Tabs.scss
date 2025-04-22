@@ -13,17 +13,6 @@
     }
 
     &__handle {
-        label {
-            position: relative;
-            display: block;
-            padding: var(--spacing-xs) var(--spacing-m);
-            cursor: pointer;
-        }
-
-        input {
-            display: none;
-        }
-
         &:has(input:checked) {
             border-bottom: 2px solid var(--color-control-active);
             background-color: #555555;
@@ -37,6 +26,17 @@
             outline: 2px solid var(--color-primary);
             outline-offset: -2px;
         }
+    }
+
+    &__handle-label {
+        position: relative;
+        display: block;
+        padding: var(--spacing-xs) var(--spacing-m);
+        cursor: pointer;
+    }
+
+    &__handle-input {
+        display: none;
     }
 
     &__active-indicator {
@@ -60,12 +60,7 @@
             height: 2px;
             width: anchor-size(--active-tab width);
             background-color: var(--color-control-active);
-        }
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-        &__active-indicator {
-            transition: .2s ease-in-out;
+            transition-duration: calc(.2s * var(--animation-duration-multiplier));
         }
     }
 }

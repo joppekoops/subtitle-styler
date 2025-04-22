@@ -24,12 +24,14 @@ export const ToggleButton: FC<ToggleButtonProps> = ({
     children,
 }): ReactElement => (
     <label className={`toggle-button ${className}`}>
-        <input type={type}
-               name={name}
-               value={value}
-               defaultChecked={defaultChecked}
-               checked={checked}
-               onChange={onChange}
+        <input
+            type={type}
+            name={name}
+            value={value}
+            defaultChecked={defaultChecked}
+            checked={checked}
+            onChange={onChange}
+            className="toggle-button__input"
         />
         {children}
     </label>

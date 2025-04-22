@@ -21,20 +21,22 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
     className = '',
 }): ReactElement => (
     <div className={`shadow-controls ${className}`}>
-        <button type="button"
-                className="button button--negative button--icon shadow-controls__remove-button"
-                onClick={() => onRemoveShadow(index)}
+        <button
+            type="button"
+            className="button button--negative button--icon shadow-controls__remove-button"
+            onClick={() => onRemoveShadow(index)}
         >
-            <Icon name="x" />
+            <Icon name="cross" />
         </button>
 
         <div className="global-styles__control-row">
             <label>
                 Color
-                <input type="color"
-                       name={`shadow[${index}].color`}
-                       value={shadowStyles.color}
-                       onChange={onChange}
+                <input
+                    type="color"
+                    name={`shadow[${index}].color`}
+                    value={shadowStyles.color}
+                    onChange={onChange}
                 />
             </label>
         </div>
@@ -42,22 +44,24 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
         <div className="global-styles__control-row">
             <label className="full-width">
                 X offset
-                <input type="range"
-                       name={`shadow[${index}].offsetX`}
-                       value={shadowStyles.offsetX}
-                       onChange={onChange}
-                       min={-100}
-                       max={100}
+                <input
+                    type="range"
+                    name={`shadow[${index}].offsetX`}
+                    value={shadowStyles.offsetX}
+                    onChange={onChange}
+                    min={-100}
+                    max={100}
                 />
             </label>
             <label className="full-width">
                 Y offset
-                <input type="range"
-                       name={`shadow[${index}].offsetY`}
-                       value={shadowStyles.offsetY}
-                       onChange={onChange}
-                       min={-100}
-                       max={100}
+                <input
+                    type="range"
+                    name={`shadow[${index}].offsetY`}
+                    value={shadowStyles.offsetY}
+                    onChange={onChange}
+                    min={-100}
+                    max={100}
                 />
             </label>
         </div>
@@ -65,22 +69,24 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
         <div className="global-styles__control-row">
             <label className="full-width">
                 Blur
-                <input type="range"
-                       name={`shadow[${index}].blur`}
-                       value={shadowStyles.blur}
-                       onChange={onChange}
-                       min={0}
-                       max={100}
+                <input
+                    type="range"
+                    name={`shadow[${index}].blur`}
+                    value={shadowStyles.blur}
+                    onChange={onChange}
+                    min={0}
+                    max={100}
                 />
             </label>
             <label className="full-width">
                 Spread
-                <input type="range"
-                       name={`shadow[${index}].spread`}
-                       value={shadowStyles.spread}
-                       onChange={onChange}
-                       min={0}
-                       max={100}
+                <input
+                    type="range"
+                    name={`shadow[${index}].spread`}
+                    value={shadowStyles.spread}
+                    onChange={onChange}
+                    min={0}
+                    max={100}
                 />
             </label>
         </div>

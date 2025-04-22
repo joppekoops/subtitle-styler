@@ -51,24 +51,27 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                         <option value="900">Black</option>
                     </select>
                 </label>
-                <ToggleButton name="bold"
-                              value="bold"
-                              checked={globalStyles.bold}
-                              onChange={onInput}
+                <ToggleButton
+                    name="bold"
+                    value="bold"
+                    checked={globalStyles.bold}
+                    onChange={onInput}
                 >
                     <Icon name="bold" aria-label="bold" />
                 </ToggleButton>
-                <ToggleButton name="italics"
-                              value="italics"
-                              checked={globalStyles.italics}
-                              onChange={onInput}
+                <ToggleButton
+                    name="italics"
+                    value="italics"
+                    checked={globalStyles.italics}
+                    onChange={onInput}
                 >
                     <Icon name="italics" aria-label="italics" />
                 </ToggleButton>
-                <ToggleButton name="underline"
-                              value="underline"
-                              checked={globalStyles.underline}
-                              onChange={onInput}
+                <ToggleButton
+                    name="underline"
+                    value="underline"
+                    checked={globalStyles.underline}
+                    onChange={onInput}
                 >
                     <Icon name="underline" aria-label="underline" />
                 </ToggleButton>
@@ -123,24 +126,30 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
             <div className="global-styles__control-row">
                 <label>
                     Fill
-                    <input type="color" name="fill" value={globalStyles.fill} onChange={onInput}
+                    <input
+                        type="color"
+                        name="fill"
+                        value={globalStyles.fill}
+                        onChange={onInput}
                     />
                 </label>
                 <label>
                     Stroke
-                    <input type="color"
-                           name="stroke.color"
-                           value={globalStyles.stroke.color}
-                           onChange={onInput}
+                    <input
+                        type="color"
+                        name="stroke.color"
+                        value={globalStyles.stroke.color}
+                        onChange={onInput}
                     />
                 </label>
                 <label>
                     <span className="sr-only">Stroke width</span>
-                    <input type="number"
-                           name="stroke.width"
-                           min={0}
-                           value={globalStyles.stroke.width}
-                           onChange={onInput}
+                    <input
+                        type="number"
+                        name="stroke.width"
+                        min={0}
+                        value={globalStyles.stroke.width}
+                        onChange={onInput}
                     />
                 </label>
             </div>
@@ -152,46 +161,34 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
             <div className="global-styles__control-row">
                 <label className="full-width">
                     Horizontal
-                    <input type="range"
-                           name="position.horizontal"
-                           value={globalStyles.position.horizontal}
-                           onChange={onInput}
+                    <input
+                        type="range"
+                        name="position.horizontal"
+                        value={globalStyles.position.horizontal}
+                        onChange={onInput}
                     />
                 </label>
             </div>
 
-            {globalStyles.position.useLines
-                ?
-                <div className="global-styles__control-row">
-                    <label>
-                        Vertical
-                        <input type="number"
-                               name="position.vertical"
-                               value={globalStyles.position.vertical}
-                               onChange={onInput}
-                        />
-                    </label>
-                </div>
-
-                :
-                <div className="global-styles__control-row">
-                    <label className="full-width">
-                        Vertical
-                        <input type="range"
-                               name="position.vertical"
-                               value={globalStyles.position.vertical}
-                               onChange={onInput}
-                        />
-                    </label>
-                </div>
-            }
+            <div className="global-styles__control-row">
+                <label className={globalStyles.position.useLines ? '' : 'full-width'}>
+                    Vertical
+                    <input
+                        type={globalStyles.position.useLines ? 'number' : 'range'}
+                        name="position.vertical"
+                        value={globalStyles.position.vertical}
+                        onChange={onInput}
+                    />
+                </label>
+            </div>
 
             <div className="global-styles__control-row">
                 <label>
-                    <input type="checkbox"
-                           name="position.useLines"
-                           checked={globalStyles.position.useLines}
-                           onChange={onInput}
+                    <input
+                        type="checkbox"
+                        name="position.useLines"
+                        checked={globalStyles.position.useLines}
+                        onChange={onInput}
                     />
                     Use Lines
                 </label>
@@ -204,10 +201,11 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
             <div className="global-styles__control-row">
                 <label>
                     Background color
-                    <input type="color"
-                           name="box.color"
-                           value={globalStyles.box.color}
-                           onChange={onInput}
+                    <input
+                        type="color"
+                        name="box.color"
+                        value={globalStyles.box.color}
+                        onChange={onInput}
                     />
                 </label>
             </div>
@@ -215,12 +213,13 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
             <div className="global-styles__control-row">
                 <label className="full-width">
                     Opacity
-                    <input type="range"
-                           name="box.opacity"
-                           min={0}
-                           max={255}
-                           value={globalStyles.box.opacity}
-                           onChange={onInput}
+                    <input
+                        type="range"
+                        name="box.opacity"
+                        min={0}
+                        max={255}
+                        value={globalStyles.box.opacity}
+                        onChange={onInput}
                     />
                 </label>
             </div>
@@ -230,38 +229,46 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                     <legend>Padding</legend>
                     <label>
                         <span className="sr-only">Top</span>
-                        <input type="number"
-                               name="box.padding.top"
-                               value={globalStyles.box.padding.top}
-                               onChange={onInput}
-                               min={0}
+                        <input
+                            type="number"
+                            name="box.padding.top"
+                            value={globalStyles.box.padding.top}
+                            onChange={onInput}
+                            min={0}
+                            className="global-styles__padding-controls-input"
                         />
                     </label>
                     <label>
                         <span className="sr-only">Right</span>
-                        <input type="number"
-                               name="box.padding.right"
-                               value={globalStyles.box.padding.right}
-                               onChange={onInput}
-                               min={0}
+                        <input
+                            type="number"
+                            name="box.padding.right"
+                            value={globalStyles.box.padding.right}
+                            onChange={onInput}
+                            min={0}
+                            className="global-styles__padding-controls-input"
                         />
                     </label>
                     <label>
                         <span className="sr-only">Bottom</span>
-                        <input type="number"
-                               name="box.padding.bottom"
-                               value={globalStyles.box.padding.bottom}
-                               onChange={onInput}
-                               min={0}
+                        <input
+                            type="number"
+                            name="box.padding.bottom"
+                            value={globalStyles.box.padding.bottom}
+                            onChange={onInput}
+                            min={0}
+                            className="global-styles__padding-controls-input"
                         />
                     </label>
                     <label>
                         <span className="sr-only">Left</span>
-                        <input type="number"
-                               name="box.padding.left"
-                               value={globalStyles.box.padding.left}
-                               onChange={onInput}
-                               min={0}
+                        <input
+                            type="number"
+                            name="box.padding.left"
+                            value={globalStyles.box.padding.left}
+                            onChange={onInput}
+                            min={0}
+                            className="global-styles__padding-controls-input"
                         />
                     </label>
                 </fieldset>
@@ -273,11 +280,12 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
 
             {
                 globalStyles.shadow.map((shadow, index) => (
-                    <ShadowControls key={index}
-                                    shadowStyles={shadow}
-                                    index={index}
-                                    onRemoveShadow={onRemoveShadow}
-                                    onChange={onInput}
+                    <ShadowControls
+                        key={index}
+                        shadowStyles={shadow}
+                        index={index}
+                        onRemoveShadow={onRemoveShadow}
+                        onChange={onInput}
                     />
                 ))
             }
@@ -292,12 +300,13 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
 
             <div className="global-styles__transition-container">
                 <fieldset className="global-styles__transition-controls global-styles__transition-start">
-                    <legend>Start</legend>
-                    <label>
+                    <legend className="global-styles__transition-controls-legend">Start</legend>
+                    <label className="global-styles__transition-controls-preset">
                         <span className="sr-only">Preset</span>
-                        <select name="transition.start.preset"
-                                value={globalStyles.transition.start.preset}
-                                onChange={onInput}
+                        <select
+                            name="transition.start.preset"
+                            value={globalStyles.transition.start.preset}
+                            onChange={onInput}
                         >
                             <option value="none">None</option>
                             <option value="fade-in">Fade-in</option>
@@ -306,19 +315,22 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
 
                     <label>
                         <span className="sr-only">Duration</span>
-                        <input type="number"
-                               name="transition.start.duration"
-                               min={0}
-                               value={globalStyles.transition.start.duration}
-                               onChange={onInput}
+                        <input
+                            type="number"
+                            name="transition.start.duration"
+                            min={0}
+                            value={globalStyles.transition.start.duration}
+                            onChange={onInput}
+                            className="global-styles__transition-controls-input"
                         />
                     </label>
 
                     <label>
                         <span className="sr-only">Easing</span>
-                        <select name="transtition.start.easing"
-                                value={globalStyles.transition.start.easing}
-                                onChange={onInput}
+                        <select
+                            name="transtition.start.easing"
+                            value={globalStyles.transition.start.easing}
+                            onChange={onInput}
                         >
                             <option value="linear">Linear</option>
                             <option value="ease">Ease</option>
@@ -330,12 +342,13 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 </fieldset>
 
                 <fieldset className="global-styles__transition-controls global-styles__transition-end">
-                    <legend>End</legend>
-                    <label>
+                    <legend className="global-styles__transition-controls-legend">End</legend>
+                    <label className="global-styles__transition-controls-preset">
                         <span className="sr-only">Preset</span>
-                        <select name="transition.end.preset"
-                                value={globalStyles.transition.end.preset}
-                                onChange={onInput}
+                        <select
+                            name="transition.end.preset"
+                            value={globalStyles.transition.end.preset}
+                            onChange={onInput}
                         >
                             <option value="none">None</option>
                             <option value="fade-out">Fade-out</option>
@@ -344,19 +357,22 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
 
                     <label>
                         <span className="sr-only">Duration</span>
-                        <input type="number"
-                               name="transition.end.duration"
-                               min={0}
-                               value={globalStyles.transition.end.duration}
-                               onChange={onInput}
+                        <input
+                            type="number"
+                            name="transition.end.duration"
+                            min={0}
+                            value={globalStyles.transition.end.duration}
+                            onChange={onInput}
+                            className="global-styles__transition-controls-input"
                         />
                     </label>
 
                     <label>
                         <span className="sr-only">Easing</span>
-                        <select name="transtition.start.easing"
-                                value={globalStyles.transition.end.easing}
-                                onChange={onInput}
+                        <select
+                            name="transtition.start.easing"
+                            value={globalStyles.transition.end.easing}
+                            onChange={onInput}
                         >
                             <option value="linear">Linear</option>
                             <option value="ease">Ease</option>

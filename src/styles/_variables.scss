@@ -43,4 +43,10 @@
     --spacing-xl: 4rem;
 
     --border-radius: .375rem;
+
+    --animation-duration-multiplier: 1;
+
+    @media (prefers-reduced-motion: reduce) {
+        --animation-duration-multiplier: 0;
+    }
 }
