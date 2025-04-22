@@ -1,10 +1,9 @@
 import { ChangeEvent, FC, ReactElement, useEffect, useState } from 'react'
 
 import { clearInvalid, numberToTimecode, setInvalid, timecodeToNumber } from '@app-helpers'
-import { CueWithTimecode } from '../../entities/CueWithTimecode'
+import { CueWithTimecode } from '@app-entities'
 
 import './TextControls.scss'
-import { setActiveCueIndex } from '@app-redux'
 
 export interface TextControlsProps {
     cues: VTTCue[]
@@ -70,7 +69,7 @@ export const TextControls: FC<TextControlsProps> = ({
 
     useEffect(() => {
         setCuesWithTimecode(cues.map(cue => ({
-            cue: cue,
+            cue,
             startTimecode: numberToTimecode(cue.startTime, framerate),
             endTimecode: numberToTimecode(cue.endTime, framerate),
         })))
@@ -84,27 +83,37 @@ export const TextControls: FC<TextControlsProps> = ({
                     {
                         cuesWithTimecode.map((cue, index) => (
                             <li key={index} className="text-controls__cue-item">
-                                <button className={`text-controls__cue ${activeCueIndex === index ? 'text-controls__cue--active' : ''}`}
-                                        onClick={() => handleCueClick(index)}
+                                <button
+                                    className={`text-controls__cue ${activeCueIndex === index ? 'text-controls__cue--active' : ''}`}
+
+                                    // Only make the currently edited cue selectable while it has an error
+                                    onFocusCapture={() => handleCueClick(index)}
                                 >
-                                    <input type="text"
-                                           value={cue.cue.id}
-                                           onChange={(event) => handleCueIdChange(event, index)}
+                                    <input
+                                        className="text-controls__input"
+                                        type="text"
+                                        value={cue.cue.id}
+                                        onChange={(event) => handleCueIdChange(event, index)}
                                     />
-                                    <input type="text"
-                                           value={cue.startTimecode}
-                                           onChange={(event) => handleCueTimeChange(event, index, 'startTimecode')}
-                                           onBlur={(event) => handleCueTimeBlur(event, index)}
+                                    <input
+                                        className="text-controls__input"
+                                        type="text"
+                                        value={cue.startTimecode}
+                                        onChange={(event) => handleCueTimeChange(event, index, 'startTimecode')}
+                                        onBlur={(event) => handleCueTimeBlur(event, index)}
                                     />
-                                    <input type="text"
-                                           value={cue.endTimecode}
-                                           onChange={(event) => handleCueTimeChange(event, index, 'endTimecode')}
-                                           onBlur={(event) => handleCueTimeBlur(event, index)}
+                                    <input
+                                        className="text-controls__input"
+                                        type="text"
+                                        value={cue.endTimecode}
+                                        onChange={(event) => handleCueTimeChange(event, index, 'endTimecode')}
+                                        onBlur={(event) => handleCueTimeBlur(event, index)}
                                     />
-                                    <textarea name=""
-                                              value={cue.cue.text}
-                                              onChange={(event) => handleCueTextChange(event, index)}
-                                    ></textarea>
+                                    <textarea
+                                        className="text-controls__textarea"
+                                        value={cue.cue.text}
+                                        onChange={(event) => handleCueTextChange(event, index)}
+                                    />
                                 </button>
                             </li>
                         ))

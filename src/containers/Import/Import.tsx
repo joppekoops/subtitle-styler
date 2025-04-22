@@ -6,7 +6,7 @@ import { useTypedSelector } from '@app-redux'
 import './Import.scss'
 
 export interface ImportProps {
-    className: string
+    className?: string
 }
 
 export const Import: FC<ImportProps> = ({
