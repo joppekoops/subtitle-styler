@@ -4,14 +4,16 @@ import './Tab.scss'
 
 export interface TabProps {
     name: string
+    className?: string
     children?: ReactNode
 }
 
 export const Tab: FC<TabProps> = ({
     name,
-    children
+    className,
+    children,
 }): ReactElement | null => (
-    <div className={'tab'}>
+    <div className={`tab ${className}`}>
         {children}
     </div>
 )

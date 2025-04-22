@@ -25,6 +25,4 @@ export const captionStylesToCss = (styles: CaptionStyles, selector: string): str
         ${styles.transition.start.preset} ${styles.transition.start.duration}s ${styles.transition.start.easing},
         ${styles.transition.end.preset} ${styles.transition.end.duration}s ${styles.transition.end.easing} calc(var(--cue-duration) - ${styles.transition.end.duration}s);
     ;
-    
-    animation-fill-mode: forwards;
 }`

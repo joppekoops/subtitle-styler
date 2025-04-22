@@ -9,10 +9,6 @@
     &__remove-button {
         position: absolute;
         top: var(--spacing-s);
-        right: var(--spacing-s);
-    }
-
-    & div {
-        grid-column: 1;
+        inset-inline-end: var(--spacing-s);
     }
 }

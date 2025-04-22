@@ -12,7 +12,7 @@ export interface CaptionStyles {
     stroke: {
         color: string
         width: number
-    },
+    }
     position: {
         horizontal: LineAndPositionSetting
         vertical: LineAndPositionSetting
@@ -26,8 +26,8 @@ export interface CaptionStyles {
             right: number
             bottom: number
             left: number
-        },
-    },
+        }
+    }
     shadow: ShadowStyles[]
     transition: {
         start: TransitionStyles

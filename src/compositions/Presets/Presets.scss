@@ -2,7 +2,7 @@
     display: grid;
     gap: var(--spacing-m);
 
-    & > button {
+    &__add-button {
         justify-self: end;
     }
 
@@ -45,8 +45,7 @@
     &__options {
         position: absolute;
         top: calc(100% + 4px);
-        left: calc(var(--border-width) * -1);
-        right: calc(var(--border-width) * -1);
+        inset-inline: calc(var(--border-width) * -1);
         z-index: 1;
         display: flex;
         flex-direction: column;
@@ -75,10 +74,10 @@
         min-height: 5rem;
         background-color: #000000;
         cursor: pointer;
+    }
 
-        & .cue__text {
-            font-size: max(3cqw, 14px);
-        }
+    &__option-preview-cue__text {
+        font-size: max(3cqw, 14px);
     }
 
     &__selected-option {
