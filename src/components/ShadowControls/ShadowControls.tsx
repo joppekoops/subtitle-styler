@@ -78,17 +78,6 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
                     max={100}
                 />
             </label>
-            <label className="full-width">
-                Spread
-                <input
-                    type="range"
-                    name={`shadow[${index}].spread`}
-                    value={shadowStyles.spread}
-                    onChange={onChange}
-                    min={0}
-                    max={100}
-                />
-            </label>
         </div>
     </div>
 )

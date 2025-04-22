@@ -52,14 +52,6 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                     </select>
                 </label>
                 <ToggleButton
-                    name="bold"
-                    value="bold"
-                    checked={globalStyles.bold}
-                    onChange={onInput}
-                >
-                    <Icon name="bold" aria-label="bold" />
-                </ToggleButton>
-                <ToggleButton
                     name="italics"
                     value="italics"
                     checked={globalStyles.italics}
@@ -328,7 +320,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                     <label>
                         <span className="sr-only">Easing</span>
                         <select
-                            name="transtition.start.easing"
+                            name="transition.start.easing"
                             value={globalStyles.transition.start.easing}
                             onChange={onInput}
                         >
@@ -370,7 +362,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                     <label>
                         <span className="sr-only">Easing</span>
                         <select
-                            name="transtition.start.easing"
+                            name="transition.end.easing"
                             value={globalStyles.transition.end.easing}
                             onChange={onInput}
                         >
