@@ -30,7 +30,7 @@ export const ConnectedCaptionPicker: FC = () => {
 
     return (
         <CaptionPicker
-            onFileChanged={(fileHandle) => handleFileChanged(fileHandle)}
+            onFileChanged={handleFileChanged}
             onCreateSubtitles={handleCreateSubtitles}
         />
     )
