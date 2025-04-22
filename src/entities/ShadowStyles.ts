@@ -5,5 +5,4 @@ export interface ShadowStyles {
     offsetX: number
     offsetY: number
     blur: number
-    spread: number
 }

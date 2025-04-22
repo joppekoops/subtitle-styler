@@ -3,7 +3,6 @@ import { ShadowStyles, TransitionStyles } from '@app-entities'
 export interface CaptionStyles {
     fontFamily: string
     fontVariant: string
-    bold: boolean
     italics: boolean
     underline: boolean
     fontSize: number

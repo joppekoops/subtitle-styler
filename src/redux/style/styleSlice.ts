@@ -15,7 +15,6 @@ const initialState: StyleState = {
     globalStyles: {
         fontFamily: 'sans-serif',
         fontVariant: '400',
-        bold: false,
         italics: false,
         underline: false,
         fontSize: 16,
@@ -46,7 +45,6 @@ const initialState: StyleState = {
                 offsetX: 0,
                 offsetY: 0,
                 blur: 0,
-                spread: 0,
             },
         ],
         transition: {
@@ -82,14 +80,13 @@ export const styleSlice = createSlice({
             set(state.globalStyles, key, isNaN(parseInt(value)) ? value : parseInt(value))
         },
         addShadow(state, action) {
-            const { color, offsetX, offsetY, blur, spread } = action.payload
+            const { color, offsetX, offsetY, blur } = action.payload
 
             state.globalStyles.shadow.push({
                 color: color || '#000000',
                 offsetX: offsetX || 0,
                 offsetY: offsetY || 0,
                 blur: blur || 0,
-                spread: spread || 0,
             })
         },
         removeShadow(state, action) {
