@@ -45,23 +45,23 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
             <RangeSlider
                 label="X offset"
                 name={`shadow[${index}].offsetX`}
-                value={shadowStyles.offsetX}
-                onChange={onChange}
                 min={-100}
                 max={100}
                 markers={[0]}
+                value={shadowStyles.offsetX}
                 unit="px"
+                onChange={onChange}
                 className="full-width"
             />
             <RangeSlider
                 label="Y offset"
                 name={`shadow[${index}].offsetY`}
-                value={shadowStyles.offsetY}
-                onChange={onChange}
                 min={-100}
                 max={100}
                 markers={[0]}
+                value={shadowStyles.offsetY}
                 unit="px"
+                onChange={onChange}
                 className="full-width"
             />
         </div>
@@ -70,11 +70,11 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
             <RangeSlider
                 label="Blur"
                 name={`shadow[${index}].blur`}
-                value={shadowStyles.blur}
-                onChange={onChange}
                 min={0}
                 max={100}
                 unit="px"
+                value={shadowStyles.blur}
+                onChange={onChange}
                 className="full-width"
             />
         </div>

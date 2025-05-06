@@ -180,9 +180,9 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                             name="position.vertical"
                             min={0}
                             max={100}
+                            markers={[50, 80]}
                             value={globalStyles.position.vertical}
                             unit="%"
-                            markers={[50, 80]}
                             onChange={onInput}
                             className="full-width"
                         />

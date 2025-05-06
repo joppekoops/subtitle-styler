@@ -17,10 +17,10 @@ interface RangeSliderProps {
 export const RangeSlider: FC<RangeSliderProps> = ({
     label,
     name,
-    min,
-    max,
+    min = 0,
+    max = 100,
     markers = [],
-    value,
+    value = 50,
     unit,
     onChange,
     className = '',
@@ -36,23 +36,23 @@ export const RangeSlider: FC<RangeSliderProps> = ({
         <label htmlFor={`${name}Range`} className="range-slider__label">{label}</label>
         <div className="range-slider__slider-container">
             <input
-                className="range-slider__input"
                 type="range"
                 name={name}
                 min={min}
                 max={max}
                 value={value}
-                onChange={onChange}
                 id={`${name}Range`}
                 list={`${name}Datalist`}
+                onChange={onChange}
+                className="range-slider__input"
             />
             <span className="range-slider__min" aria-hidden>{min}{unit}</span>
             <span className="range-slider__max" aria-hidden>{max}{unit}</span>
-            <output className="range-slider__value">{value}{unit}</output>
+            <output className="range-slider__value" aria-hidden>{value}{unit}</output>
         </div>
         <datalist id={`${name}Datalist`}>
             <option value={min} />
-            {markers.map(marker => (<option value={marker} />))}
+            {markers.map(marker => (<option value={marker} key={marker} />))}
             <option value={max} />
         </datalist>
     </div>

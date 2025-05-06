@@ -48,7 +48,11 @@
         transition: opacity calc(.2s * var(--animation-duration-multiplier)) ease;
     }
 
-    &:has(.range-slider__input:hover, .range-slider__input:focus-visible, .range-slider__input:active) .range-slider__value {
+    &:has(
+        .range-slider__input:hover,
+        .range-slider__input:focus-visible,
+        .range-slider__input:active
+    ) .range-slider__value {
         opacity: 1;
     }
 
