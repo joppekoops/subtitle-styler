@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, ReactElement } from 'react'
 
 import { CaptionStyles } from '@app-entities'
-import { Icon, OptionsBar, ToggleButton, ShadowControls } from '@app-components'
+import { Icon, OptionsBar, ToggleButton, ShadowControls, RangeSlider } from '@app-components'
 
 import './GlobalStyles.scss'
 
@@ -70,17 +70,16 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
             </div>
 
             <div className="global-styles__control-row">
-                <label className="full-width">
-                    Font size
-                    <input
-                        type="range"
-                        name="fontSize"
-                        min={14}
-                        max={128}
-                        value={globalStyles.fontSize}
-                        onChange={onInput}
-                    />
-                </label>
+                <RangeSlider
+                    label="Font size"
+                    name="fontSize"
+                    min={14}
+                    max={64}
+                    markers={[16]}
+                    value={globalStyles.fontSize}
+                    onChange={onInput}
+                    className="full-width"
+                />
             </div>
 
             <div className="global-styles__control-row">
@@ -151,27 +150,43 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
             <h3>Position</h3>
 
             <div className="global-styles__control-row">
-                <label className="full-width">
-                    Horizontal
-                    <input
-                        type="range"
-                        name="position.horizontal"
-                        value={globalStyles.position.horizontal}
-                        onChange={onInput}
-                    />
-                </label>
+                <RangeSlider
+                    label="Horizontal"
+                    name="position.horizontal"
+                    min={0}
+                    max={100}
+                    markers={[50]}
+                    value={globalStyles.position.horizontal}
+                    unit="%"
+                    onChange={onInput}
+                    className="full-width"
+                />
             </div>
 
             <div className="global-styles__control-row">
-                <label className={globalStyles.position.useLines ? '' : 'full-width'}>
-                    Vertical
-                    <input
-                        type={globalStyles.position.useLines ? 'number' : 'range'}
-                        name="position.vertical"
-                        value={globalStyles.position.vertical}
-                        onChange={onInput}
-                    />
-                </label>
+                {
+                    globalStyles.position.useLines
+                        ? <label>
+                            Vertical
+                            <input
+                                type="number"
+                                name="position.vertical"
+                                value={globalStyles.position.vertical}
+                                onChange={onInput}
+                            />
+                        </label>
+                        : <RangeSlider
+                            label="Vertical"
+                            name="position.vertical"
+                            min={0}
+                            max={100}
+                            value={globalStyles.position.vertical}
+                            unit="%"
+                            markers={[50, 80]}
+                            onChange={onInput}
+                            className="full-width"
+                        />
+                }
             </div>
 
             <div className="global-styles__control-row">
@@ -203,17 +218,15 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
             </div>
 
             <div className="global-styles__control-row">
-                <label className="full-width">
-                    Opacity
-                    <input
-                        type="range"
-                        name="box.opacity"
-                        min={0}
-                        max={255}
-                        value={globalStyles.box.opacity}
-                        onChange={onInput}
-                    />
-                </label>
+                <RangeSlider
+                    label="Opacity"
+                    name="box.opacity"
+                    min={0}
+                    max={255}
+                    value={globalStyles.box.opacity}
+                    onChange={onInput}
+                    className="full-width"
+                />
             </div>
 
             <div className="global-styles__control-row">
