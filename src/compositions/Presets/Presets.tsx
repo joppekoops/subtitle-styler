@@ -1,4 +1,4 @@
-import { FC, ReactElement, useState } from 'react'
+import { FC, ReactElement, useEffect, useRef, useState } from 'react'
 
 import { Preset } from '@app-entities'
 import { toKebabCase } from '@app-helpers'
@@ -28,8 +28,9 @@ export const Presets: FC<PresetsProps> = ({
     onExportPreset,
     className = '',
 }): ReactElement => {
-
     const [isOpen, setIsOpen] = useState(false)
+
+    const select = useRef<HTMLDivElement>(null)
 
     const handleRenamePreset = (preset: Preset, index: number) => {
         const name = prompt('Enter new preset name', preset.name) || preset.name
@@ -56,12 +57,36 @@ export const Presets: FC<PresetsProps> = ({
         setIsOpen(false)
     }
 
+    const handleKeyboardEvent = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+            setIsOpen(false)
+        }
+    }
+
+    const handleMouseEvent = (event: MouseEvent) => {
+        if (select.current && event.target instanceof Element) {
+            if (! select.current.contains(event.target)) {
+                setIsOpen(false)
+            }
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener('keyup', handleKeyboardEvent)
+        window.addEventListener('mouseup', handleMouseEvent)
+
+        return () => {
+            window.removeEventListener('keyup', handleKeyboardEvent)
+            window.removeEventListener('mouseup', handleMouseEvent)
+        }
+    }, [])
+
     return (
         <div className={`presets ${className}`}>
             <button type="button" className="presets__add-button button" onClick={handleCreatePreset}>
                 Add Preset
             </button>
-            <div className={`presets__select ${isOpen ? 'presets__select--active' : ''}`}>
+            <div className={`presets__select ${isOpen ? 'presets__select--active' : ''}`} ref={select}>
 
                 <button
                     className="presets__select-button"
