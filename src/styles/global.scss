@@ -1,3 +1,4 @@
+@forward "react-contexify/ReactContexify.css";
 @forward "variables";
 @forward "helpers";
 @forward "transitions";
@@ -8,6 +9,10 @@
 
 :root {
     color-scheme: dark;
+}
+
+:focus {
+    outline-offset: 1px;
 }
 
 body {
@@ -72,6 +77,10 @@ button {
         }
     }
 
+    &--primary {
+        background-color: var(--color-primary);
+    }
+
     &--icon {
         padding: var(--spacing-xs);
         aspect-ratio: 1/1;
@@ -116,4 +125,8 @@ fieldset {
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     border: 0;
+}
+
+.contexify {
+    border: var(--border-popover);
 }

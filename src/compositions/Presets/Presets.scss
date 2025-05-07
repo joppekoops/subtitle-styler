@@ -2,21 +2,14 @@
     display: grid;
     gap: var(--spacing-m);
 
-    &__add-button {
-        justify-self: end;
-    }
-
     &__select {
         --border-width: 2px;
 
         position: relative;
+        z-index: 2;
         border: var(--border-width) solid var(--color-input-border);
         border-radius: var(--border-radius);
         background-color: var(--color-input-bg);
-
-        &--active {
-            box-shadow: 0 0 0 200vw #00000055;
-        }
     }
 
 
@@ -25,8 +18,7 @@
         gap: var(--spacing-s);
         justify-content: center;
         align-items: center;
-        padding-inline: calc(var(--spacing-s) - var(--border-width));
-        padding-block: calc(var(--spacing-xs) - var(--border-width));
+        padding-inline-end: calc(var(--spacing-s) - var(--border-width));
         width: 100%;
     }
 
@@ -42,15 +34,32 @@
         }
     }
 
-    &__options {
+    &__select-popover {
         position: absolute;
-        top: calc(100% + 4px);
+        top: calc(100% + var(--spacing-s));
         inset-inline: calc(var(--border-width) * -1);
         z-index: 1;
         display: flex;
         flex-direction: column;
+        gap: var(--spacing-s);
         border-radius: var(--border-radius);
-        background-color: var(--color-control-group-bg);
+        border: 2px solid var(--color-dropdown-border);
+        padding: var(--spacing-s);
+        height: 70cqh;
+        background-color: var(--color-dropdown-bg);
+        overflow-y: auto;
+    }
+
+    &__add-button {
+        align-self: end;
+    }
+
+    &__options {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-s);
+        margin: 0;
+        padding: 0;
     }
 
     &__option {
@@ -59,29 +68,42 @@
         gap: var(--spacing-s);
         border-radius: var(--border-radius);
         padding: var(--spacing-s);
+        background-color: var(--color-dropdown-option-bg);
+    }
 
-        &:has( > .button) {
-            grid-template-columns: 1fr auto;
-        }
+    &__option-more-button {
+        grid-column: 2;
+        padding: var(--spacing-s);
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    &__option-more-icon {
+        width: 1rem;
+        height: 1rem;
+        fill: currentColor;
     }
 
     &__option-preview {
         position: static;
-        grid-row: 1/4;
         display: grid;
         place-items: center;
+        border-radius: var(--border-radius);
         width: 100%;
-        min-height: 5rem;
-        background-color: #333333;
+        min-height: 3rem;
+        background-color: var(--color-dropdown-option-bg);
         cursor: pointer;
-    }
 
-    &__option-preview-cue__text {
-        font-size: max(3cqw, 14px);
+        &__text {
+            font-size: 5cqw;
+        }
     }
 
     &__selected-option {
         display: grid;
+        border-radius: var(--border-radius);
+        padding: var(--spacing-s);
         width: 100%;
+        background-color: var(--color-dropdown-option-bg);
     }
 }

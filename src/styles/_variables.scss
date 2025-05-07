@@ -37,6 +37,13 @@
     --color-input-border: var(--color-control-bg);
     --color-input-bg: var(--color-grey-900);
 
+    --color-dropdown-bg: var(--color-grey-800);
+    --color-dropdown-border: var(--color-grey-750);
+    --color-dropdown-option-bg: var(--color-grey-850);
+
+    --color-popover-bg: var(--color-grey-900);
+    --color-popover-border: var(--color-grey-750);
+
     --spacing-xxs: .125rem;
     --spacing-xs: .25rem;
     --spacing-s: .5rem;
@@ -45,6 +52,18 @@
     --spacing-xl: 4rem;
 
     --border-radius: .375rem;
+
+    --border-popover: 1px solid var(--color-popover-border);
+
+    --contexify-menu-padding: var(--spacing-xs);
+    --contexify-menu-radius: var(--border-radius);
+    --contexify-menu-bgColor: var(--color-popover-bg);
+
+    --contexify-itemContent-padding: var(--spacing-xxs) var(--spacing-s);
+    --contexify-activeItem-radius: calc(var(--border-radius) - var(--contexify-menu-padding));
+    --contexify-item-color: var(--color-text);
+    --contexify-activeItem-color: var(--color-text);
+    --contexify-activeItem-bgColor: var(--color-control-active);
 
     --animation-duration-multiplier: 1;
 
