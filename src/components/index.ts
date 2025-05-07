@@ -1,8 +1,9 @@
 export * from './Cue/Cue'
 export * from './Icon/Icon'
 export * from './OptionsBar/OptionsBar'
+export * from './RangeSlider/RangeSlider'
 export * from './ShadowControls/ShadowControls'
 export * from './Tab/Tab'
 export * from './Tabs/Tabs'
 export * from './ToggleButton/ToggleButton'
-export * from './ShadowControls/ShadowControls'
+

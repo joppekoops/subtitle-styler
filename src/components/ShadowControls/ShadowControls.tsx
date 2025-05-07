@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, ReactElement } from 'react'
 
 import { ShadowStyles } from '@app-entities'
-import { Icon } from '@app-components'
+import { Icon, RangeSlider } from '@app-components'
 
 import './ShadowControls.scss'
 
@@ -42,42 +42,41 @@ export const ShadowControls: FC<ShadowControlsProps> = ({
         </div>
 
         <div className="global-styles__control-row">
-            <label className="full-width">
-                X offset
-                <input
-                    type="range"
-                    name={`shadow[${index}].offsetX`}
-                    value={shadowStyles.offsetX}
-                    onChange={onChange}
-                    min={-100}
-                    max={100}
-                />
-            </label>
-            <label className="full-width">
-                Y offset
-                <input
-                    type="range"
-                    name={`shadow[${index}].offsetY`}
-                    value={shadowStyles.offsetY}
-                    onChange={onChange}
-                    min={-100}
-                    max={100}
-                />
-            </label>
+            <RangeSlider
+                label="X offset"
+                name={`shadow[${index}].offsetX`}
+                min={-100}
+                max={100}
+                markers={[0]}
+                value={shadowStyles.offsetX}
+                unit="px"
+                onChange={onChange}
+                className="full-width"
+            />
+            <RangeSlider
+                label="Y offset"
+                name={`shadow[${index}].offsetY`}
+                min={-100}
+                max={100}
+                markers={[0]}
+                value={shadowStyles.offsetY}
+                unit="px"
+                onChange={onChange}
+                className="full-width"
+            />
         </div>
 
         <div className="global-styles__control-row">
-            <label className="full-width">
-                Blur
-                <input
-                    type="range"
-                    name={`shadow[${index}].blur`}
-                    value={shadowStyles.blur}
-                    onChange={onChange}
-                    min={0}
-                    max={100}
-                />
-            </label>
+            <RangeSlider
+                label="Blur"
+                name={`shadow[${index}].blur`}
+                min={0}
+                max={100}
+                unit="px"
+                value={shadowStyles.blur}
+                onChange={onChange}
+                className="full-width"
+            />
         </div>
     </div>
 )
