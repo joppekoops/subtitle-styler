@@ -1,0 +1,36 @@
+.accessibility-warning {
+    display: grid;
+    gap: var(--spacing-s);
+
+    &__card {
+        display: grid;
+        gap: var(--spacing-s);
+        border-radius: var(--border-radius);
+        padding: var(--spacing-s) var(--spacing-m);
+        background-color: #333333;
+        box-shadow: 0 0 .5rem #00000055;
+    }
+
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-s);
+        font-weight: bold;
+        color: var(--color-text-negative);
+    }
+
+    &__icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        fill: currentColor;
+    }
+
+    &__description {
+        font-size: .875rem;
+        color: var(--color-text-light);
+    }
+
+    &__link {
+
+    }
+}

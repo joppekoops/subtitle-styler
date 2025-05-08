@@ -1,4 +1,3 @@
-export * from './accessibility'
 export * from './caption-styles-to-css'
 export * from './cue'
 export * from './cue-container-styles'
