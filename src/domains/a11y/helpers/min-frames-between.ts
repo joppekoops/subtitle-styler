@@ -8,7 +8,7 @@ export const checkMinFramesBetween = (currentCueEndTime: number, nextCueStartTim
     const currentCueEndTimecode = numberToTimecodeObject(currentCueEndTime, framerate)
     const nextCueStartTimecode = numberToTimecodeObject(nextCueStartTime, framerate)
 
-    const difference = nextCueStartTimecode.subtract(currentCueEndTimecode).frames
+    const difference = nextCueStartTimecode.subtract(currentCueEndTimecode).frameCount
 
     return {
         isCompliant: difference >= a11yConfig.minFramesBetweenCues,
