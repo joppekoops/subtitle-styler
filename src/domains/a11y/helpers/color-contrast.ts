@@ -1,5 +1,4 @@
-import { AccessibilityWarning, RGBColor } from '@app-a11y/entities'
-import { a11yConfig } from '@app-a11y/config/a11y.config'
+import { a11yConfig, AccessibilityWarning, RGBColor } from '@app-a11y'
 
 // Color contrast as defined in the Web Content Accessibility Guidelines 2.2
 // Source: https://www.w3.org/TR/WCAG22/#dfn-contrast-ratio

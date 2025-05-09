@@ -9,7 +9,7 @@ import {
     checkMaxCharsPerSecond,
     checkMaxLines,
     checkMinFramesBetween,
-} from '@app-a11y/helpers'
+} from '@app-a11y'
 
 import './TextControls.scss'
 
@@ -98,7 +98,7 @@ export const TextControls: FC<TextControlsProps> = ({
                                         checkMaxCharsPerSecond(cue.cue.text, cue.cue.startTime, cue.cue.endTime),
                                         checkCueLength(cue.cue.startTime, cue.cue.endTime),
                                         cuesWithTimecode[index + 1] ? checkMinFramesBetween(cue.cue.endTime, cuesWithTimecode[index + 1].cue.startTime, framerate) : null,
-                                    ]}
+                                    ].filter(res => !! res)}
                                     className="text-controls__warning"
                                 />
                                 <button

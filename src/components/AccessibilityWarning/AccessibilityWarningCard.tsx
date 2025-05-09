@@ -1,12 +1,12 @@
 import { FC, ReactElement } from 'react'
 
-import { AccessibilityWarning } from '@app-a11y/entities'
+import { AccessibilityWarning } from '@app-a11y'
 import { Icon } from '@app-components'
 
 import './AccessibilityWarningCard.scss'
 
 export interface AccessibilityWarningCardProps {
-    warnings: (AccessibilityWarning | null)[]
+    warnings: AccessibilityWarning[]
     className?: string
 }
 

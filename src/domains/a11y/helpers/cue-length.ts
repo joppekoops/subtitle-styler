@@ -1,5 +1,4 @@
-import { AccessibilityWarning } from '@app-a11y/entities'
-import { a11yConfig } from '@app-a11y/config/a11y.config'
+import { a11yConfig, AccessibilityWarning } from '@app-a11y'
 
 export const checkCueLength = (startTime: number, endTime: number): AccessibilityWarning => {
 

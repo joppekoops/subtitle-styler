@@ -28,7 +28,7 @@
     &__warning {
         position: absolute;
         left: calc(100% + var(--spacing-s));
-        width: calc(14rem - 2 * var(--spacing-s));
+        width: calc(14rem - (2 * var(--spacing-s)));
     }
 
     &__padding-controls {
@@ -54,7 +54,7 @@
         border-radius: var(--border-radius);
         padding: var(--spacing-m);
         background-color: var(--color-control-group-bg);
-        width: max(calc(50% - var(--spacing-m) / 2), 13rem);
+        width: max(calc(50% - (var(--spacing-m) / 2)), 13rem);
     }
 
     &__transition-controls-legend {
