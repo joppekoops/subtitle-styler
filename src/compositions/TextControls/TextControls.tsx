@@ -2,6 +2,14 @@ import { ChangeEvent, FC, ReactElement, useEffect, useState } from 'react'
 
 import { clearInvalid, numberToTimecode, setInvalid, timecodeToNumber } from '@app-helpers'
 import { CueWithTimecode } from '@app-entities'
+import { AccessibilityWarningCard } from '@app-components'
+import {
+    checkCueLength,
+    checkLineLength,
+    checkMaxCharsPerSecond,
+    checkMaxLines,
+    checkMinFramesBetween,
+} from '@app-a11y'
 
 import './TextControls.scss'
 
@@ -83,6 +91,16 @@ export const TextControls: FC<TextControlsProps> = ({
                     {
                         cuesWithTimecode.map((cue, index) => (
                             <li key={index} className="text-controls__cue-item">
+                                <AccessibilityWarningCard
+                                    warnings={[
+                                        checkLineLength(cue.cue.text),
+                                        checkMaxLines(cue.cue.text),
+                                        checkMaxCharsPerSecond(cue.cue.text, cue.cue.startTime, cue.cue.endTime),
+                                        checkCueLength(cue.cue.startTime, cue.cue.endTime),
+                                        cuesWithTimecode[index + 1] ? checkMinFramesBetween(cue.cue.endTime, cuesWithTimecode[index + 1].cue.startTime, framerate) : null,
+                                    ].filter(res => !! res)}
+                                    className="text-controls__warning"
+                                />
                                 <button
                                     className={`text-controls__cue ${activeCueIndex === index ? 'text-controls__cue--active' : ''}`}
 

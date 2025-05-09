@@ -1,0 +1,31 @@
+{
+    "warnings": {
+        "colorContrast": {
+            "title": "Contrast {colorContrast} : 1",
+            "messageFillBox": "Contrast between text fill and box is low. Minimum contrast recommendation is {minContrastRatio} : 1",
+            "messageStrokeBox": "Contrast between text stroke and box is low. Minimum contrast recommendation is {minContrastRatio} : 1",
+            "messageFillStroke": "Contrast between text fill and text stroke is low. Minimum contrast recommendation is {minContrastRatio} : 1",
+            "link": "https://www.w3.org/Translations/WCAG22-nl/#contrast-minimum"
+        },
+        "cueLength": {
+            "title": "{cueLength} seconds long",
+            "message": "Recommended {case} length is {recommendation} seconds"
+        },
+        "maxCharsPerSecond": {
+            "title": "{charsPerSecond} characters per second",
+            "message": "Recommended maximum is {maxCharsPerSecond} characters per second"
+        },
+        "maxLineLength": {
+            "title": "{maxLineLength} characters",
+            "message": "Recommended maximum line length is {maxLineLength} characters"
+        },
+        "maxLines": {
+            "title": "{lineCount} lines",
+            "message": "Recommended maximum is {maxLines} lines"
+        },
+        "minFramesBetween": {
+            "title": "{framesBetweenCues} frames between cues",
+            "message": "Recommended minimum frames between cues is {minFramesBetweenCues}"
+        }
+    }
+}

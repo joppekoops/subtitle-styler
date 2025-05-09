@@ -1,13 +1,14 @@
 .text-controls {
     display: grid;
-    gap: var(--spacing-m);
-    padding: var(--spacing-m);
+    grid-template-columns: 1fr 14rem;
 
     &__cue-list {
+        position: relative;
         display: grid;
         gap: var(--spacing-m);
         margin: 0;
-        padding: 0;
+        border-right: 2px solid #555555;
+        padding: var(--spacing-m);
         list-style: none;
     }
 
@@ -43,5 +44,11 @@
         border-radius: .375rem;
         padding: var(--spacing-s);
         background-color: var(--color-control-group-bg);
+    }
+
+    &__warning {
+        position: absolute;
+        left: calc(100% + var(--spacing-s));
+        width: calc(14rem - 2 * var(--spacing-s));
     }
 }

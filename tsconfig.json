@@ -38,7 +38,8 @@
             "@app-redux": ["src/redux/index"],
             "@app-providers": ["src/AppProviders"],
             "@app-styles/*": ["src/styles/*"],
-            "@app-resources/*": ["res/*"]
+            "@app-resources/*": ["res/*"],
+            "@app-a11y": ["src/domains/a11y/index"]
         }
     },
     "include": [

@@ -1,0 +1,1 @@
+export { default as enTranslations } from './en.json'
