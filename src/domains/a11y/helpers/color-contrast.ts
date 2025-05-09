@@ -1,4 +1,4 @@
-import { a11yConfig, AccessibilityWarning, RGBColor } from '@app-a11y'
+import { a11yConfig, AccessibilityWarning, RGBColor, translate } from '@app-a11y'
 
 // Color contrast as defined in the Web Content Accessibility Guidelines 2.2
 // Source: https://www.w3.org/TR/WCAG22/#dfn-contrast-ratio
@@ -15,9 +15,9 @@ export const checkColorContrast = (fillColor: string, boxColor: string, strokeCo
 
         return {
             isCompliant: colorContrast >= a11yConfig.minContrastRatio,
-            title: `Contrast ${colorContrast} : 1`,
-            message: `Contrast between text fill and box is low.\nMinimum contrast recommendation is ${a11yConfig.minContrastRatio} : 1`,
-            link: 'https://www.w3.org/Translations/WCAG22-nl/#contrast-minimum',
+            title: translate('warnings.colorContrast.title', { colorContrast }),
+            message: translate('warnings.colorContrast.messageFillBox', { minContrastRatio: a11yConfig.minContrastRatio }),
+            link: translate('warnings.colorContrast.link'),
         }
 
     } else if (strokeWidth < 6) {
@@ -25,9 +25,9 @@ export const checkColorContrast = (fillColor: string, boxColor: string, strokeCo
 
         return {
             isCompliant: colorContrast >= a11yConfig.minContrastRatio,
-            title: `Contrast ${colorContrast}  : 1`,
-            message: `Contrast between text stroke and box is low.\nMinimum contrast recommendation is ${a11yConfig.minContrastRatio} : 1`,
-            link: 'https://www.w3.org/Translations/WCAG22-nl/#contrast-minimum',
+            title: translate('warnings.colorContrast.title', { colorContrast }),
+            message: translate('warnings.colorContrast.messageStrokeBox', { minContrastRatio: a11yConfig.minContrastRatio }),
+            link: translate('warnings.colorContrast.link'),
         }
 
     } else {
@@ -35,9 +35,9 @@ export const checkColorContrast = (fillColor: string, boxColor: string, strokeCo
 
         return {
             isCompliant: colorContrast >= a11yConfig.minContrastRatio,
-            title: `Contrast ${colorContrast}  : 1`,
-            message: `Contrast between text fill and text stroke is low.\nMinimum contrast recommendation is ${a11yConfig.minContrastRatio} : 1`,
-            link: 'https://www.w3.org/Translations/WCAG22-nl/#contrast-minimum',
+            title: translate('warnings.colorContrast.title', { colorContrast }),
+            message: translate('warnings.colorContrast.FillStroke', { minContrastRatio: a11yConfig.minContrastRatio }),
+            link: translate('warnings.colorContrast.link'),
         }
     }
 }

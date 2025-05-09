@@ -1,4 +1,4 @@
-import { a11yConfig, AccessibilityWarning } from '@app-a11y'
+import { a11yConfig, AccessibilityWarning, translate } from '@app-a11y'
 
 export const checkMaxLines = (text: string): AccessibilityWarning => {
 
@@ -6,7 +6,7 @@ export const checkMaxLines = (text: string): AccessibilityWarning => {
 
     return {
         isCompliant: lineCount <= a11yConfig.maxLines,
-        title: `${lineCount} lines`,
-        message: `Recommended maximum is ${a11yConfig.maxLines} lines`,
+        title: translate('warnings.maxLines.title', { lineCount }),
+        message: translate('warnings.maxLines.message', { maxLines: a11yConfig.maxLines }),
     }
 }

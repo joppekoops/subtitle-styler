@@ -1,6 +1,6 @@
 import Timecode, { FRAMERATE, TimecodeInstance } from 'smpte-timecode'
 
-import { a11yConfig, AccessibilityWarning } from '@app-a11y'
+import { a11yConfig, AccessibilityWarning, translate } from '@app-a11y'
 
 export const checkMinFramesBetween = (currentCueEndTime: number, nextCueStartTime: number, framerate: number): AccessibilityWarning => {
 
@@ -11,8 +11,8 @@ export const checkMinFramesBetween = (currentCueEndTime: number, nextCueStartTim
 
     return {
         isCompliant: difference >= a11yConfig.minFramesBetweenCues,
-        title: `${difference} frames between cues`,
-        message: `Recommended minimum frames between cues is ${a11yConfig.minFramesBetweenCues}`,
+        title: translate('warnings.minFramesBetween.title', { framesBetweenCues: difference }),
+        message: translate('warnings.minFramesBetween.message', { minFramesBetweenCues: a11yConfig.minFramesBetweenCues }),
     }
 }
 

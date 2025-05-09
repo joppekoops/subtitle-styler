@@ -1,4 +1,4 @@
-import { a11yConfig, AccessibilityWarning } from '@app-a11y'
+import { a11yConfig, AccessibilityWarning, translate } from '@app-a11y'
 
 export const checkMaxCharsPerSecond = (text: string, startTime: number, endTime: number): AccessibilityWarning => {
 
@@ -6,7 +6,7 @@ export const checkMaxCharsPerSecond = (text: string, startTime: number, endTime:
 
     return {
         isCompliant: charsPerSecond <= a11yConfig.maxCharsPerSecond,
-        title: `${charsPerSecond} characters per second`,
-        message: `Recommended maximum is ${a11yConfig.maxCharsPerSecond} characters per second`,
+        title: translate('warnings.maxCharsPerSecond.title', { charsPerSecond }),
+        message: translate('warnings.maxCharsPerSecond.message', { maxCharsPerSecond: a11yConfig.maxCharsPerSecond }),
     }
 }

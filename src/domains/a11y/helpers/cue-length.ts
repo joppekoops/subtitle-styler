@@ -1,4 +1,4 @@
-import { a11yConfig, AccessibilityWarning } from '@app-a11y'
+import { a11yConfig, AccessibilityWarning, translate } from '@app-a11y'
 
 export const checkCueLength = (startTime: number, endTime: number): AccessibilityWarning => {
 
@@ -6,13 +6,10 @@ export const checkCueLength = (startTime: number, endTime: number): Accessibilit
 
     return {
         isCompliant: cueLength >= a11yConfig.minCueLengthSeconds && cueLength <= a11yConfig.maxCueLengthSeconds,
-        title: `${cueLength} seconds long`,
-        message: `
-            Recommended 
-            ${cueLength > a11yConfig.maxCueLengthSeconds ? 'maximum' : 'minimum'}
-             is 
-            ${cueLength > a11yConfig.maxCueLengthSeconds ? a11yConfig.maxCueLengthSeconds : a11yConfig.minCueLengthSeconds}
-             seconds
-         `,
+        title: translate('warnings.cueLength.title', { cueLength }),
+        message: translate('warnings.cueLength.message', {
+            case: cueLength > a11yConfig.maxCueLengthSeconds ? 'maximum' : 'minimum',
+            recommendation: cueLength > a11yConfig.maxCueLengthSeconds ? a11yConfig.maxCueLengthSeconds : a11yConfig.minCueLengthSeconds,
+        }),
     }
 }
