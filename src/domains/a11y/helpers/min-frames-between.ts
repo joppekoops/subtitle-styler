@@ -7,10 +7,10 @@ export const checkMinFramesBetween = (currentCueEndTime: number, nextCueStartTim
     const currentCueEndTimecode = numberToTimecodeObject(currentCueEndTime, framerate)
     const nextCueStartTimecode = numberToTimecodeObject(nextCueStartTime, framerate)
 
-    const difference = nextCueStartTimecode.subtract(currentCueEndTimecode).frameCount
+    const difference = nextCueStartTimecode.frameCount - currentCueEndTimecode.frameCount
 
     return {
-        isCompliant: difference >= a11yConfig.minFramesBetweenCues,
+        isCompliant: difference >= a11yConfig.minFramesBetweenCues || Math.sign(difference) === -1,
         title: translate('warnings.minFramesBetween.title', { framesBetweenCues: difference }),
         message: translate('warnings.minFramesBetween.message', { minFramesBetweenCues: a11yConfig.minFramesBetweenCues }),
     }

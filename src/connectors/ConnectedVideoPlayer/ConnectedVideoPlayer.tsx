@@ -11,8 +11,8 @@ import {
 
 export const ConnectedVideoPlayer: FC = () => {
     const dispatch = useTypedDispatch()
-    const { videoFile, subtitleFile, videoMetadata } = useTypedSelector((state) => state.videoSlice)
-    const { cues, activeCueIndex } = useTypedSelector((state) => state.cueSlice)
+    const { videoFile, subtitleFile, currentTime } = useTypedSelector((state) => state.videoSlice)
+    const { activeCueIndex } = useTypedSelector((state) => state.cueSlice)
 
     const handleCuesLoaded = (cues: VTTCue[]) => {
         dispatch(setCues(cues))
@@ -28,13 +28,6 @@ export const ConnectedVideoPlayer: FC = () => {
         dispatch(setCurrentTime(time))
     }
 
-    //const handleButtonClick = () => {
-    //    dispatch(setVideoFile('/res/test2.mp4'))
-    //}
-    // {/*<button onClick={handleButtonClick}>Switch video file</button>*/}
-
-    // TODO: If videoFile and/or subtitleFile is null, show file browse dialog
-
     return (
         <>
             {(videoFile && subtitleFile) && (
@@ -43,6 +36,7 @@ export const ConnectedVideoPlayer: FC = () => {
                     subtitleSrc={subtitleFile}
                     showSubtitlesByDefault
                     activeCueIndex={activeCueIndex}
+                    currentTime={currentTime}
                     onCuesLoaded={handleCuesLoaded}
                     onActiveCuesChanged={handleActiveCuesChanged}
                     onTimeChanged={handleTimeChange}

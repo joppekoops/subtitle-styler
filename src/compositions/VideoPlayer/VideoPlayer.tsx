@@ -12,6 +12,7 @@ export interface VideoPlayerProps extends VideoHTMLAttributes<HTMLVideoElement>,
     subtitleSrc?: string
     showSubtitlesByDefault?: boolean
     activeCueIndex?: number
+    currentTime: number
     plyrOptions?: Plyr.Options
     onCuesLoaded: (cues: VTTCue[]) => void
     onActiveCuesChanged: (cues: VTTCue[], index: number) => void
@@ -24,6 +25,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     subtitleSrc,
     showSubtitlesByDefault = true,
     activeCueIndex,
+    currentTime,
     plyrOptions,
     onCuesLoaded,
     onActiveCuesChanged,
@@ -155,6 +157,14 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
 
         player.fullscreen.toggle = plyrToggleFullscreen
     }, [videoPlayerContainerElement.current, videoPlayerElement.current])
+
+    useEffect(() => {
+        if (! videoPlayerElement.current) {
+            return
+        }
+
+        videoPlayerElement.current.currentTime = currentTime
+    }, [currentTime, videoPlayerElement.current])
 
     return (
         <div
