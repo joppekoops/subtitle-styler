@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactElement, useEffect, useRef } from 'react'
+import React, { CSSProperties, FC, ReactElement, useEffect, useRef, useState } from 'react'
 import {
     Timeline as ReactTimeline,
     TimelineAction,
@@ -7,7 +7,7 @@ import {
     TimelineState,
 } from '@xzdarcy/react-timeline-editor'
 
-import { TimelineCaptionClip, TimelineVideoClip } from '@app-components'
+import { Icon, TimelineCaptionClip, TimelineVideoClip } from '@app-components'
 
 import './Timeline.scss'
 
@@ -36,6 +36,8 @@ export const Timeline: FC<TimelineProps> = ({
     onSetCurrentTime,
     className = '',
 }): ReactElement => {
+    const [scale, setScale] = useState(5)
+    const [scaleWidth, setScaleWidth] = useState(50)
 
     const timeline = useRef<TimelineState>(null)
 
@@ -79,6 +81,22 @@ export const Timeline: FC<TimelineProps> = ({
         },
     }
 
+    const increaseZoom = () => {
+        if (scale > 2) {
+            setScale(scale / 2)
+        } else {
+            setScaleWidth(scaleWidth * 2)
+        }
+    }
+
+    const decreaseZoom = () => {
+        if (scaleWidth > 50) {
+            setScaleWidth(scaleWidth / 2)
+        } else {
+            setScale(scale * 2)
+        }
+    }
+
     useEffect(() => {
         if (! timeline.current) {
             return
@@ -92,14 +110,28 @@ export const Timeline: FC<TimelineProps> = ({
             className={`timeline ${className}`}
             style={{ '--current-time': currentTime } as CSSProperties}
         >
+            <div className="timeline__controls">
+                <button
+                    onClick={increaseZoom}
+                    className="timeline__controls__button button button--icon"
+                >
+                    <Icon name="add" />
+                </button>
+                <button
+                    onClick={decreaseZoom}
+                    className="timeline__controls__button button button--icon"
+                >
+                    <Icon name="subtract" />
+                </button>
+            </div>
 
             <ReactTimeline
                 ref={timeline}
                 editorData={timelineData}
                 effects={timelineEffects}
                 rowHeight={50}
-                scale={5}
-                scaleWidth={50}
+                scale={Math.floor(scale)}
+                scaleWidth={scaleWidth}
                 getActionRender={
                     (action) => action.effectId === 'caption'
                         ? <TimelineCaptionClip action={action} />
