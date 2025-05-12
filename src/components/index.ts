@@ -7,4 +7,6 @@ export * from './ShadowControls/ShadowControls'
 export * from './Tab/Tab'
 export * from './Tabs/Tabs'
 export * from './ToggleButton/ToggleButton'
+export * from './TimelineCaptionClip/TimelineCaptionClip'
+export * from './TimelineVideoClip/TimelineVideoClip'
 

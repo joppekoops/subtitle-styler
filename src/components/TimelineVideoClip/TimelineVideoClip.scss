@@ -1,0 +1,12 @@
+.timeline-video-clip {
+    border-radius: .1875rem;
+    width: 100%;
+    height: 100%;
+    background-color: darkolivegreen;
+    user-select: none;
+
+    &__id {
+        padding: var(--spacing-xxs) var(--spacing-xs);
+        background-color: #0003;
+    }
+}
