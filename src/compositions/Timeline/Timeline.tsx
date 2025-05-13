@@ -130,6 +130,7 @@ export const Timeline: FC<TimelineProps> = ({
                 editorData={timelineData}
                 effects={timelineEffects}
                 rowHeight={50}
+                autoScroll={true}
                 scale={Math.floor(scale)}
                 scaleWidth={scaleWidth}
                 getActionRender={
