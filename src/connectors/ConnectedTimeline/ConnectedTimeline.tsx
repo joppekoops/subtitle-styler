@@ -1,7 +1,7 @@
 import { TimelineAction, TimelineRow } from '@xzdarcy/react-timeline-editor'
 import React, { FC } from 'react'
 
-import { setActiveCueIndex, setCurrentTime, updateCue, useTypedDispatch, useTypedSelector } from '@app-redux'
+import { setActiveCueIndex, setTimeSetter, updateCue, useTypedDispatch, useTypedSelector } from '@app-redux'
 import { Timeline } from '@app-compositions'
 
 export const ConnectedTimeline: FC = () => {
@@ -24,7 +24,7 @@ export const ConnectedTimeline: FC = () => {
     }
 
     const handleTimeChange = (time: number): void => {
-        dispatch(setCurrentTime(time))
+        dispatch(setTimeSetter(time))
     }
 
     const handleCueMove = (params: {

@@ -11,7 +11,7 @@ import {
 
 export const ConnectedVideoPlayer: FC = () => {
     const dispatch = useTypedDispatch()
-    const { videoFile, subtitleFile, currentTime } = useTypedSelector((state) => state.videoSlice)
+    const { videoFile, subtitleFile, currentTime, timeSetter } = useTypedSelector((state) => state.videoSlice)
     const { activeCueIndex } = useTypedSelector((state) => state.cueSlice)
 
     const handleCuesLoaded = (cues: VTTCue[]) => {
@@ -36,7 +36,7 @@ export const ConnectedVideoPlayer: FC = () => {
                     subtitleSrc={subtitleFile}
                     showSubtitlesByDefault
                     activeCueIndex={activeCueIndex}
-                    currentTime={currentTime}
+                    currentTime={timeSetter}
                     onCuesLoaded={handleCuesLoaded}
                     onActiveCuesChanged={handleActiveCuesChanged}
                     onTimeChanged={handleTimeChange}

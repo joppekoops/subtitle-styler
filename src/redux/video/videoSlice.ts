@@ -6,6 +6,7 @@ export interface VideoState {
     videoMetadata: Media | null
     subtitleFile: string | null
     currentTime: number
+    timeSetter: number
     isPlaying: boolean
 }
 
@@ -14,6 +15,7 @@ const initialState: VideoState = {
     videoMetadata: null,
     subtitleFile: null,
     currentTime: 0,
+    timeSetter: 0,
     isPlaying: false,
 }
 
@@ -45,6 +47,12 @@ export const videoSlice = createSlice({
                 currentTime: action.payload,
             }
         },
+        setTimeSetter(state, action) {
+            return {
+                ...state,
+                timeSetter: action.payload,
+            }
+        },
     },
 })
 
@@ -53,4 +61,5 @@ export const {
     setVideoMetadata,
     setSubtitleFile,
     setCurrentTime,
+    setTimeSetter,
 } = videoSlice.actions
