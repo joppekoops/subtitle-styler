@@ -20,7 +20,9 @@ export const ConnectedTimeline: FC = () => {
             return
         }
 
-        dispatch(setActiveCueIndex(parseInt(params.action.id)))
+        const cueIndex = params.row.actions.indexOf(params.action)
+
+        dispatch(setActiveCueIndex(cueIndex))
     }
 
     const handleTimeChange = (time: number): void => {
@@ -37,8 +39,11 @@ export const ConnectedTimeline: FC = () => {
             return false
         }
 
+        const cueIndex = params.row.actions.indexOf(params.action)
+
         dispatch(updateCue({
-            cueIndex: params.action.id, updates: {
+            cueIndex: cueIndex,
+            updates: {
                 startTime: params.start,
                 endTime: params.end,
             },

@@ -142,7 +142,7 @@ export const Timeline: FC<TimelineProps> = ({
             {
                 id: 'cues',
                 actions: cues.map((cue, index) => ({
-                    id: index.toString(),
+                    id: cue.id,
                     start: cue.startTime,
                     end: cue.endTime,
                     effectId: 'caption',
@@ -153,7 +153,7 @@ export const Timeline: FC<TimelineProps> = ({
                 id: 'video',
                 actions: [
                     {
-                        id: 'videoAction',
+                        id: 'video',
                         start: 0,
                         end: videoLength,
                         effectId: 'video',
