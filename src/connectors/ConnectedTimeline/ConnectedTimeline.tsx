@@ -20,7 +20,7 @@ export const ConnectedTimeline: FC = () => {
             return
         }
 
-        dispatch(setActiveCueIndex(params.action.id))
+        dispatch(setActiveCueIndex(parseInt(params.action.id)))
     }
 
     const handleTimeChange = (time: number): void => {

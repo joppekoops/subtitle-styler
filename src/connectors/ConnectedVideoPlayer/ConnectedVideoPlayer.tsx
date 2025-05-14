@@ -4,7 +4,8 @@ import { VideoPlayer } from '@app-compositions'
 import {
     setActiveCueIndex,
     setCues,
-    setCurrentTime, setPlayState,
+    setCurrentTime,
+    setPlayState,
     useTypedDispatch,
     useTypedSelector,
 } from '@app-redux'
