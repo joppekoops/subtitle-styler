@@ -53,6 +53,12 @@ export const videoSlice = createSlice({
                 timeSetter: action.payload,
             }
         },
+        setPlayState(state, action) {
+            return {
+                ...state,
+                isPlaying: action.payload,
+            }
+        },
     },
 })
 
@@ -62,4 +68,5 @@ export const {
     setSubtitleFile,
     setCurrentTime,
     setTimeSetter,
+    setPlayState,
 } = videoSlice.actions

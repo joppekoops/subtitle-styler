@@ -16,6 +16,7 @@ export interface TimelineProps {
     activeCueIndex?: number
     videoLength: number
     currentTime: number
+    isPlaying: boolean
     onCueClick: (event: any, params: {
         action: TimelineAction,
         row: TimelineRow,
@@ -31,6 +32,7 @@ export const Timeline: FC<TimelineProps> = ({
     activeCueIndex,
     videoLength,
     currentTime,
+    isPlaying,
     onCueClick,
     onCueMove,
     onSetCurrentTime,
@@ -38,37 +40,9 @@ export const Timeline: FC<TimelineProps> = ({
 }): ReactElement => {
     const [scale, setScale] = useState(5)
     const [scaleWidth, setScaleWidth] = useState(50)
+    const [timelineData, setTimelineData] = useState<TimelineRow[]>([])
 
-    const timeline = useRef<TimelineState>(null)
-
-    const cueActions: TimelineAction[] = cues.map((cue, index) => ({
-        id: index.toString(),
-        start: cue.startTime,
-        end: cue.endTime,
-        effectId: 'caption',
-        selected: activeCueIndex === index,
-    }))
-
-    const timelineData: TimelineRow[] = [
-        {
-            id: 'cues',
-            actions: cueActions,
-        },
-        {
-            id: 'video',
-            actions: [
-                {
-                    id: 'videoAction',
-                    start: 0,
-                    end: videoLength,
-                    effectId: 'video',
-                    movable: false,
-                    flexible: false,
-                },
-            ],
-            rowHeight: 80,
-        },
-    ]
+    const timelineState = useRef<TimelineState>(null)
 
     const timelineEffects: Record<string, TimelineEffect> = {
         caption: {
@@ -90,6 +64,10 @@ export const Timeline: FC<TimelineProps> = ({
     }
 
     const decreaseZoom = () => {
+        if (timelineState.current && videoLength * (scaleWidth / Math.floor(scale)) < timelineState.current.target.clientWidth) {
+            return
+        }
+
         if (scaleWidth > 50) {
             setScaleWidth(scaleWidth / 2)
         } else {
@@ -97,13 +75,96 @@ export const Timeline: FC<TimelineProps> = ({
         }
     }
 
+    const scrollToTime = (
+        timelineState: TimelineState,
+        time: number,
+        position: number,
+        scale: number,
+        scaleWidth: number,
+        maxScrollTime: number = Infinity,
+    ): void => {
+        const timelineWidth = timelineState.target.clientWidth
+        const maxScroll = maxScrollTime * (scaleWidth / Math.floor(scale)) - timelineWidth + 50
+        const left = Math.min(time * (scaleWidth / Math.floor(scale)) - (timelineWidth * position), maxScroll)
+        timelineState.setScrollLeft(left)
+    }
+
     useEffect(() => {
-        if (! timeline.current) {
+        if (! timelineState.current) {
             return
         }
 
-        timeline.current.setTime(currentTime)
-    }, [currentTime, timeline])
+        // Auto scroll while playing
+        timelineState.current.listener.on('setTimeByTick', ({ time }) => {
+            if (timelineState.current) {
+                timelineState.current.setTime(time) // Necessary for smooth scroll
+
+                scrollToTime(timelineState.current, time, 0.8, scale, scaleWidth, videoLength)
+            }
+        })
+
+        // Scroll to current time while zooming
+        scrollToTime(timelineState.current, timelineState.current.getTime(), 0.5, scale, scaleWidth)
+
+        return () => {
+            if (! timelineState.current) {
+                return
+            }
+
+            timelineState.current.listener.offAll()
+        }
+    }, [scale, scaleWidth])
+
+    // Sync current time with video
+    useEffect(() => {
+        if (! timelineState.current) {
+            return
+        }
+
+        timelineState.current.setTime(currentTime)
+    }, [currentTime, timelineState.current])
+
+    // Sync play state with video
+    useEffect(() => {
+        if (! timelineState.current) {
+            return
+        }
+
+        if (isPlaying && ! timelineState.current.isPlaying) {
+            timelineState.current.play({ autoEnd: true })
+        } else if (! isPlaying && timelineState.current.isPlaying) {
+            timelineState.current.pause()
+        }
+    }, [isPlaying, timelineState.current])
+
+    useEffect(() => {
+        setTimelineData(() => [
+            {
+                id: 'cues',
+                actions: cues.map((cue, index) => ({
+                    id: index.toString(),
+                    start: cue.startTime,
+                    end: cue.endTime,
+                    effectId: 'caption',
+                    selected: activeCueIndex === index,
+                })),
+            },
+            {
+                id: 'video',
+                actions: [
+                    {
+                        id: 'videoAction',
+                        start: 0,
+                        end: videoLength,
+                        effectId: 'video',
+                        movable: false,
+                        flexible: false,
+                    },
+                ],
+                rowHeight: 80,
+            },
+        ])
+    }, [cues, activeCueIndex])
 
     return (
         <div
@@ -126,11 +187,12 @@ export const Timeline: FC<TimelineProps> = ({
             </div>
 
             <ReactTimeline
-                ref={timeline}
+                ref={timelineState}
                 editorData={timelineData}
                 effects={timelineEffects}
                 rowHeight={50}
                 autoScroll={true}
+                dragLine={true}
                 scale={Math.floor(scale)}
                 scaleWidth={scaleWidth}
                 getActionRender={
@@ -146,8 +208,7 @@ export const Timeline: FC<TimelineProps> = ({
                 onActionMoving={onCueMove}
                 onActionResizing={onCueMove}
                 onClickAction={onCueClick}
-                onChange={() => {
-                }}
+                onChange={setTimelineData}
                 style={{
                     width: 'unset',
                     height: '100%',

@@ -4,14 +4,14 @@ import { VideoPlayer } from '@app-compositions'
 import {
     setActiveCueIndex,
     setCues,
-    setCurrentTime,
+    setCurrentTime, setPlayState,
     useTypedDispatch,
     useTypedSelector,
 } from '@app-redux'
 
 export const ConnectedVideoPlayer: FC = () => {
     const dispatch = useTypedDispatch()
-    const { videoFile, subtitleFile, currentTime, timeSetter } = useTypedSelector((state) => state.videoSlice)
+    const { videoFile, subtitleFile, timeSetter } = useTypedSelector((state) => state.videoSlice)
     const { activeCueIndex } = useTypedSelector((state) => state.cueSlice)
 
     const handleCuesLoaded = (cues: VTTCue[]) => {
@@ -28,6 +28,10 @@ export const ConnectedVideoPlayer: FC = () => {
         dispatch(setCurrentTime(time))
     }
 
+    const handleIsPlayingChange = (isPlaying: boolean) => {
+        dispatch(setPlayState(isPlaying))
+    }
+
     return (
         <>
             {(videoFile && subtitleFile) && (
@@ -40,6 +44,7 @@ export const ConnectedVideoPlayer: FC = () => {
                     onCuesLoaded={handleCuesLoaded}
                     onActiveCuesChanged={handleActiveCuesChanged}
                     onTimeChanged={handleTimeChange}
+                    onIsPlayingChange={handleIsPlayingChange}
                 />
             )}
         </>

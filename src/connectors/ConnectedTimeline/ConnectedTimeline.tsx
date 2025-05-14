@@ -7,7 +7,7 @@ import { Timeline } from '@app-compositions'
 export const ConnectedTimeline: FC = () => {
     const dispatch = useTypedDispatch()
     const { cues, activeCueIndex } = useTypedSelector((state) => state.cueSlice)
-    const { currentTime, videoMetadata } = useTypedSelector((state) => state.videoSlice)
+    const { currentTime, videoMetadata, isPlaying } = useTypedSelector((state) => state.videoSlice)
 
     const videoLength = videoMetadata?.track.find(track => track['@type'] === 'Video')?.Duration || 120
 
@@ -53,6 +53,7 @@ export const ConnectedTimeline: FC = () => {
             activeCueIndex={activeCueIndex}
             videoLength={videoLength}
             currentTime={currentTime}
+            isPlaying={isPlaying}
             onCueClick={handleCueClick}
             onCueMove={handleCueMove}
             onSetCurrentTime={handleTimeChange}
