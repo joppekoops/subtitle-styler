@@ -3,13 +3,6 @@
     grid-template-rows: auto 1fr;
     height: 100%;
     user-select: none;
-
-    &__controls {
-        display: flex;
-        justify-content: end;
-        gap: var(--spacing-xs);
-        padding: var(--spacing-xs);
-    }
 }
 
 .timeline-editor .timeline-editor-edit-row {

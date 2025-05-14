@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactElement, useEffect, useRef, useState } from 'react'
+import React, { FC, ReactElement, useEffect, useRef, useState } from 'react'
 import {
     Timeline as ReactTimeline,
     TimelineAction,
@@ -7,7 +7,7 @@ import {
     TimelineState,
 } from '@xzdarcy/react-timeline-editor'
 
-import { Icon, TimelineCaptionClip, TimelineVideoClip } from '@app-components'
+import { TimelineCaptionClip, TimelineVideoClip, TimelineControls } from '@app-components'
 
 import './Timeline.scss'
 
@@ -17,13 +17,9 @@ export interface TimelineProps {
     videoLength: number
     currentTime: number
     isPlaying: boolean
-    onCueClick: (event: any, params: {
-        action: TimelineAction,
-        row: TimelineRow,
-        time: number
-    }) => void
+    onCueClick: (event: any, params: { action: TimelineAction, row: TimelineRow, time: number }) => void
     onCueMove: (params: { action: TimelineAction, row: TimelineRow, start: number, end: number }) => boolean
-    onSetCurrentTime: (time: number) => void
+    onSetCurrentTime: (time: number) => boolean
     className?: string
 }
 
@@ -44,14 +40,14 @@ export const Timeline: FC<TimelineProps> = ({
 
     const timelineState = useRef<TimelineState>(null)
 
+    const minScaleWidth = 50
+
     const timelineEffects: Record<string, TimelineEffect> = {
         caption: {
             id: 'caption',
-            name: 'caption',
         },
         video: {
             id: 'video',
-            name: 'video',
         },
     }
 
@@ -64,11 +60,14 @@ export const Timeline: FC<TimelineProps> = ({
     }
 
     const decreaseZoom = () => {
-        if (timelineState.current && videoLength * (scaleWidth / Math.floor(scale)) < timelineState.current.target.clientWidth) {
+        if (
+            timelineState.current
+            && videoLength * (scaleWidth / Math.floor(scale)) < timelineState.current.target.clientWidth
+        ) {
             return
         }
 
-        if (scaleWidth > 50) {
+        if (scaleWidth > minScaleWidth) {
             setScaleWidth(scaleWidth / 2)
         } else {
             setScale(scale * 2)
@@ -84,7 +83,8 @@ export const Timeline: FC<TimelineProps> = ({
         maxScrollTime: number = Infinity,
     ): void => {
         const timelineWidth = timelineState.target.clientWidth
-        const maxScroll = maxScrollTime * (scaleWidth / Math.floor(scale)) - timelineWidth + 50
+        const rightScrollMargin = 50
+        const maxScroll = maxScrollTime * (scaleWidth / Math.floor(scale)) - timelineWidth + rightScrollMargin
         const left = Math.min(time * (scaleWidth / Math.floor(scale)) - (timelineWidth * position), maxScroll)
         timelineState.setScrollLeft(left)
     }
@@ -167,24 +167,8 @@ export const Timeline: FC<TimelineProps> = ({
     }, [cues, activeCueIndex])
 
     return (
-        <div
-            className={`timeline ${className}`}
-            style={{ '--current-time': currentTime } as CSSProperties}
-        >
-            <div className="timeline__controls">
-                <button
-                    onClick={increaseZoom}
-                    className="timeline__controls__button button button--icon"
-                >
-                    <Icon name="add" />
-                </button>
-                <button
-                    onClick={decreaseZoom}
-                    className="timeline__controls__button button button--icon"
-                >
-                    <Icon name="subtract" />
-                </button>
-            </div>
+        <div className={`timeline ${className}`}>
+            <TimelineControls onZoomIn={increaseZoom} onZoomOut={decreaseZoom} />
 
             <ReactTimeline
                 ref={timelineState}
@@ -200,10 +184,7 @@ export const Timeline: FC<TimelineProps> = ({
                         ? <TimelineCaptionClip action={action} />
                         : <TimelineVideoClip action={action} />
                 }
-                onClickTimeArea={(time => {
-                    onSetCurrentTime(time)
-                    return true
-                })}
+                onClickTimeArea={onSetCurrentTime}
                 onCursorDrag={onSetCurrentTime}
                 onActionMoving={onCueMove}
                 onActionResizing={onCueMove}
@@ -214,7 +195,6 @@ export const Timeline: FC<TimelineProps> = ({
                     height: '100%',
                 }}
             />
-
         </div>
     )
 }

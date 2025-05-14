@@ -76,7 +76,11 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     }
 
     const setCueByIndex = (index: number): void => {
-        if (! videoPlayerElement.current || ! videoPlayerElement.current.textTracks[0].cues || ! videoPlayerElement.current.paused) {
+        if (
+            ! videoPlayerElement.current
+            || ! videoPlayerElement.current.textTracks[0].cues
+            || ! videoPlayerElement.current.paused
+        ) {
             return
         }
 
