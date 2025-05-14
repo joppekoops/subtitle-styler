@@ -17,6 +17,7 @@ export interface VideoPlayerProps extends VideoHTMLAttributes<HTMLVideoElement>,
     onCuesLoaded: (cues: VTTCue[]) => void
     onActiveCuesChanged: (cues: VTTCue[], index: number) => void
     onTimeChanged: (time: number) => void
+    onIsPlayingChange: (isPlaying: boolean) => void
     className?: string
 }
 
@@ -30,6 +31,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     onCuesLoaded,
     onActiveCuesChanged,
     onTimeChanged,
+    onIsPlayingChange,
     className = '',
     ...htmlVideoProps
 }): ReactElement => {
@@ -165,6 +167,14 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
 
         videoPlayerElement.current.currentTime = currentTime
     }, [currentTime, videoPlayerElement.current])
+
+    useEffect(() => {
+        if (! videoPlayerElement.current) {
+            return
+        }
+
+        onIsPlayingChange(! videoPlayerElement.current.paused)
+    }, [videoPlayerElement.current, videoPlayerElement.current?.paused])
 
     return (
         <div
