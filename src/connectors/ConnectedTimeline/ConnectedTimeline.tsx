@@ -9,7 +9,7 @@ export const ConnectedTimeline: FC = () => {
     const { cues, activeCueIndex } = useTypedSelector((state) => state.cueSlice)
     const { currentTime, videoMetadata, isPlaying } = useTypedSelector((state) => state.videoSlice)
 
-    const videoLength = videoMetadata?.track.find(track => track['@type'] === 'Video')?.Duration || 120
+    const videoLength = videoMetadata?.track?.find(track => track['@type'] === 'Video')?.Duration || 120
 
     const handleCueClick = (event: any, params: {
         action: TimelineAction,
@@ -25,8 +25,9 @@ export const ConnectedTimeline: FC = () => {
         dispatch(setActiveCueIndex(cueIndex))
     }
 
-    const handleTimeChange = (time: number): void => {
+    const handleTimeChange = (time: number): boolean => {
         dispatch(setTimeSetter(time))
+        return true
     }
 
     const handleCueMove = (params: {
