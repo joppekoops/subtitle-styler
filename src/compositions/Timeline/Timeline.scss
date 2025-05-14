@@ -11,3 +11,33 @@
         padding: var(--spacing-xs);
     }
 }
+
+.timeline-editor .timeline-editor-edit-row {
+    .timeline-editor-action {
+        background-color: transparent;
+    }
+
+    .timeline-editor-action-left-stretch {
+        height: calc(100% - var(--spacing-xs));
+
+        &:hover {
+            border-left: 2px solid white;
+        }
+
+        &::after {
+            border: none;
+        }
+    }
+
+    .timeline-editor-action-right-stretch {
+        height: calc(100% - var(--spacing-xs));
+
+        &:hover {
+            border-right: 2px solid white;
+        }
+
+        &::after {
+            border: none;
+        }
+    }
+}
