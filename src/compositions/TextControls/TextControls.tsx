@@ -16,9 +16,10 @@ import './TextControls.scss'
 export interface TextControlsProps {
     cues: VTTCue[]
     framerate: number
-    activeCueIndex: number | undefined
+    activeCueIndex?: number
+    selectedCueIndex?: number
     onUpdateCue: (cueIndex: number, updates: Partial<VTTCue>) => void
-    onSetActiveCueIndex: (index: number) => void
+    onSelectCue: (index: number) => void
     className?: string
 }
 
@@ -26,8 +27,9 @@ export const TextControls: FC<TextControlsProps> = ({
     cues,
     framerate,
     activeCueIndex,
+    selectedCueIndex,
     onUpdateCue,
-    onSetActiveCueIndex,
+    onSelectCue,
     className = '',
 }): ReactElement => {
     const [cuesWithTimecode, setCuesWithTimecode] = useState<CueWithTimecode[]>([])
@@ -71,7 +73,7 @@ export const TextControls: FC<TextControlsProps> = ({
 
     const handleCueClick = (index: number) => {
         if (index !== -1) {
-            onSetActiveCueIndex(index)
+            onSelectCue(index)
         }
     }
 
@@ -102,7 +104,7 @@ export const TextControls: FC<TextControlsProps> = ({
                                     className="text-controls__warning"
                                 />
                                 <button
-                                    className={`text-controls__cue ${activeCueIndex === index ? 'text-controls__cue--active' : ''}`}
+                                    className={`text-controls__cue ${selectedCueIndex === index ? 'text-controls__cue--selected' : ''} ${activeCueIndex === index ? 'text-controls__cue--active' : ''}`}
 
                                     // Only make the currently edited cue selectable while it has an error
                                     onFocusCapture={() => handleCueClick(index)}

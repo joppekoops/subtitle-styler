@@ -3,11 +3,13 @@ import { createSlice } from '@reduxjs/toolkit'
 export interface CueState {
     cues: VTTCue[]
     activeCueIndex?: number
+    selectedCueIndex?: number
 }
 
 const initialState: CueState = {
     cues: [],
     activeCueIndex: undefined,
+    selectedCueIndex: undefined,
 }
 
 export const cueSlice = createSlice({
@@ -24,6 +26,12 @@ export const cueSlice = createSlice({
             return {
                 ...state,
                 activeCueIndex: action.payload,
+            }
+        },
+        setSelectedCueIndex(state, action) {
+            return {
+                ...state,
+                selectedCueIndex: action.payload,
             }
         },
         updateCue(state, action) {
@@ -46,5 +54,6 @@ export const cueSlice = createSlice({
 export const {
     setCues,
     setActiveCueIndex,
+    setSelectedCueIndex,
     updateCue,
 } = cueSlice.actions

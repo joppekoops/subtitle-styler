@@ -1,12 +1,19 @@
 import { TimelineAction, TimelineRow } from '@xzdarcy/react-timeline-editor'
 import React, { FC } from 'react'
 
-import { setActiveCueIndex, setTimeSetter, updateCue, useTypedDispatch, useTypedSelector } from '@app-redux'
+import {
+    setActiveCueIndex,
+    setSelectedCueIndex,
+    setTimeSetter,
+    updateCue,
+    useTypedDispatch,
+    useTypedSelector,
+} from '@app-redux'
 import { Timeline } from '@app-compositions'
 
 export const ConnectedTimeline: FC = () => {
     const dispatch = useTypedDispatch()
-    const { cues, activeCueIndex } = useTypedSelector((state) => state.cueSlice)
+    const { cues, selectedCueIndex } = useTypedSelector((state) => state.cueSlice)
     const { currentTime, videoMetadata, isPlaying } = useTypedSelector((state) => state.videoSlice)
 
     const videoLength = videoMetadata?.track?.find(track => track['@type'] === 'Video')?.Duration || 120
@@ -22,6 +29,7 @@ export const ConnectedTimeline: FC = () => {
 
         const cueIndex = params.row.actions.indexOf(params.action)
 
+        dispatch(setSelectedCueIndex(cueIndex))
         dispatch(setActiveCueIndex(cueIndex))
     }
 
@@ -56,7 +64,7 @@ export const ConnectedTimeline: FC = () => {
     return (
         <Timeline
             cues={cues}
-            activeCueIndex={activeCueIndex}
+            selectedCueIndex={selectedCueIndex}
             videoLength={videoLength}
             currentTime={currentTime}
             isPlaying={isPlaying}

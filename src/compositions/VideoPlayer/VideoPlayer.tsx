@@ -133,7 +133,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
         }
 
         return () => {
-            trackElement.current?.removeEventListener('cuechange', handleCuesChange)
+            trackElement.current?.removeEventListener('cuechange', handleActiveCuesChange)
         }
     }, [trackElement])
 
