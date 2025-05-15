@@ -41,6 +41,7 @@ export const Timeline: FC<TimelineProps> = ({
     const timelineState = useRef<TimelineState>(null)
 
     const minScaleWidth = 50
+    const maxScaleWidth = 400
 
     const timelineEffects: Record<string, TimelineEffect> = {
         caption: {
@@ -52,6 +53,10 @@ export const Timeline: FC<TimelineProps> = ({
     }
 
     const increaseZoom = () => {
+        if (scaleWidth >= maxScaleWidth) {
+            return
+        }
+
         if (scale > 2) {
             setScale(scale / 2)
         } else {
@@ -98,13 +103,12 @@ export const Timeline: FC<TimelineProps> = ({
         timelineState.current.listener.on('setTimeByTick', ({ time }) => {
             if (timelineState.current) {
                 timelineState.current.setTime(time) // Necessary for smooth scroll
-
                 scrollToTime(timelineState.current, time, 0.8, scale, scaleWidth, videoLength)
             }
         })
 
         // Scroll to current time while zooming
-        scrollToTime(timelineState.current, timelineState.current.getTime(), 0.5, scale, scaleWidth)
+        scrollToTime(timelineState.current, timelineState.current.getTime(), 0.8, scale, scaleWidth)
 
         return () => {
             if (! timelineState.current) {
@@ -115,7 +119,16 @@ export const Timeline: FC<TimelineProps> = ({
         }
     }, [scale, scaleWidth])
 
-    // Sync current time with video every second
+    // Sync current time with video while paused
+    useEffect(() => {
+        if (! timelineState.current || timelineState.current.isPlaying) {
+            return
+        }
+
+        timelineState.current.setTime(currentTime)
+    }, [timelineState.current, currentTime])
+
+    // Sync current time with video every second while playing
     useEffect(() => {
         if (! timelineState.current || ! timelineState.current.isPlaying) {
             return
@@ -128,7 +141,6 @@ export const Timeline: FC<TimelineProps> = ({
         return () => {
             intervalId && clearInterval(intervalId)
         }
-
     }, [timelineState.current, timelineState.current?.isPlaying])
 
     // Sync play state with video
@@ -171,11 +183,11 @@ export const Timeline: FC<TimelineProps> = ({
                 rowHeight: 80,
             },
         ])
-    }, [cues, selectedCueIndex])
+    }, [cues, selectedCueIndex, scale, scaleWidth])
 
     return (
         <div className={`timeline ${className}`}>
-            <TimelineControls onZoomIn={increaseZoom} onZoomOut={decreaseZoom} />
+            <TimelineControls onZoomIn={increaseZoom} onZoomOut={decreaseZoom} isPlaying={isPlaying} />
 
             <ReactTimeline
                 ref={timelineState}
