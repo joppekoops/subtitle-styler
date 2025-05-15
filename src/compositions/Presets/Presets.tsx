@@ -36,13 +36,13 @@ export const Presets: FC<PresetsProps> = ({
     const { show } = useContextMenu()
 
     const handleRenamePreset = (preset: Preset, index: number) => {
-        const name = prompt('Enter new preset name', preset.name) || preset.name
-        onRenamePreset(index, name)
+        const name = prompt('Enter new preset name', preset.name)
+        name && onRenamePreset(index, name)
     }
 
     const handleCreatePreset = () => {
-        const name = prompt('Enter preset name') || 'New Preset'
-        onAddPreset(name)
+        const name = prompt('Enter preset name')
+        name && onAddPreset(name)
     }
 
     const handleSelectPreset = (preset: Preset | null) => {
