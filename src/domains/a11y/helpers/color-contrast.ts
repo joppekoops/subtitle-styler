@@ -36,7 +36,7 @@ export const checkColorContrast = (fillColor: string, boxColor: string, strokeCo
         return {
             isCompliant: colorContrast >= a11yConfig.minContrastRatio,
             title: translate('warnings.colorContrast.title', { colorContrast }),
-            message: translate('warnings.colorContrast.FillStroke', { minContrastRatio: a11yConfig.minContrastRatio }),
+            message: translate('warnings.colorContrast.messageFillStroke', { minContrastRatio: a11yConfig.minContrastRatio }),
             link: translate('warnings.colorContrast.link'),
         }
     }
