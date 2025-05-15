@@ -34,6 +34,18 @@ export const fileReadDataURL = async (file: File): Promise<string> => {
     }))
 }
 
+export const fileReadText = async (file: File): Promise<string> => {
+    return new Promise((resolve => {
+        const reader = new FileReader()
+
+        reader.addEventListener('load', () => {
+            resolve(reader.result as string)
+        })
+
+        reader.readAsText(file)
+    }))
+}
+
 export const srtFileToVttFile = async (file: File): Promise<File> => {
     return new Promise((resolve => {
         const reader = new FileReader()
@@ -47,4 +59,12 @@ export const srtFileToVttFile = async (file: File): Promise<File> => {
 
         reader.readAsText(file)
     }))
+}
+
+export const exportAsFile = (contents: BlobPart, filename: string) => {
+    const file = new File([contents], filename, { type: 'application/json' })
+    const downloadLink = document.createElement('a')
+    downloadLink.href = URL.createObjectURL(file)
+    downloadLink.download = filename
+    downloadLink.click()
 }

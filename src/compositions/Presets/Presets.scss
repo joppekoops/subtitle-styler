@@ -50,8 +50,11 @@
         overflow-y: auto;
     }
 
-    &__add-button {
+    &__buttons {
         align-self: end;
+        display: flex;
+        gap: var(--spacing-s);
+        margin-block-end: var(--spacing-s);
     }
 
     &__options {

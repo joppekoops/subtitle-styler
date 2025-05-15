@@ -119,6 +119,9 @@ export const styleSlice = createSlice({
 
             state.globalStyles = action.payload.styles
         },
+        importPreset(state, action) {
+            state.presets.push(action.payload)
+        },
     },
 })
 
@@ -132,4 +135,5 @@ export const {
     updatePreset,
     renamePreset,
     selectPreset,
+    importPreset,
 } = styleSlice.actions

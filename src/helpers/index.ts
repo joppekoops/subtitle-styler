@@ -1,3 +1,4 @@
+export * from './add-suffix-if-name-exists'
 export * from './caption-styles-to-css'
 export * from './cue'
 export * from './cue-container-styles'

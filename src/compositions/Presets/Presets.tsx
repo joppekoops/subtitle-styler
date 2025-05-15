@@ -2,7 +2,7 @@ import { Item, Menu, useContextMenu } from 'react-contexify'
 import { FC, ReactElement, useEffect, useRef, useState } from 'react'
 
 import { Preset } from '@app-entities'
-import { toKebabCase } from '@app-helpers'
+import { addSuffixIfNameExists, toKebabCase } from '@app-helpers'
 import { Icon } from '@app-components'
 
 import './Presets.scss'
@@ -16,6 +16,7 @@ export interface PresetsProps {
     onRenamePreset: (index: number, name: string) => void
     onSelectPreset: (preset: Preset | null) => void
     onExportPreset: (preset: Preset) => void
+    onImportPreset: () => void
     className?: string
 }
 
@@ -28,6 +29,7 @@ export const Presets: FC<PresetsProps> = ({
     onRenamePreset,
     onSelectPreset,
     onExportPreset,
+    onImportPreset,
     className = '',
 }): ReactElement => {
     const [isOpen, setIsOpen] = useState(false)
@@ -37,29 +39,17 @@ export const Presets: FC<PresetsProps> = ({
 
     const handleRenamePreset = (preset: Preset, index: number) => {
         const name = prompt('Enter new preset name', preset.name)
-        name && onRenamePreset(index, name)
+        name && onRenamePreset(index, addSuffixIfNameExists(name, presets))
     }
 
     const handleCreatePreset = () => {
         const name = prompt('Enter preset name')
-        name && onAddPreset(name)
+        name && onAddPreset(addSuffixIfNameExists(name, presets))
     }
 
     const handleSelectPreset = (preset: Preset | null) => {
         onSelectPreset(preset)
         setIsOpen(false)
-    }
-
-    const handleUpdatePreset = (index: number) => {
-        onUpdatePreset(index)
-    }
-
-    const handleExportPreset = (preset: Preset) => {
-        onExportPreset(preset)
-    }
-
-    const handleRemovePreset = (index: number) => {
-        onRemovePreset(index)
     }
 
     const handleKeyboardEvent = (event: KeyboardEvent) => {
@@ -112,15 +102,27 @@ export const Presets: FC<PresetsProps> = ({
 
                 {isOpen &&
                     <div className="presets__select-popover">
-                        <button
-                            type="button"
-                            title="Save the current styles as a preset"
-                            className="presets__add-button button button--primary"
-                            onClick={handleCreatePreset}
-                        >
-                            <Icon name="add" />
-                            Add Preset
-                        </button>
+                        <div className="presets__buttons">
+                            <button
+                                type="button"
+                                title="Save the current styles as a preset"
+                                className="presets__add-button button button--primary"
+                                onClick={handleCreatePreset}
+                            >
+                                <Icon name="add" />
+                                Add Preset
+                            </button>
+
+                            <button
+                                type="button"
+                                title="Import a preset file"
+                                className="presets__add-button button"
+                                onClick={onImportPreset}
+                            >
+                                <Icon name="add" />
+                                Import Preset
+                            </button>
+                        </div>
 
                         <ul className="presets__options">
                             <li className="presets__option">
@@ -155,11 +157,11 @@ export const Presets: FC<PresetsProps> = ({
 
                                         <Menu id={`menu${index}`}>
                                             <Item onClick={() => handleRenamePreset(preset, index)}>Rename</Item>
-                                            <Item onClick={() => handleUpdatePreset(index)}>
+                                            <Item onClick={() => onUpdatePreset(index)}>
                                                 Update with current styles
                                             </Item>
-                                            <Item onClick={() => handleExportPreset(preset)}>Export</Item>
-                                            <Item onClick={() => handleRemovePreset(index)}>Delete</Item>
+                                            <Item onClick={() => onExportPreset(preset)}>Export</Item>
+                                            <Item onClick={() => onRemovePreset(index)}>Delete</Item>
                                         </Menu>
                                     </li>
                                 ))
