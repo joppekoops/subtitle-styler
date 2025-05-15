@@ -13,7 +13,7 @@ import './Timeline.scss'
 
 export interface TimelineProps {
     cues: VTTCue[]
-    activeCueIndex?: number
+    selectedCueIndex?: number
     videoLength: number
     currentTime: number
     isPlaying: boolean
@@ -25,7 +25,7 @@ export interface TimelineProps {
 
 export const Timeline: FC<TimelineProps> = ({
     cues,
-    activeCueIndex,
+    selectedCueIndex,
     videoLength,
     currentTime,
     isPlaying,
@@ -115,14 +115,21 @@ export const Timeline: FC<TimelineProps> = ({
         }
     }, [scale, scaleWidth])
 
-    // Sync current time with video
+    // Sync current time with video every second
     useEffect(() => {
-        if (! timelineState.current) {
+        if (! timelineState.current || ! timelineState.current.isPlaying) {
             return
         }
 
-        timelineState.current.setTime(currentTime)
-    }, [currentTime, timelineState.current])
+        const intervalId = setInterval(() => {
+            timelineState.current?.setTime(currentTime)
+        }, 1000)
+
+        return () => {
+            intervalId && clearInterval(intervalId)
+        }
+
+    }, [timelineState.current, timelineState.current?.isPlaying])
 
     // Sync play state with video
     useEffect(() => {
@@ -146,7 +153,7 @@ export const Timeline: FC<TimelineProps> = ({
                     start: cue.startTime,
                     end: cue.endTime,
                     effectId: 'caption',
-                    selected: activeCueIndex === index,
+                    selected: selectedCueIndex === index,
                 })),
             },
             {
@@ -164,7 +171,7 @@ export const Timeline: FC<TimelineProps> = ({
                 rowHeight: 80,
             },
         ])
-    }, [cues, activeCueIndex])
+    }, [cues, selectedCueIndex])
 
     return (
         <div className={`timeline ${className}`}>

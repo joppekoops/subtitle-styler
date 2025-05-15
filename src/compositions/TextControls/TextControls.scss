@@ -13,6 +13,7 @@
     }
 
     &__cue {
+        position: relative;
         display: grid;
         grid-template-columns: min-content 1fr;
         gap: var(--spacing-s);
@@ -21,8 +22,19 @@
         width: 100%;
         background-color: var(--color-control-group-bg);
 
-        &--active {
+        &--selected {
             outline: 2px solid var(--color-primary);
+        }
+
+        &--active {
+            &::before {
+                content: "";
+                position: absolute;
+                inset: var(--spacing-xs) auto var(--spacing-xs) var(--spacing-xxs);
+                border-radius: 99rem;
+                width: .25rem;
+                background-color: var(--color-primary);
+            }
         }
     }
 

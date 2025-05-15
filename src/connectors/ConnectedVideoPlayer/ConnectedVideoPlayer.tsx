@@ -20,9 +20,7 @@ export const ConnectedVideoPlayer: FC = () => {
     }
 
     const handleActiveCuesChanged = (_activeCues: VTTCue[], index: number) => {
-        if (index >= 0) {
-            dispatch(setActiveCueIndex(index))
-        }
+        dispatch(setActiveCueIndex(index >= 0 ? index : undefined))
     }
 
     const handleTimeChange = (time: number) => {
