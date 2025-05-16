@@ -1,7 +1,8 @@
 import { Item, Menu, useContextMenu } from 'react-contexify'
+import { isEqual } from 'lodash'
 import { FC, ReactElement, useEffect, useRef, useState } from 'react'
 
-import { Preset } from '@app-entities'
+import { CaptionStyles, Preset } from '@app-entities'
 import { addSuffixIfNameExists, toKebabCase } from '@app-helpers'
 import { Icon } from '@app-components'
 
@@ -10,7 +11,9 @@ import './Presets.scss'
 export interface PresetsProps {
     presets: Preset[]
     selectedPreset: Preset | null
+    globalStyles: CaptionStyles
     onAddPreset: (name: string) => void
+    onAddEmptyPreset: (name: string) => void
     onRemovePreset: (index: number) => void
     onUpdatePreset: (index: number) => void
     onRenamePreset: (index: number, name: string) => void
@@ -23,7 +26,9 @@ export interface PresetsProps {
 export const Presets: FC<PresetsProps> = ({
     presets,
     selectedPreset,
+    globalStyles,
     onAddPreset,
+    onAddEmptyPreset,
     onRemovePreset,
     onUpdatePreset,
     onRenamePreset,
@@ -45,6 +50,11 @@ export const Presets: FC<PresetsProps> = ({
     const handleCreatePreset = () => {
         const name = prompt('Enter preset name')
         name && onAddPreset(addSuffixIfNameExists(name, presets))
+    }
+
+    const handleCreateEmptyPreset = () => {
+        const name = prompt('Enter preset name')
+        name && onAddEmptyPreset(addSuffixIfNameExists(name, presets))
     }
 
     const handleSelectPreset = (preset: Preset | null) => {
@@ -89,10 +99,13 @@ export const Presets: FC<PresetsProps> = ({
                             ?
                             <div className={`presets__option-preview cue ${toKebabCase(selectedPreset.name)}`}>
                                 <span className="presets__option-preview__text cue__text">{selectedPreset.name}</span>
+                                {! selectedPreset.builtIn && ! isEqual(selectedPreset.styles, globalStyles) &&
+                                    <span className="presets__unsaved-indicator" title="unsaved changes" />
+                                }
                             </div>
                             :
                             <div className="presets__option-preview">
-                                <span className="">None</span>
+                                <span>None</span>
                             </div>
                         }
                     </div>
@@ -102,73 +115,101 @@ export const Presets: FC<PresetsProps> = ({
 
                 {isOpen &&
                     <div className="presets__select-popover">
-                        <div className="presets__buttons">
-                            <button
-                                type="button"
-                                title="Save the current styles as a preset"
-                                className="presets__add-button button button--primary"
-                                onClick={handleCreatePreset}
-                            >
-                                <Icon name="add" />
-                                Add Preset
-                            </button>
-
-                            <button
-                                type="button"
-                                title="Import a preset file"
-                                className="presets__add-button button"
-                                onClick={onImportPreset}
-                            >
-                                <Icon name="add" />
-                                Import Preset
-                            </button>
-                        </div>
-
-                        <ul className="presets__options">
-                            <li className="presets__option">
-                                <button
-                                    className="presets__option-preview"
-                                    onClick={() => handleSelectPreset(null)}
-                                >
-                                    <span>None</span>
-                                </button>
-                            </li>
-                            {
-                                presets.map((preset, index) => (
-                                    <li
-                                        key={index}
-                                        className="presets__option"
-                                        onContextMenu={(event) => show({ id: `menu${index}`, event: event })}
+                        <section className="presets__preset-section">
+                            <h4>Built-in</h4>
+                            <ul className="presets__options">
+                                <li className="presets__option">
+                                    <button
+                                        className="presets__option-preview"
+                                        onClick={() => handleSelectPreset(null)}
                                     >
-                                        <button
-                                            className="presets__option-preview cue"
-                                            onClick={() => handleSelectPreset(preset)}
+                                        <span>None</span>
+                                    </button>
+                                </li>
+                                {
+                                    presets.map((preset, index) => (preset.builtIn &&
+                                        <li
+                                            key={index}
+                                            className="presets__option"
                                         >
-                                            <span className={`presets__option-preview__text cue__text ${toKebabCase(preset.name)}`}>
-                                                {preset.name}
-                                            </span>
-                                        </button>
-                                        <button
-                                            className="presets__option-more-button"
-                                            onClick={(event) => show({ id: `menu${index}`, event: event })}
-                                        >
-                                            <Icon name="more" className="presets__option-more-icon" />
-                                        </button>
+                                            <button
+                                                className="presets__option-preview cue"
+                                                onClick={() => handleSelectPreset(preset)}
+                                            >
+                                                <span className={`presets__option-preview__text cue__text ${toKebabCase(preset.name)}`}>
+                                                    {preset.name}
+                                                </span>
+                                            </button>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </section>
 
-                                        <Menu id={`menu${index}`}>
-                                            <Item onClick={() => handleRenamePreset(preset, index)}>Rename</Item>
-                                            <Item onClick={() => onUpdatePreset(index)}>
-                                                Update with current styles
-                                            </Item>
-                                            <Item onClick={() => onExportPreset(preset)}>Export</Item>
-                                            <Item onClick={() => onRemovePreset(index)}>Delete</Item>
-                                        </Menu>
-                                    </li>
-                                ))
-                            }
-                        </ul>
+                        <section className="presets__preset-section">
+                            <h4>Custom</h4>
+                            <div className="presets__add-buttons">
+                                <button
+                                    type="button"
+                                    className="button button--primary"
+                                    onClick={handleCreateEmptyPreset}
+                                >
+                                    <Icon name="add" />
+                                    Add Preset
+                                </button>
+                                <button type="button" className="button" onClick={onImportPreset}>
+                                    Import Preset...
+                                </button>
+                            </div>
+
+                            <ul className="presets__options">
+                                {
+                                    presets.map((preset, index) => (! preset.builtIn &&
+                                        <li
+                                            key={index}
+                                            className="presets__option"
+                                            onContextMenu={(event) => show({ id: `menu${index}`, event: event })}
+                                        >
+                                            <button
+                                                className="presets__option-preview cue"
+                                                onClick={() => handleSelectPreset(preset)}
+                                            >
+                                                <span className={`presets__option-preview__text cue__text ${toKebabCase(preset.name)}`}>
+                                                    {preset.name}
+                                                </span>
+                                            </button>
+                                            <button
+                                                className="presets__option-more-button"
+                                                onClick={(event) => show({ id: `menu${index}`, event: event })}
+                                            >
+                                                <Icon name="more" className="presets__option-more-icon" />
+                                            </button>
+
+                                            <Menu id={`menu${index}`}>
+                                                <Item onClick={() => handleRenamePreset(preset, index)}>Rename</Item>
+                                                <Item onClick={() => onExportPreset(preset)}>Export</Item>
+                                                <Item onClick={() => onRemovePreset(index)}>Delete</Item>
+                                            </Menu>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </section>
                     </div>
                 }
+            </div>
+            <div className="presets__save-buttons">
+                <button
+                    type="button"
+                    className="button button--primary"
+                    disabled={! selectedPreset || selectedPreset.builtIn || isEqual(selectedPreset.styles, globalStyles)}
+                    onClick={() => selectedPreset && onUpdatePreset(presets.indexOf(selectedPreset))}
+                >
+                    Save
+                </button>
+                <button type="button" className="button" onClick={handleCreatePreset}>
+                    Save as...
+                </button>
             </div>
         </div>
     )

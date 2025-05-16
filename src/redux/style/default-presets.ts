@@ -3,6 +3,7 @@ import { Preset } from '@app-entities'
 export const defaultPresets: Preset[] = [
     {
         name: 'Classic',
+        builtIn: true,
         styles: {
             fontFamily: 'sans-serif',
             fontVariant: '400',
@@ -54,6 +55,7 @@ export const defaultPresets: Preset[] = [
     },
     {
         name: 'Warm',
+        builtIn: true,
         styles: {
             fontFamily: 'sans-serif',
             fontVariant: '700',
@@ -105,6 +107,7 @@ export const defaultPresets: Preset[] = [
     },
     {
         name: 'Glitch',
+        builtIn: true,
         styles: {
             fontFamily: 'monospace',
             fontVariant: '400',
@@ -162,6 +165,7 @@ export const defaultPresets: Preset[] = [
     },
     {
         name: 'Neon',
+        builtIn: true,
         styles: {
             fontFamily: 'monospace',
             fontVariant: '400',
@@ -213,6 +217,7 @@ export const defaultPresets: Preset[] = [
     },
     {
         name: 'Steel',
+        builtIn: true,
         styles: {
             fontFamily: 'sans-serif',
             fontVariant: '700',
@@ -276,6 +281,7 @@ export const defaultPresets: Preset[] = [
     },
     {
         name: 'Scaling',
+        builtIn: true,
         styles: {
             fontFamily: 'sans-serif',
             fontVariant: '400',

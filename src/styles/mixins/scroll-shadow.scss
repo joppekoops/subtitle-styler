@@ -1,0 +1,9 @@
+@mixin scroll-shadow($background-color, $shadow-color) {
+    background: linear-gradient($background-color 30%, transparent) center top local,
+    linear-gradient(transparent, $background-color 70%) center bottom local,
+    radial-gradient(farthest-side at 50% 0, $shadow-color, transparent) center top scroll,
+    radial-gradient(farthest-side at 50% 100%, $shadow-color, transparent) center bottom scroll;
+    background-repeat: no-repeat;
+    background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+    background-attachment: local, local, scroll, scroll;
+}

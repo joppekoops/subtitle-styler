@@ -3,6 +3,7 @@
 @forward "helpers";
 @forward "transitions";
 
+
 * {
     box-sizing: border-box;
 }
@@ -84,6 +85,11 @@ button {
     &--icon {
         padding: var(--spacing-xs);
         aspect-ratio: 1/1;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        background-color: var(--color-control-disabled);
     }
 }
 

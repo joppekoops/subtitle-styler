@@ -2,6 +2,7 @@ import { FC } from 'react'
 
 import { Presets } from '@app-compositions'
 import {
+    addEmptyPreset,
     addPreset,
     importPreset,
     removePreset,
@@ -13,9 +14,10 @@ import {
 } from '@app-redux'
 import { Preset } from '@app-entities'
 import { addSuffixIfNameExists, exportAsFile, fileReadText, isPreset, toKebabCase } from '@app-helpers'
+import { cloneDeep } from 'lodash'
 
 export const ConnectedPresets: FC = () => {
-    const { presets, selectedPreset } = useTypedSelector((state) => state.styleSlice)
+    const { presets, selectedPreset, globalStyles } = useTypedSelector((state) => state.styleSlice)
 
     const dispatch = useTypedDispatch()
 
@@ -43,6 +45,7 @@ export const ConnectedPresets: FC = () => {
             }
 
             preset.name = addSuffixIfNameExists(preset.name, presets)
+            preset.builtIn = false
             dispatch(importPreset(preset))
 
         } catch (error) {
@@ -62,16 +65,24 @@ export const ConnectedPresets: FC = () => {
         }
     }
 
+    const handleExportPreset = (preset: Preset) => {
+        const presetToSave = cloneDeep(preset)
+        delete presetToSave.builtIn
+        exportAsFile(JSON.stringify(presetToSave), `${toKebabCase(presetToSave.name)}.cspreset`)
+    }
+
     return (
         <Presets
             presets={presets}
             selectedPreset={selectedPreset}
+            globalStyles={globalStyles}
             onAddPreset={(name: string) => dispatch(addPreset(name))}
+            onAddEmptyPreset={(name: string) => dispatch(addEmptyPreset(name))}
             onRemovePreset={(index: number) => dispatch(removePreset(index))}
             onUpdatePreset={(index: number) => dispatch(updatePreset(index))}
             onRenamePreset={(index: number, name: string) => dispatch(renamePreset({ index, name }))}
             onSelectPreset={(preset: Preset | null) => dispatch(selectPreset(preset))}
-            onExportPreset={(preset: Preset) => exportAsFile(JSON.stringify(preset), `${toKebabCase(preset.name)}.cspreset`)}
+            onExportPreset={handleExportPreset}
             onImportPreset={handleImportPreset}
         />
     )
