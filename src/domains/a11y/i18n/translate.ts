@@ -4,7 +4,7 @@ import { enTranslations } from './translations'
 
 export const translate = (key: string, vars: {} = {}): string => {
     if (! has(enTranslations, key)) {
-        throw new Error(`Translation for key "${key}" not found`)
+        return key
     }
 
     const translation = get(enTranslations, key)
