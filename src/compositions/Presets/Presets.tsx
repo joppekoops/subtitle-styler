@@ -1,44 +1,61 @@
-import { FC, ReactElement, useState } from 'react'
+import { Item, Menu, useContextMenu } from 'react-contexify'
+import { isEqual } from 'lodash'
+import { FC, ReactElement, useRef, useState } from 'react'
 
-import { Preset } from '@app-entities'
-import { toKebabCase } from '@app-helpers'
+import { CaptionStyles, Preset } from '@app-entities'
+import { addSuffixIfNameExists, toKebabCase } from '@app-helpers'
+import { useDialogDismiss } from '@app-hooks'
+import { Icon } from '@app-components'
 
 import './Presets.scss'
 
 export interface PresetsProps {
     presets: Preset[]
     selectedPreset: Preset | null
+    globalStyles: CaptionStyles
     onAddPreset: (name: string) => void
+    onAddEmptyPreset: (name: string) => void
     onRemovePreset: (index: number) => void
     onUpdatePreset: (index: number) => void
     onRenamePreset: (index: number, name: string) => void
     onSelectPreset: (preset: Preset | null) => void
     onExportPreset: (preset: Preset) => void
+    onImportPreset: () => void
     className?: string
 }
 
 export const Presets: FC<PresetsProps> = ({
     presets,
     selectedPreset,
+    globalStyles,
     onAddPreset,
+    onAddEmptyPreset,
     onRemovePreset,
     onUpdatePreset,
     onRenamePreset,
     onSelectPreset,
     onExportPreset,
+    onImportPreset,
     className = '',
 }): ReactElement => {
-
     const [isOpen, setIsOpen] = useState(false)
 
+    const select = useRef<HTMLDivElement>(null)
+    const { show } = useContextMenu()
+
     const handleRenamePreset = (preset: Preset, index: number) => {
-        const name = prompt('Enter new preset name', preset.name) || preset.name
-        onRenamePreset(index, name)
+        const name = prompt('Enter new preset name', preset.name)
+        name && onRenamePreset(index, addSuffixIfNameExists(name, presets))
     }
 
     const handleCreatePreset = () => {
-        const name = prompt('Enter preset name') || 'New Preset'
-        onAddPreset(name)
+        const name = prompt('Enter preset name')
+        name && onAddPreset(addSuffixIfNameExists(name, presets))
+    }
+
+    const handleCreateEmptyPreset = () => {
+        const name = prompt('Enter preset name')
+        name && onAddEmptyPreset(addSuffixIfNameExists(name, presets))
     }
 
     const handleSelectPreset = (preset: Preset | null) => {
@@ -46,23 +63,11 @@ export const Presets: FC<PresetsProps> = ({
         setIsOpen(false)
     }
 
-    const handleUpdatePreset = (index: number) => {
-        onUpdatePreset(index)
-        setIsOpen(false)
-    }
-
-    const handleExportPreset = (preset: Preset) => {
-        onExportPreset(preset)
-        setIsOpen(false)
-    }
+    useDialogDismiss(select, () => setIsOpen(false))
 
     return (
         <div className={`presets ${className}`}>
-            <button type="button" className="presets__add-button button" onClick={handleCreatePreset}>
-                Add Preset
-            </button>
-            <div className={`presets__select ${isOpen ? 'presets__select--active' : ''}`}>
-
+            <div className={`presets__select ${isOpen ? 'presets__select--active' : ''}`} ref={select}>
                 <button
                     className="presets__select-button"
                     onClick={() => setIsOpen(! isOpen)}
@@ -72,11 +77,14 @@ export const Presets: FC<PresetsProps> = ({
                         {selectedPreset
                             ?
                             <div className={`presets__option-preview cue ${toKebabCase(selectedPreset.name)}`}>
-                                <span className="cue__text">{selectedPreset.name}</span>
+                                <span className="presets__option-preview__text cue__text">{selectedPreset.name}</span>
+                                {! selectedPreset.builtIn && ! isEqual(selectedPreset.styles, globalStyles) &&
+                                    <span className="presets__unsaved-indicator" title="unsaved changes" />
+                                }
                             </div>
                             :
                             <div className="presets__option-preview">
-                                <span className="">None</span>
+                                <span>None</span>
                             </div>
                         }
                     </div>
@@ -85,53 +93,102 @@ export const Presets: FC<PresetsProps> = ({
                 </button>
 
                 {isOpen &&
-                    <div className="presets__options">
-                        <div className="presets__option">
-                            <button
-                                className="presets__option-preview"
-                                onClick={() => handleSelectPreset(null)}
-                            >
-                                <span>None</span>
-                            </button>
-                        </div>
-                        {
-                            presets.map((preset, index) => (
-                                <div key={index} className="presets__option">
+                    <div className="presets__select-popover">
+                        <section className="presets__preset-section">
+                            <h4>Built-in</h4>
+                            <ul className="presets__options">
+                                <li className="presets__option">
                                     <button
-                                        className="presets__option-preview cue"
-                                        onClick={() => handleSelectPreset(preset)}
+                                        className="presets__option-preview"
+                                        onClick={() => handleSelectPreset(null)}
                                     >
-                                        <span className={`presets__option-preview-cue__text cue__text ${toKebabCase(preset.name)}`}>
-                                            {preset.name}
-                                        </span>
+                                        <span>None</span>
                                     </button>
-                                    <button
-                                        type="button"
-                                        className="button"
-                                        onClick={() => handleRenamePreset(preset, index)}
-                                    >
-                                        Rename
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="button"
-                                        onClick={() => handleUpdatePreset(index)}
-                                    >
-                                        Update
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="button"
-                                        onClick={() => handleExportPreset(preset)}
-                                    >
-                                        Export
-                                    </button>
-                                </div>
-                            ))
-                        }
+                                </li>
+                                {
+                                    presets.map((preset, index) => (preset.builtIn &&
+                                        <li
+                                            key={index}
+                                            className="presets__option"
+                                        >
+                                            <button
+                                                className="presets__option-preview cue"
+                                                onClick={() => handleSelectPreset(preset)}
+                                            >
+                                                <span className={`presets__option-preview__text cue__text ${toKebabCase(preset.name)}`}>
+                                                    {preset.name}
+                                                </span>
+                                            </button>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </section>
+
+                        <section className="presets__preset-section">
+                            <h4>Custom</h4>
+                            <div className="presets__add-buttons">
+                                <button
+                                    type="button"
+                                    className="button button--primary"
+                                    onClick={handleCreateEmptyPreset}
+                                >
+                                    <Icon name="add" />
+                                    Add Preset
+                                </button>
+                                <button type="button" className="button" onClick={onImportPreset}>
+                                    Import Preset...
+                                </button>
+                            </div>
+
+                            <ul className="presets__options">
+                                {
+                                    presets.map((preset, index) => (! preset.builtIn &&
+                                        <li
+                                            key={index}
+                                            className="presets__option"
+                                            onContextMenu={(event) => show({ id: `menu${index}`, event })}
+                                        >
+                                            <button
+                                                className="presets__option-preview cue"
+                                                onClick={() => handleSelectPreset(preset)}
+                                            >
+                                                <span className={`presets__option-preview__text cue__text ${toKebabCase(preset.name)}`}>
+                                                    {preset.name}
+                                                </span>
+                                            </button>
+                                            <button
+                                                className="presets__option-more-button"
+                                                onClick={(event) => show({ id: `menu${index}`, event })}
+                                            >
+                                                <Icon name="more" className="presets__option-more-icon" />
+                                            </button>
+
+                                            <Menu id={`menu${index}`}>
+                                                <Item onClick={() => handleRenamePreset(preset, index)}>Rename</Item>
+                                                <Item onClick={() => onExportPreset(preset)}>Export</Item>
+                                                <Item onClick={() => onRemovePreset(index)}>Delete</Item>
+                                            </Menu>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </section>
                     </div>
                 }
-
+            </div>
+            <div className="presets__save-buttons">
+                <button
+                    type="button"
+                    className="button button--primary"
+                    disabled={! selectedPreset || selectedPreset.builtIn || isEqual(selectedPreset.styles, globalStyles)}
+                    onClick={() => selectedPreset && onUpdatePreset(presets.indexOf(selectedPreset))}
+                >
+                    Save
+                </button>
+                <button type="button" className="button" onClick={handleCreatePreset}>
+                    Save as...
+                </button>
             </div>
         </div>
     )

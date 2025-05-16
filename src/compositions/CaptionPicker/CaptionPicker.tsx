@@ -1,9 +1,11 @@
 import { FC, ReactElement } from 'react'
 
+import { importFile } from '@app-helpers'
+
 import './CaptionsPicker.scss'
 
 export interface CaptionPickerProps {
-    onFileChanged: (fileHandle: FileSystemFileHandle | null) => void
+    onFileChanged: (fileHandle?: File | null) => void
     onCreateSubtitles: () => void
 }
 
@@ -13,8 +15,8 @@ export const CaptionPicker: FC<CaptionPickerProps> = ({
 }): ReactElement => {
     const browseCaptionFiles = async () => {
         try {
-            const [handle] = await window.showOpenFilePicker({
-                types: [
+            const file = await importFile(
+                [
                     {
                         description: 'Caption Files',
                         accept: {
@@ -22,12 +24,10 @@ export const CaptionPicker: FC<CaptionPickerProps> = ({
                         },
                     },
                 ],
-                excludeAcceptAllOption: true,
-                multiple: false,
-                startIn: 'videos',
-            })
+                'videos',
+            )
 
-            onFileChanged(handle as unknown as FileSystemFileHandle)
+            onFileChanged(file)
         } catch (error) {
             if (error instanceof DOMException) {
                 switch (error.name) {

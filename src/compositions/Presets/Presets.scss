@@ -1,22 +1,17 @@
+@use "@app-styles/mixins";
+
 .presets {
     display: grid;
     gap: var(--spacing-m);
-
-    &__add-button {
-        justify-self: end;
-    }
 
     &__select {
         --border-width: 2px;
 
         position: relative;
+        z-index: 2;
         border: var(--border-width) solid var(--color-input-border);
         border-radius: var(--border-radius);
         background-color: var(--color-input-bg);
-
-        &--active {
-            box-shadow: 0 0 0 200vw #00000055;
-        }
     }
 
 
@@ -25,8 +20,7 @@
         gap: var(--spacing-s);
         justify-content: center;
         align-items: center;
-        padding-inline: calc(var(--spacing-s) - var(--border-width));
-        padding-block: calc(var(--spacing-xs) - var(--border-width));
+        padding-inline-end: calc(var(--spacing-s) - var(--border-width));
         width: 100%;
     }
 
@@ -42,15 +36,41 @@
         }
     }
 
-    &__options {
+    &__select-popover {
+        @include mixins.scroll-shadow(var(--color-dropdown-bg), color-mix(in srgb, var(--color-grey-1000), transparent 80%));
         position: absolute;
-        top: calc(100% + 4px);
+        top: calc(100% + var(--spacing-s));
         inset-inline: calc(var(--border-width) * -1);
         z-index: 1;
         display: flex;
         flex-direction: column;
+        gap: var(--spacing-l);
         border-radius: var(--border-radius);
-        background-color: var(--color-control-group-bg);
+        border: 2px solid var(--color-dropdown-border);
+        padding: var(--spacing-s);
+        max-height: 70cqh;
+        background-color: var(--color-dropdown-bg);
+        overflow-y: auto;
+    }
+
+    &__preset-section {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-s);
+    }
+
+    &__add-buttons {
+        display: flex;
+        gap: var(--spacing-s);
+        align-self: start;
+    }
+
+    &__options {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+        gap: var(--spacing-s);
+        margin: 0;
+        padding: 0;
     }
 
     &__option {
@@ -59,29 +79,60 @@
         gap: var(--spacing-s);
         border-radius: var(--border-radius);
         padding: var(--spacing-s);
-
-        &:has( > .button) {
-            grid-template-columns: 1fr auto;
-        }
+        background-color: var(--color-dropdown-option-bg);
     }
 
-    &__option-preview {
-        position: static;
-        grid-row: 1/4;
-        display: grid;
-        place-items: center;
-        width: 100%;
-        min-height: 5rem;
-        background-color: #333333;
+    &__option-more-button {
+        grid-column: 2;
+        padding: var(--spacing-s);
+        font-weight: bold;
         cursor: pointer;
     }
 
-    &__option-preview-cue__text {
-        font-size: max(3cqw, 14px);
+    &__option-more-icon {
+        width: 1rem;
+        height: 1rem;
+        fill: currentColor;
+    }
+
+    &__option-preview {
+        container-type: inline-size;
+        position: relative;
+        overflow: clip;
+        display: grid;
+        place-items: center;
+        border-radius: var(--border-radius);
+        width: 100%;
+        min-height: 3rem;
+        background-color: var(--color-dropdown-option-bg);
+        cursor: pointer;
+
+        &__text {
+            font-size: clamp(14px, 12cqw, 3rem);
+        }
     }
 
     &__selected-option {
         display: grid;
+        border-radius: var(--border-radius);
+        padding: var(--spacing-s);
         width: 100%;
+        background-color: var(--color-dropdown-option-bg);
+    }
+
+    &__unsaved-indicator {
+        position: absolute;
+        inset-inline-end: var(--spacing-s);
+        inset-block-start: var(--spacing-s);
+        border-radius: 100%;
+        width: .5rem;
+        height: .5rem;
+        background-color: var(--color-primary);
+    }
+
+    &__save-buttons {
+        justify-self: end;
+        display: flex;
+        gap: var(--spacing-s);
     }
 }

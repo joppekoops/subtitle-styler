@@ -1,6 +1,8 @@
+@forward "react-contexify/ReactContexify.css";
 @forward "variables";
 @forward "helpers";
 @forward "transitions";
+
 
 * {
     box-sizing: border-box;
@@ -8,6 +10,10 @@
 
 :root {
     color-scheme: dark;
+}
+
+:focus {
+    outline-offset: 1px;
 }
 
 body {
@@ -44,6 +50,7 @@ button {
 .button {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: var(--spacing-s);
     border-radius: var(--border-radius);
     border: none;
@@ -72,9 +79,18 @@ button {
         }
     }
 
+    &--primary {
+        background-color: var(--color-primary);
+    }
+
     &--icon {
         padding: var(--spacing-xs);
         aspect-ratio: 1/1;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        background-color: var(--color-control-disabled);
     }
 }
 
@@ -116,4 +132,8 @@ fieldset {
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     border: 0;
+}
+
+.contexify {
+    border: var(--border-popover);
 }

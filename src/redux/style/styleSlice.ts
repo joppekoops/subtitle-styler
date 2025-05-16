@@ -97,7 +97,15 @@ export const styleSlice = createSlice({
         addPreset(state, action) {
             state.presets.push({
                 name: action.payload,
+                builtIn: false,
                 styles: state.globalStyles,
+            })
+        },
+        addEmptyPreset(state, action) {
+            state.presets.push({
+                name: action.payload,
+                builtIn: false,
+                styles: initialState.globalStyles,
             })
         },
         removePreset(state, action) {
@@ -105,6 +113,7 @@ export const styleSlice = createSlice({
         },
         updatePreset(state, action) {
             state.presets[action.payload].styles = state.globalStyles
+            state.selectedPreset = state.presets[action.payload]
         },
         renamePreset(state, action) {
             const { index, name } = action.payload
@@ -119,6 +128,9 @@ export const styleSlice = createSlice({
 
             state.globalStyles = action.payload.styles
         },
+        importPreset(state, action) {
+            state.presets.push(action.payload)
+        },
     },
 })
 
@@ -128,8 +140,10 @@ export const {
     addShadow,
     removeShadow,
     addPreset,
+    addEmptyPreset,
     removePreset,
     updatePreset,
     renamePreset,
     selectPreset,
+    importPreset,
 } = styleSlice.actions
