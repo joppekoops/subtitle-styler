@@ -50,6 +50,7 @@ button {
 .button {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: var(--spacing-s);
     border-radius: var(--border-radius);
     border: none;

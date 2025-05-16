@@ -1,4 +1,4 @@
-export const addSuffixIfNameExists = (name: string, array: { name: string; [key: string]: any }[]): string => {
+export const addSuffixIfNameExists = <T extends { name: string }>(name: string, array: T[]): string => {
     if (array.some(i => i.name === name)) {
         let suffix = 1
 

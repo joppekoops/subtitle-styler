@@ -7,13 +7,11 @@ import { fileReadDataURL, srtFileToVttFile } from '@app-helpers'
 export const ConnectedCaptionPicker: FC = () => {
     const dispatch = useTypedDispatch()
 
-    const handleFileChanged = async (fileHandle: FileSystemFileHandle | null): Promise<void> => {
-        if (! fileHandle) {
+    const handleFileChanged = async (file?: File | null): Promise<void> => {
+        if (! file) {
             dispatch(setSubtitleFile(null))
             return
         }
-
-        let file = await fileHandle.getFile()
 
         if (file.name.endsWith('.srt')) {
             file = await srtFileToVttFile(file)

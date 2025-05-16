@@ -1,4 +1,6 @@
 import MediaInfoFactory, { Media, MediaInfo } from 'mediainfo.js'
+import { showOpenFilePicker, showSaveFilePicker } from 'show-open-file-picker'
+import { FilePickerAcceptType } from 'show-open-file-picker/types'
 
 // Get metadata from file with MediaInfo
 export const getFileMetadata = async (file: File): Promise<Media | undefined> => {
@@ -61,10 +63,34 @@ export const srtFileToVttFile = async (file: File): Promise<File> => {
     }))
 }
 
-export const exportAsFile = (contents: BlobPart, filename: string) => {
-    const file = new File([contents], filename, { type: 'application/json' })
-    const downloadLink = document.createElement('a')
-    downloadLink.href = URL.createObjectURL(file)
-    downloadLink.download = filename
-    downloadLink.click()
+export const exportAsFile = async (contents: BlobPart, filename: string, types: FilePickerAcceptType[]): Promise<void> => {
+    if ('showSaveFilePicker' in window) {
+        const handle = await showSaveFilePicker({
+            suggestedName: filename,
+            types,
+        }) as unknown as FileSystemFileHandle
+
+        const writable = await handle.createWritable()
+        await writable.write(contents)
+        await writable.close()
+    } else {
+        const file = new File([contents], filename, { type: 'application/json' })
+        const url = URL.createObjectURL(file)
+        const downloadLink = document.createElement('a')
+        downloadLink.href = url
+        downloadLink.download = filename
+        downloadLink.click()
+        URL.revokeObjectURL(url)
+    }
+}
+
+export const importFile = async (types: FilePickerAcceptType[], startIn?: string): Promise<File | undefined> => {
+    const [handle] = await showOpenFilePicker({
+        types,
+        excludeAcceptAllOption: true,
+        multiple: false,
+        startIn,
+    })
+
+    return handle.getFile()
 }

@@ -1,9 +1,10 @@
 import { Item, Menu, useContextMenu } from 'react-contexify'
 import { isEqual } from 'lodash'
-import { FC, ReactElement, useEffect, useRef, useState } from 'react'
+import { FC, ReactElement, useRef, useState } from 'react'
 
 import { CaptionStyles, Preset } from '@app-entities'
 import { addSuffixIfNameExists, toKebabCase } from '@app-helpers'
+import { useDialogDismiss } from '@app-hooks'
 import { Icon } from '@app-components'
 
 import './Presets.scss'
@@ -62,29 +63,7 @@ export const Presets: FC<PresetsProps> = ({
         setIsOpen(false)
     }
 
-    const handleKeyboardEvent = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') {
-            setIsOpen(false)
-        }
-    }
-
-    const handleMouseEvent = (event: MouseEvent) => {
-        if (select.current && event.target instanceof Element) {
-            if (! select.current.contains(event.target)) {
-                setIsOpen(false)
-            }
-        }
-    }
-
-    useEffect(() => {
-        window.addEventListener('keyup', handleKeyboardEvent)
-        window.addEventListener('mouseup', handleMouseEvent)
-
-        return () => {
-            window.removeEventListener('keyup', handleKeyboardEvent)
-            window.removeEventListener('mouseup', handleMouseEvent)
-        }
-    }, [])
+    useDialogDismiss(select, () => setIsOpen(false))
 
     return (
         <div className={`presets ${className}`}>
@@ -168,7 +147,7 @@ export const Presets: FC<PresetsProps> = ({
                                         <li
                                             key={index}
                                             className="presets__option"
-                                            onContextMenu={(event) => show({ id: `menu${index}`, event: event })}
+                                            onContextMenu={(event) => show({ id: `menu${index}`, event })}
                                         >
                                             <button
                                                 className="presets__option-preview cue"
@@ -180,7 +159,7 @@ export const Presets: FC<PresetsProps> = ({
                                             </button>
                                             <button
                                                 className="presets__option-more-button"
-                                                onClick={(event) => show({ id: `menu${index}`, event: event })}
+                                                onClick={(event) => show({ id: `menu${index}`, event })}
                                             >
                                                 <Icon name="more" className="presets__option-more-icon" />
                                             </button>

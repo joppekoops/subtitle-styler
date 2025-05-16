@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash'
 import { FC } from 'react'
 
 import { Presets } from '@app-compositions'
@@ -13,8 +14,7 @@ import {
     useTypedSelector,
 } from '@app-redux'
 import { Preset } from '@app-entities'
-import { addSuffixIfNameExists, exportAsFile, fileReadText, isPreset, toKebabCase } from '@app-helpers'
-import { cloneDeep } from 'lodash'
+import { addSuffixIfNameExists, exportAsFile, fileReadText, importFile, isPreset, toKebabCase } from '@app-helpers'
 
 export const ConnectedPresets: FC = () => {
     const { presets, selectedPreset, globalStyles } = useTypedSelector((state) => state.styleSlice)
@@ -23,8 +23,8 @@ export const ConnectedPresets: FC = () => {
 
     const handleImportPreset = async () => {
         try {
-            const [handle] = await window.showOpenFilePicker({
-                types: [
+            const file = await importFile(
+                [
                     {
                         description: 'Caption Styler preset files',
                         accept: {
@@ -32,11 +32,12 @@ export const ConnectedPresets: FC = () => {
                         },
                     },
                 ],
-                excludeAcceptAllOption: true,
-                multiple: false,
-            })
+            )
 
-            let file = await handle.getFile()
+            if (! file) {
+                return
+            }
+
             const json = await fileReadText(file)
             const preset = JSON.parse(json)
 
@@ -68,7 +69,12 @@ export const ConnectedPresets: FC = () => {
     const handleExportPreset = (preset: Preset) => {
         const presetToSave = cloneDeep(preset)
         delete presetToSave.builtIn
-        exportAsFile(JSON.stringify(presetToSave), `${toKebabCase(presetToSave.name)}.cspreset`)
+
+        exportAsFile(
+            JSON.stringify(presetToSave),
+            `${toKebabCase(presetToSave.name)}.cspreset`,
+            [{ description: 'Caption Styler preset', accept: { 'application/json': ['.cspreset'] } }],
+        )
     }
 
     return (

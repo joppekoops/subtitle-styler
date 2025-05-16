@@ -9,14 +9,12 @@ export const ConnectedVideoPicker: FC = () => {
 
     const { videoFile } = useTypedSelector(state => state.videoSlice)
 
-    const processVideoFile = async (fileHandle: FileSystemFileHandle | null): Promise<void> => {
-        if (! fileHandle) {
+    const processVideoFile = async (file?: File | null): Promise<void> => {
+        if (! file) {
             dispatch(setVideoFile(null))
             dispatch(setVideoMetadata(null))
             return
         }
-
-        const file = await fileHandle.getFile()
 
         const metadata = await getFileMetadata(file)
         const dataUrl = await fileReadDataURL(file)
@@ -27,7 +25,7 @@ export const ConnectedVideoPicker: FC = () => {
 
     return (
         <VideoPicker
-            onFileChanged={(fileHandle) => processVideoFile(fileHandle)}
+            onFileChanged={processVideoFile}
             videoFile={videoFile}
         />
     )

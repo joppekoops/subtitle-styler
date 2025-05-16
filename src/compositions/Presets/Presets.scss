@@ -1,4 +1,4 @@
-@use "@app-styles/mixins/scroll-shadow" as *;
+@use "@app-styles/mixins";
 
 .presets {
     display: grid;
@@ -37,7 +37,7 @@
     }
 
     &__select-popover {
-        @include scroll-shadow(var(--color-dropdown-bg), color-mix(in srgb, var(--color-grey-1000), transparent 80%));
+        @include mixins.scroll-shadow(var(--color-dropdown-bg), color-mix(in srgb, var(--color-grey-1000), transparent 80%));
         position: absolute;
         top: calc(100% + var(--spacing-s));
         inset-inline: calc(var(--border-width) * -1);

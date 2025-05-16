@@ -1,22 +1,12 @@
 import { FC, ReactElement } from 'react'
-import { showOpenFilePicker } from 'show-open-file-picker'
 
 import { Icon } from '@app-components'
+import { importFile } from '@app-helpers'
 
 import './VideoPicker.scss'
 
-declare global {
-    interface Window {
-        showOpenFilePicker: typeof showOpenFilePicker
-    }
-}
-
-if (! window.showOpenFilePicker) {
-    window.showOpenFilePicker = showOpenFilePicker
-}
-
 export interface VideoPickerProps {
-    onFileChanged: (fileHandle: FileSystemFileHandle | null) => void
+    onFileChanged: (file?: File | null) => void
     videoFile?: string | null
     className?: string
 }
@@ -28,21 +18,15 @@ export const VideoPicker: FC<VideoPickerProps> = ({
 }): ReactElement => {
     const browseVideos = async () => {
         try {
-            const [handle] = await window.showOpenFilePicker({
-                types: [
-                    {
-                        description: 'Video Files',
-                        accept: {
-                            'video/*': ['.mp4', '.mov', '.webm', '.ogg'],
-                        },
-                    },
-                ],
-                excludeAcceptAllOption: true,
-                multiple: false,
-                startIn: 'videos',
-            })
+            const file = await importFile(
+                [{
+                    description: 'Video Files',
+                    accept: { 'video/*': ['.mp4', '.mov', '.webm', '.ogg'] },
+                }],
+                'videos',
+            )
 
-            onFileChanged(handle as unknown as FileSystemFileHandle)
+            onFileChanged(file)
         } catch (error) {
             if (error instanceof DOMException) {
                 switch (error.name) {
