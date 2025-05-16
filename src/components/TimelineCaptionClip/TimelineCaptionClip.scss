@@ -1,0 +1,26 @@
+.timeline-caption-clip {
+    border-radius: .1875rem;
+    width: 100%;
+    height: calc(100% - var(--spacing-xs));
+    background-color: rebeccapurple;
+    outline-offset: -2px;
+    user-select: none;
+    cursor: grab;
+
+    &__id {
+        padding: var(--spacing-xxs) var(--spacing-xs);
+        background-color: #0003;
+    }
+
+    &--selected {
+        outline: 2px solid var(--color-primary);
+    }
+
+    &:hover {
+        background-color: color-mix(in srgb, rebeccapurple, white 10%);
+    }
+
+    &:active {
+        cursor: grabbing;
+    }
+}

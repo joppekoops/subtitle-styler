@@ -1,17 +1,18 @@
 import { FC } from 'react'
 
-import { setActiveCueIndex, updateCue, useTypedDispatch, useTypedSelector } from '@app-redux'
+import { setActiveCueIndex, setSelectedCueIndex, updateCue, useTypedDispatch, useTypedSelector } from '@app-redux'
 import { TextControls } from '@app-compositions'
 
 export const ConnectedTextControls: FC = () => {
-    const { cues, activeCueIndex } = useTypedSelector((state) => state.cueSlice)
+    const { cues, activeCueIndex, selectedCueIndex } = useTypedSelector((state) => state.cueSlice)
     const { videoMetadata } = useTypedSelector((state) => state.videoSlice)
 
     const dispatch = useTypedDispatch()
 
     const framerate = videoMetadata?.track.find(track => track['@type'] === 'Video')?.FrameRate || 30
 
-    const handleSetActiveCueIndex = (index: number): void => {
+    const handleSelectCue = (index: number): void => {
+        dispatch(setSelectedCueIndex(index))
         dispatch(setActiveCueIndex(index))
     }
 
@@ -24,8 +25,9 @@ export const ConnectedTextControls: FC = () => {
             cues={cues}
             framerate={framerate}
             activeCueIndex={activeCueIndex}
+            selectedCueIndex={selectedCueIndex}
             onUpdateCue={(cueIndex, updates) => handleUpdateCue(cueIndex, updates)}
-            onSetActiveCueIndex={handleSetActiveCueIndex}
+            onSelectCue={handleSelectCue}
         />
     )
 }

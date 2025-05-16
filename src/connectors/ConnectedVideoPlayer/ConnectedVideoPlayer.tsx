@@ -5,35 +5,31 @@ import {
     setActiveCueIndex,
     setCues,
     setCurrentTime,
+    setPlayState,
     useTypedDispatch,
     useTypedSelector,
 } from '@app-redux'
 
 export const ConnectedVideoPlayer: FC = () => {
     const dispatch = useTypedDispatch()
-    const { videoFile, subtitleFile, videoMetadata } = useTypedSelector((state) => state.videoSlice)
-    const { cues, activeCueIndex } = useTypedSelector((state) => state.cueSlice)
+    const { videoFile, subtitleFile, timeSetter } = useTypedSelector((state) => state.videoSlice)
+    const { activeCueIndex } = useTypedSelector((state) => state.cueSlice)
 
     const handleCuesLoaded = (cues: VTTCue[]) => {
         dispatch(setCues(cues))
     }
 
     const handleActiveCuesChanged = (_activeCues: VTTCue[], index: number) => {
-        if (index >= 0) {
-            dispatch(setActiveCueIndex(index))
-        }
+        dispatch(setActiveCueIndex(index >= 0 ? index : undefined))
     }
 
     const handleTimeChange = (time: number) => {
         dispatch(setCurrentTime(time))
     }
 
-    //const handleButtonClick = () => {
-    //    dispatch(setVideoFile('/res/test2.mp4'))
-    //}
-    // {/*<button onClick={handleButtonClick}>Switch video file</button>*/}
-
-    // TODO: If videoFile and/or subtitleFile is null, show file browse dialog
+    const handleIsPlayingChange = (isPlaying: boolean) => {
+        dispatch(setPlayState(isPlaying))
+    }
 
     return (
         <>
@@ -43,9 +39,11 @@ export const ConnectedVideoPlayer: FC = () => {
                     subtitleSrc={subtitleFile}
                     showSubtitlesByDefault
                     activeCueIndex={activeCueIndex}
+                    currentTime={timeSetter}
                     onCuesLoaded={handleCuesLoaded}
                     onActiveCuesChanged={handleActiveCuesChanged}
                     onTimeChanged={handleTimeChange}
+                    onIsPlayingChange={handleIsPlayingChange}
                 />
             )}
         </>

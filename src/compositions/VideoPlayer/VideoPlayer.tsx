@@ -12,10 +12,12 @@ export interface VideoPlayerProps extends VideoHTMLAttributes<HTMLVideoElement>,
     subtitleSrc?: string
     showSubtitlesByDefault?: boolean
     activeCueIndex?: number
+    currentTime: number
     plyrOptions?: Plyr.Options
     onCuesLoaded: (cues: VTTCue[]) => void
     onActiveCuesChanged: (cues: VTTCue[], index: number) => void
     onTimeChanged: (time: number) => void
+    onIsPlayingChange: (isPlaying: boolean) => void
     className?: string
 }
 
@@ -24,10 +26,12 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     subtitleSrc,
     showSubtitlesByDefault = true,
     activeCueIndex,
+    currentTime,
     plyrOptions,
     onCuesLoaded,
     onActiveCuesChanged,
     onTimeChanged,
+    onIsPlayingChange,
     className = '',
     ...htmlVideoProps
 }): ReactElement => {
@@ -72,7 +76,11 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
     }
 
     const setCueByIndex = (index: number): void => {
-        if (! videoPlayerElement.current || ! videoPlayerElement.current.textTracks[0].cues) {
+        if (
+            ! videoPlayerElement.current
+            || ! videoPlayerElement.current.textTracks[0].cues
+            || ! videoPlayerElement.current.paused
+        ) {
             return
         }
 
@@ -125,7 +133,7 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
         }
 
         return () => {
-            trackElement.current?.removeEventListener('cuechange', handleCuesChange)
+            trackElement.current?.removeEventListener('cuechange', handleActiveCuesChange)
         }
     }, [trackElement])
 
@@ -155,6 +163,22 @@ export const VideoPlayer: FC<VideoPlayerProps> = ({
 
         player.fullscreen.toggle = plyrToggleFullscreen
     }, [videoPlayerContainerElement.current, videoPlayerElement.current])
+
+    useEffect(() => {
+        if (! videoPlayerElement.current) {
+            return
+        }
+
+        videoPlayerElement.current.currentTime = currentTime
+    }, [currentTime, videoPlayerElement.current])
+
+    useEffect(() => {
+        if (! videoPlayerElement.current) {
+            return
+        }
+
+        onIsPlayingChange(! videoPlayerElement.current.paused)
+    }, [videoPlayerElement.current, videoPlayerElement.current?.paused])
 
     return (
         <div
