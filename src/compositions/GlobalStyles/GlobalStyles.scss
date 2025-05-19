@@ -1,14 +1,14 @@
 .global-styles {
     display: grid;
     grid-template-columns: 1fr 14rem;
-    border-block-start: 2px solid #555555;
+    border-block-start: 2px solid var(--color-control-section-border);
 
     &__form {
         position: relative;
         display: grid;
         gap: 1px;
         padding-inline-end: 2px;
-        background-color: #555555;
+        background-color: var(--color-control-section-border);
     }
 
     &__section {
@@ -59,6 +59,7 @@
 
     &__transition-controls-legend {
         float: left;
+        margin: 0;
     }
 
     &__transition-controls-preset {
@@ -67,21 +68,5 @@
 
     &__transition-controls-input {
         width: 100%;
-    }
-
-    label {
-        display: flex;
-        flex-direction: column;
-        justify-content: end;
-        gap: var(--spacing-s);
-    }
-
-    label:has([type="checkbox"], [type="radio"]) {
-        flex-direction: row;
-        justify-content: start;
-    }
-
-    legend {
-        margin-bottom: var(--spacing-s);
     }
 }

@@ -7,7 +7,7 @@
         display: grid;
         gap: var(--spacing-m);
         margin: 0;
-        border-right: 2px solid #555555;
+        border-right: 2px solid var(--color-control-section-border);
         padding: var(--spacing-m);
         list-style: none;
     }
