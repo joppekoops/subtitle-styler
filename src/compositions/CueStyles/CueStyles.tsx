@@ -1,13 +1,16 @@
 import { ChangeEvent, FC, ReactElement } from 'react'
 
-import { PositionControls } from '@app-compositions'
+import { CueTextEditor, PositionControls } from '@app-compositions'
 import { Icon, OptionsBar, ToggleButton } from '@app-components'
+import { Preset } from '@app-entities'
+import { getCueWithHtml, htmlToVttContent } from '@app-helpers'
 
 import './CueStyles.scss'
 
 export interface CueStylesProps {
     cue?: VTTCue
     cueIndex?: number
+    presets: Preset[]
     onCueChange: (cueIndex: number, updates: Partial<VTTCue>) => void
     className?: string
 }
@@ -15,12 +18,13 @@ export interface CueStylesProps {
 export const CueStyles: FC<CueStylesProps> = ({
     cue,
     cueIndex,
+    presets,
     onCueChange,
     className = '',
 }): ReactElement => {
 
     const handleCueTextChange = (text: string, index: number) => {
-        onCueChange(index, { text })
+        onCueChange(index, { text: htmlToVttContent(text) })
     }
 
     const handleCuePositionChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {
@@ -47,60 +51,63 @@ export const CueStyles: FC<CueStylesProps> = ({
         <div className={`cue-styles ${className}`}>
             {cue && cueIndex
                 ?
-                <form className="cue-styles__form">
-                    <section className="styling-section">
+                <>
+                    <section className="styling-section cue-styles__text-section">
                         <h3 className="sr-only">Text</h3>
-                        <textarea>
-                            {cue.text}
-                        </textarea>
+                        <CueTextEditor
+                            cueText={getCueWithHtml(cue).html}
+                            presets={presets}
+                            onChange={(html) => handleCueTextChange(html, cueIndex)}
+                        />
                     </section>
+                    <form className="cue-styles__form">
+                        <section className="styling-section">
+                            <h3>Typography</h3>
 
-                    <section className="styling-section">
-                        <h3>Typography</h3>
+                            <div className="global-styles__control-row">
+                                <OptionsBar label="Alignment">
+                                    <ToggleButton
+                                        name="alignment"
+                                        value="left"
+                                        type="radio"
+                                        checked={cue.align === 'left' || cue.align === 'start'}
+                                        onChange={(event) => handleCuePositionChange(event, cueIndex)}
+                                    >
+                                        <Icon name="alignLeft" aria-label="left" />
+                                    </ToggleButton>
+                                    <ToggleButton
+                                        name="alignment"
+                                        value="center"
+                                        type="radio"
+                                        checked={cue.align === 'center' || ! cue.align}
+                                        onChange={(event) => handleCuePositionChange(event, cueIndex)}
+                                    >
+                                        <Icon name="alignCenter" aria-label="center" />
+                                    </ToggleButton>
+                                    <ToggleButton
+                                        name="alignment"
+                                        value="right"
+                                        type="radio"
+                                        checked={cue.align === 'right' || cue.align === 'end'}
+                                        onChange={(event) => handleCuePositionChange(event, cueIndex)}
+                                    >
+                                        <Icon name="alignRight" aria-label="right" />
+                                    </ToggleButton>
+                                </OptionsBar>
+                            </div>
+                        </section>
 
-                        <div className="global-styles__control-row">
-                            <OptionsBar label="Alignment">
-                                <ToggleButton
-                                    name="alignment"
-                                    value="left"
-                                    type="radio"
-                                    checked={cue.align === 'left' || cue.align === 'start'}
-                                    onChange={(event) => handleCuePositionChange(event, cueIndex)}
-                                >
-                                    <Icon name="alignLeft" aria-label="left" />
-                                </ToggleButton>
-                                <ToggleButton
-                                    name="alignment"
-                                    value="center"
-                                    type="radio"
-                                    checked={cue.align === 'center' || ! cue.align}
-                                    onChange={(event) => handleCuePositionChange(event, cueIndex)}
-                                >
-                                    <Icon name="alignCenter" aria-label="center" />
-                                </ToggleButton>
-                                <ToggleButton
-                                    name="alignment"
-                                    value="right"
-                                    type="radio"
-                                    checked={cue.align === 'right' || cue.align === 'end'}
-                                    onChange={(event) => handleCuePositionChange(event, cueIndex)}
-                                >
-                                    <Icon name="alignRight" aria-label="right" />
-                                </ToggleButton>
-                            </OptionsBar>
-                        </div>
-                    </section>
-
-                    <PositionControls
-                        position={{
-                            horizontal: cue.position,
-                            vertical: cue.line,
-                            useLines: cue.snapToLines,
-                        }}
-                        onInput={(event) => handleCuePositionChange(event, cueIndex)}
-                        className="styling-section"
-                    />
-                </form>
+                        <PositionControls
+                            position={{
+                                horizontal: cue.position,
+                                vertical: cue.line,
+                                useLines: cue.snapToLines,
+                            }}
+                            onInput={(event) => handleCuePositionChange(event, cueIndex)}
+                            className="styling-section"
+                        />
+                    </form>
+                </>
                 :
                 <div>No cue selected</div>
             }

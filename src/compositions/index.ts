@@ -1,5 +1,7 @@
 export * from './CaptionPicker/CaptionPicker'
 export * from './CueStyles/CueStyles'
+export * from './CueTextEditor/CueTextEditor'
+export * from './CueTextEditorMenu/CueTextEditorMenu'
 export * from './GlobalStyles/GlobalStyles'
 export * from './PositionControls/PositionControls'
 export * from './Presets/Presets'

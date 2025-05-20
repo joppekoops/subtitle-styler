@@ -5,6 +5,7 @@ import { updateCue, useTypedDispatch, useTypedSelector } from '@app-redux'
 
 export const ConnectedCueStyles: FC = () => {
     const { cues, selectedCueIndex } = useTypedSelector((state) => state.cueSlice)
+    const { presets } = useTypedSelector((state) => state.styleSlice)
 
     const dispatch = useTypedDispatch()
 
@@ -16,6 +17,7 @@ export const ConnectedCueStyles: FC = () => {
         <CueStyles
             cue={cues[selectedCueIndex || -1]}
             cueIndex={selectedCueIndex}
+            presets={presets}
             onCueChange={handleUpdateCue}
         />
     )

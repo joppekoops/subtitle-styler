@@ -1,6 +1,8 @@
 .cue-styles {
     display: grid;
     grid-template-columns: 1fr 14rem;
+    align-content: start;
+    min-height: 100cqh;
 
     &__form {
         position: relative;
@@ -8,7 +10,11 @@
         align-content: start;
         gap: 1px;
         padding-inline-end: 2px;
-        min-height: 100cqh;
         background-color: var(--color-control-section-border);
+    }
+
+    &__text-section {
+        grid-column: 1/-1;
+        border-bottom: 2px solid var(--color-control-section-border);
     }
 }

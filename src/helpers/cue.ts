@@ -73,3 +73,11 @@ export const getCueWithHtml = (cue: VTTCue): CueWithHtml => {
         },
     }) as CueWithHtml
 }
+
+export const htmlToVttContent = (html: string): string => {
+    return html
+        .replaceAll(/(?:<br>\w?\/?)|(?:<\/p.*?><p>)/g, '\n')
+        .replaceAll(/<span class="([a-z|-]*?)">/g, '<c.$1>')
+        .replaceAll(/<\/span>/g, '</c>')
+        .replaceAll(/<\/?p.*?>/g, '')
+}
