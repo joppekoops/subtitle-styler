@@ -3,9 +3,9 @@ import { ChangeEvent, FC, ReactElement } from 'react'
 import { CaptionStyles } from '@app-entities'
 import { Icon, OptionsBar, ToggleButton, ShadowControls, RangeSlider, AccessibilityWarningCard } from '@app-components'
 import { checkColorContrast } from '@app-a11y'
+import { PositionControls } from '@app-compositions'
 
 import './GlobalStyles.scss'
-import { PositionControls } from '../PositionControls/PositionControls'
 
 export interface GlobalStylesProps {
     globalStyles: CaptionStyles

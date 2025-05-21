@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/react'
-import { FC, ReactElement } from 'react'
+import { ChangeEvent, FC, ReactElement } from 'react'
 
 import { Icon, ToggleButton } from '@app-components'
 import { Preset } from '@app-entities'
@@ -20,6 +20,16 @@ export const CueTextEditorMenu: FC<CueTextEditorMenuProps> = ({
 }): ReactElement | undefined => {
     if (! editor) {
         return
+    }
+
+    const handlePresetChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        const value = event.target.value
+
+        if (! value) {
+            editor.chain().focus().unsetMark('vttClass').run()
+        } else {
+            editor.chain().focus().setMark('vttClass', { class: value }).run()
+        }
     }
 
     return (
@@ -53,24 +63,19 @@ export const CueTextEditorMenu: FC<CueTextEditorMenuProps> = ({
             </ToggleButton>
             <select
                 value={editor.isActive('vttClass') ? editor.getAttributes('vttClass').class : ''}
-                onChange={(event) => {
-                    const value = event.target.value
-
-                    if (! value) {
-                        editor.chain().focus().unsetMark('vttClass').run()
-                    } else {
-                        editor.chain().focus().setMark('vttClass', { class: value }).run()
-                    }
-                }}
+                onChange={handlePresetChange}
                 className="full-width"
             >
                 <option value="">None</option>
                 {
                     presets.map(preset => {
                         return (
-                            <option value={toKebabCase(preset.name)}
-                                    key={toKebabCase(preset.name)}
-                            >{preset.name}</option>
+                            <option
+                                value={toKebabCase(preset.name)}
+                                key={toKebabCase(preset.name)}
+                            >
+                                {preset.name}
+                            </option>
                         )
                     })
                 }
