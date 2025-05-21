@@ -62,12 +62,13 @@ const cueRenderElement = document.createElement('div')
 
 export const getCueWithHtml = (cue: VTTCue): CueWithHtml => {
     cueRenderElement.replaceChildren(cue.getCueAsHTML())
+    const html = cueRenderElement.innerHTML
 
     // Workaround to extend VTTCue with html property, because VTTCue is not extensible
     return new Proxy(cue, {
         get(target, prop) {
             if (prop === 'html') {
-                return cueRenderElement.innerHTML
+                return html
             }
             return target[prop as keyof VTTCue]
         },
