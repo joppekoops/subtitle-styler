@@ -17,4 +17,14 @@
         grid-column: 1/-1;
         border-bottom: 2px solid var(--color-control-section-border);
     }
+
+    &__empty {
+        grid-column: 1/-1;
+        display: grid;
+        place-items: center;
+        border-radius: var(--border-radius);
+        margin: var(--spacing-m);
+        padding: var(--spacing-s);
+        background-color: var(--color-control-group-bg);
+    }
 }

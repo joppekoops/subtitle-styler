@@ -109,7 +109,7 @@ export const CueStyles: FC<CueStylesProps> = ({
                     </form>
                 </>
                 :
-                <div>No cue selected</div>
+                <div className="cue-styles__empty">No cue selected</div>
             }
 
         </div>
