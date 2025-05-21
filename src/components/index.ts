@@ -6,5 +6,8 @@ export * from './RangeSlider/RangeSlider'
 export * from './ShadowControls/ShadowControls'
 export * from './Tab/Tab'
 export * from './Tabs/Tabs'
+export * from './TimelineCaptionClip/TimelineCaptionClip'
+export * from './TimelineControls/TimelineControls'
+export * from './TimelineVideoClip/TimelineVideoClip'
 export * from './ToggleButton/ToggleButton'
 
