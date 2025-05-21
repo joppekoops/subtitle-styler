@@ -32,12 +32,13 @@
     }
 
     &__padding-controls {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(4rem, 1fr));
         gap: var(--spacing-s);
     }
 
     &__padding-controls-input {
-        width: 100%;
+
     }
 
     &__transition-container {
@@ -52,7 +53,7 @@
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-s);
         border-radius: var(--border-radius);
-        padding: var(--spacing-m);
+        padding: var(--spacing-s);
         background-color: var(--color-control-group-bg);
         width: max(calc(50% - (var(--spacing-m) / 2)), 13rem);
     }

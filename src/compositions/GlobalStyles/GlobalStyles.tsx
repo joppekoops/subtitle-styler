@@ -187,7 +187,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 </div>
 
                 <div className="global-styles__control-row">
-                    <fieldset className="global-styles__padding-controls">
+                    <fieldset className="global-styles__padding-controls full-width">
                         <legend>Padding</legend>
                         <label>
                             <span className="sr-only">Top</span>
