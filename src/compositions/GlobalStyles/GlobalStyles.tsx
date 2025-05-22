@@ -3,6 +3,7 @@ import { ChangeEvent, FC, ReactElement } from 'react'
 import { CaptionStyles } from '@app-entities'
 import { Icon, OptionsBar, ToggleButton, ShadowControls, RangeSlider, AccessibilityWarningCard } from '@app-components'
 import { checkColorContrast } from '@app-a11y'
+import { PositionControls } from '@app-compositions'
 
 import './GlobalStyles.scss'
 
@@ -152,61 +153,11 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 </div>
             </section>
 
-            <section className="global-styles__section">
-                <h3>Position</h3>
-
-                <div className="global-styles__control-row">
-                    <RangeSlider
-                        label="Horizontal"
-                        name="position.horizontal"
-                        min={0}
-                        max={100}
-                        markers={[50]}
-                        value={globalStyles.position.horizontal}
-                        unit="%"
-                        onChange={onInput}
-                        className="full-width"
-                    />
-                </div>
-
-                <div className="global-styles__control-row">
-                    {
-                        globalStyles.position.useLines
-                            ? <label>
-                                Vertical
-                                <input
-                                    type="number"
-                                    name="position.vertical"
-                                    value={globalStyles.position.vertical}
-                                    onChange={onInput}
-                                />
-                            </label>
-                            : <RangeSlider
-                                label="Vertical"
-                                name="position.vertical"
-                                min={0}
-                                max={100}
-                                markers={[50, 80]}
-                                value={globalStyles.position.vertical}
-                                unit="%"
-                                onChange={onInput}
-                                className="full-width"
-                            />
-                    }
-                </div>
-
-                <div className="global-styles__control-row">
-                    <label>
-                        <input
-                            type="checkbox"
-                            name="position.useLines"
-                            checked={globalStyles.position.useLines}
-                            onChange={onInput}
-                        />
-                        Use Lines
-                    </label>
-                </div>
-            </section>
+            <PositionControls
+                position={globalStyles.position}
+                onInput={onInput}
+                className="global-styles__section"
+            />
 
             <section className="global-styles__section">
                 <h3>Box</h3>

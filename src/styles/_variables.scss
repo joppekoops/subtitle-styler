@@ -27,6 +27,8 @@
 
     --color-panel-bg: var(--color-grey-900);
 
+    --color-control-section-border: var(--color-grey-750);
+
     --color-control-group-bg: var(--color-grey-800);
 
     --color-control-bg: var(--color-grey-750);
@@ -36,6 +38,7 @@
     --color-control-disabled: var(--color-grey-750);
 
     --color-input-border: var(--color-control-bg);
+    --color-input-focus-border: var(--color-control-hover);
     --color-input-bg: var(--color-grey-900);
 
     --color-dropdown-bg: var(--color-grey-800);

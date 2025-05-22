@@ -1,5 +1,5 @@
-import React, { FC, ReactElement } from 'react'
 import { TimelineAction } from '@xzdarcy/react-timeline-editor'
+import React, { FC, ReactElement } from 'react'
 
 import './TimelineVideoClip.scss'
 

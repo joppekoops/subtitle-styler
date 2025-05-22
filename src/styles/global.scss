@@ -99,6 +99,18 @@ label, legend {
     font-weight: 400;
 }
 
+label {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    gap: var(--spacing-s);
+}
+
+label:has([type="checkbox"], [type="radio"]) {
+    flex-direction: row;
+    justify-content: start;
+}
+
 input, select, textarea {
     font: inherit;
 
@@ -118,9 +130,16 @@ input[type="text"], input[type="number"], select, textarea {
 }
 
 fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-s);
     margin: 0;
     padding: 0;
     border: none;
+}
+
+legend {
+    margin-bottom: var(--spacing-s);
 }
 
 .sr-only {
@@ -136,4 +155,18 @@ fieldset {
 
 .contexify {
     border: var(--border-popover);
+}
+
+.styling-section {
+    display: grid;
+    gap: var(--spacing-m);
+    padding: var(--spacing-m);
+    background-color: var(--color-panel-bg);
+}
+
+.control-row {
+    display: flex;
+    gap: var(--spacing-m);
+    flex-wrap: wrap;
+    width: 100%
 }

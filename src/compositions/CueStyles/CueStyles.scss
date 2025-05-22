@@ -1,0 +1,30 @@
+.cue-styles {
+    display: grid;
+    grid-template-columns: 1fr 14rem;
+    align-content: start;
+    min-height: 100cqh;
+
+    &__form {
+        position: relative;
+        display: grid;
+        align-content: start;
+        gap: 1px;
+        padding-inline-end: 2px;
+        background-color: var(--color-control-section-border);
+    }
+
+    &__text-section {
+        grid-column: 1/-1;
+        border-bottom: 2px solid var(--color-control-section-border);
+    }
+
+    &__empty {
+        grid-column: 1/-1;
+        display: grid;
+        place-items: center;
+        border-radius: var(--border-radius);
+        margin: var(--spacing-m);
+        padding: var(--spacing-s);
+        background-color: var(--color-control-group-bg);
+    }
+}

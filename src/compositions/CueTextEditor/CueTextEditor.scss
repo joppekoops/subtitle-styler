@@ -1,0 +1,22 @@
+.cue-text-editor {
+    &__editor {
+        border: 2px solid var(--color-input-border);
+        border-radius: var(--border-radius);
+        padding: var(--spacing-s);
+
+        &:focus-within {
+            border-color: var(--color-input-focus-border);
+        }
+
+        p {
+            position: static;
+            margin: 0;
+            white-space: pre-line;
+            zoom: .5;
+        }
+
+        > * {
+            outline: none;
+        }
+    }
+}

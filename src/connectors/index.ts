@@ -1,4 +1,5 @@
 export * from './ConnectedCaptionPicker/ConnectedCaptionPicker'
+export * from './ConnectedCueStyles/ConnectedCueStyles'
 export * from './ConnectedGlobalStyles/ConnectedGlobalStyles'
 export * from './ConnectedPresets/ConnectedPresets'
 export * from './ConnectedTextControls/ConnectedTextControls'

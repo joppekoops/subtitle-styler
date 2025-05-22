@@ -1,4 +1,4 @@
-import { ShadowStyles, TransitionStyles } from '@app-entities'
+import { PositionStyles, ShadowStyles, TransitionStyles } from '@app-entities'
 
 export interface CaptionStyles {
     fontFamily: string
@@ -12,11 +12,7 @@ export interface CaptionStyles {
         color: string
         width: number
     }
-    position: {
-        horizontal: LineAndPositionSetting
-        vertical: LineAndPositionSetting
-        useLines: boolean
-    }
+    position: PositionStyles,
     box: {
         color: string
         opacity: number
