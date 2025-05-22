@@ -187,7 +187,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 </div>
 
                 <div className="global-styles__control-row">
-                    <fieldset className="global-styles__padding-controls">
+                    <fieldset className="global-styles__padding-controls full-width">
                         <legend>Padding</legend>
                         <label>
                             <span className="sr-only">Top</span>
@@ -287,6 +287,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                                 type="number"
                                 name="transition.start.duration"
                                 min={0}
+                                step={0.1}
                                 value={globalStyles.transition.start.duration}
                                 onChange={onInput}
                                 className="global-styles__transition-controls-input"
@@ -335,6 +336,7 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                                 type="number"
                                 name="transition.end.duration"
                                 min={0}
+                                step={0.1}
                                 value={globalStyles.transition.end.duration}
                                 onChange={onInput}
                                 className="global-styles__transition-controls-input"

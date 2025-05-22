@@ -79,7 +79,7 @@ export const styleSlice = createSlice({
         updateGlobalStyles(state, action) {
             const { key, value } = action.payload
 
-            set(state.globalStyles, key, isNaN(parseInt(value)) ? value : parseInt(value))
+            set(state.globalStyles, key, isNaN(parseFloat(value || 0)) ? value : parseFloat(value || 0))
         },
         addShadow(state, action) {
             const { color, offsetX, offsetY, blur } = action.payload

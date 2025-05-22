@@ -1,4 +1,4 @@
-import { Children, FC, ReactElement, useState } from 'react'
+import { Children, FC, ReactElement, useRef, useState } from 'react'
 
 import { TabProps } from '@app-components'
 import { startViewTransitionIfNeeded } from '@app-helpers'
@@ -15,9 +15,13 @@ export const Tabs: FC<TabsProps> = ({
     children,
 }): ReactElement | null => {
     const [activeTab, setActiveTab] = useState(0)
+    const tabContainer = useRef<HTMLDivElement>(null)
 
     const changeTab = (index: number) => {
-        startViewTransitionIfNeeded(() => setActiveTab(index))
+        startViewTransitionIfNeeded(() => {
+            tabContainer.current?.children[0].scrollTo({ top: 0, behavior: 'instant' })
+            setActiveTab(index)
+        })
     }
 
     return (
@@ -42,7 +46,7 @@ export const Tabs: FC<TabsProps> = ({
                 }
             </ul>
             <span className="tabs__active-indicator" />
-            <div className="tabs__content-container">
+            <div className="tabs__content-container" ref={tabContainer}>
                 {children[activeTab]}
             </div>
         </div>

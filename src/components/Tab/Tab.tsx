@@ -10,9 +10,9 @@ export interface TabProps {
 
 export const Tab: FC<TabProps> = ({
     name,
-    className,
+    className = '',
     children,
-}): ReactElement | null => (
+}): ReactElement => (
     <div className={`tab ${className}`}>
         {children}
     </div>

@@ -126,7 +126,12 @@ input[type="text"], input[type="number"], select, textarea {
     border-radius: var(--border-radius);
     padding-inline: calc(var(--spacing-s) - var(--border-width));
     padding-block: calc(var(--spacing-xs) - var(--border-width));
+    min-height: 2rem;
     background-color: var(--color-input-bg);
+}
+
+input[type="color"] {
+    min-height: 2rem;
 }
 
 fieldset {
