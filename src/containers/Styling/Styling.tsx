@@ -37,7 +37,7 @@ export const Styling: FC<StylingProps> = ({
     useEffect(() => {
         cues.forEach(cue => {
             cue.position = globalStyles.position.horizontal
-            cue.line = globalStyles.position.vertical
+            cue.line = globalStyles.position.vertical || 0
             cue.snapToLines = globalStyles.position.useLines
         })
     }, [globalStyles.position])
