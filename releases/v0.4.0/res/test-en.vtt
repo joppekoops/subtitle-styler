@@ -1,0 +1,66 @@
+WEBVTT
+
+STYLE
+::cue(.testclass) {
+    color: yellow;
+}
+
+0
+00:00.000 --> 00:12.000 align:end line:0 position:80%
+<c.testclass>[Test]</c>
+
+1
+00:18.700 --> 00:21.500 align:start line:1 position:20%
+This blade has a dark past.
+
+2
+00:22.800 --> 00:26.800 line:2 position:30% size:100%
+It has shed much innocent blood.
+
+3
+00:29.000 --> 00:32.450 line:3 position:70% size:70%
+You're a fool for traveling alone,
+so completely unprepared.
+
+4
+00:32.750 --> 00:35.800 line:-3 size:40%
+You're lucky your blood's still flowing.
+
+5
+00:36.250 --> 00:37.300 line:-4 size:0%
+Thank you.
+
+6
+00:38.500 --> 00:40.000 line:-5
+So...
+
+7
+00:40.400 --> 00:44.800 line:10%
+What brings you to
+the land of the gatekeepers?
+
+8
+00:46.000 --> 00:48.500 line:20%
+I'm searching for someone.
+
+9
+00:49.000 --> 00:53.200 line:30%
+Someone very dear?
+A kindred spirit?
+
+10
+00:54.400 --> 00:56.000
+A dragon.
+
+11
+00:58.850 --> 01:01.750
+A dangerous quest for a lone hunter.
+
+12
+01:02.950 --> 01:05.870
+I've been alone for
+as long as I can remember.
+
+13
+01:58.250 --> 01:59.500
+We're almost done. Shhh...
