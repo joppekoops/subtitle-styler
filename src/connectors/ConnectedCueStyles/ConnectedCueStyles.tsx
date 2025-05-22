@@ -15,7 +15,7 @@ export const ConnectedCueStyles: FC = () => {
 
     return (
         <CueStyles
-            cue={cues[selectedCueIndex || -1]}
+            cue={cues[selectedCueIndex !== undefined ? selectedCueIndex : -1]}
             cueIndex={selectedCueIndex}
             presets={presets}
             onCueChange={handleUpdateCue}
