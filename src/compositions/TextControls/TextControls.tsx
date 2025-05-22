@@ -1,6 +1,6 @@
-import { ChangeEvent, FC, ReactElement, useEffect, useState } from 'react'
+import { ChangeEvent, FC, ReactElement, useCallback, useEffect, useState } from 'react'
 
-import { clearInvalid, numberToTimecode, setInvalid, timecodeToNumber } from '@app-helpers'
+import { clearInvalid, numberToTimecode, scrollIntoViewIfNeeded, setInvalid, timecodeToNumber } from '@app-helpers'
 import { CueWithTimecode } from '@app-entities'
 import { AccessibilityWarningCard } from '@app-components'
 import {
@@ -33,6 +33,14 @@ export const TextControls: FC<TextControlsProps> = ({
     className = '',
 }): ReactElement => {
     const [cuesWithTimecode, setCuesWithTimecode] = useState<CueWithTimecode[]>([])
+
+    const selectedCueItem = useCallback((item: HTMLLIElement) => {
+        if (! item) {
+            return
+        }
+
+        scrollIntoViewIfNeeded(item)
+    }, [selectedCueIndex])
 
     const handleCueTimeBlur = (event: ChangeEvent<HTMLInputElement>, index: number) => {
         try {
@@ -92,7 +100,11 @@ export const TextControls: FC<TextControlsProps> = ({
                 <ul className="text-controls__cue-list">
                     {
                         cuesWithTimecode.map((cue, index) => (
-                            <li key={index} className="text-controls__cue-item">
+                            <li
+                                key={index}
+                                className="text-controls__cue-item"
+                                ref={selectedCueIndex === index ? selectedCueItem : undefined}
+                            >
                                 <AccessibilityWarningCard
                                     warnings={[
                                         checkLineLength(cue.cue.text),
