@@ -47,7 +47,7 @@ export const CueStyles: FC<CueStylesProps> = ({
         }
     }
 
-    if (! cue || ! cueIndex) {
+    if (! cue || cueIndex === undefined) {
         return (
             <div className="cue-styles__empty">No cue selected</div>
         )
