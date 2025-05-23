@@ -1,0 +1,13 @@
+.export {
+    display: grid;
+    gap: var(--spacing-l);
+    justify-items: start;
+    padding: var(--spacing-m);
+
+    &__form {
+        display: flex;
+        gap: var(--spacing-s);
+        justify-items: start;
+        align-items: end;
+    }
+}

@@ -74,7 +74,7 @@ export const exportAsFile = async (contents: BlobPart, filename: string, types: 
         await writable.write(contents)
         await writable.close()
     } else {
-        const file = new File([contents], filename, { type: 'application/json' })
+        const file = new File([contents], filename, { type: Object.keys(types[0].accept)[0] })
         const url = URL.createObjectURL(file)
         const downloadLink = document.createElement('a')
         downloadLink.href = url
