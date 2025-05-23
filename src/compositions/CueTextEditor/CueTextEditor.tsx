@@ -32,7 +32,7 @@ const extensions = [
     Italic.extend({ renderHTML: ({ HTMLAttributes }) => ['i', HTMLAttributes, 0] }),
     Underline,
     VttClass,
-    HardBreak,
+    HardBreak.extend({ addKeyboardShortcuts: () => ({ 'Enter': ({ editor }) => editor.commands.setHardBreak() }) }),
 ]
 
 export interface CueTextEditorProps {
@@ -48,7 +48,7 @@ export const CueTextEditor: FC<CueTextEditorProps> = ({
 }): ReactElement => {
 
     const editor = useEditor({
-        content: cueText,
+        content: `<p>${cueText}</p>`,
         onUpdate: ({ editor }) => {
             const html = editor.getHTML()
             onChange(html)
@@ -65,7 +65,7 @@ export const CueTextEditor: FC<CueTextEditorProps> = ({
 
         const selection = editor.state.selection.ranges[0]
 
-        editor.commands.setContent(cueText, false, { preserveWhitespace: 'full' })
+        editor.commands.setContent(`<p>${cueText}</p>`, false, { preserveWhitespace: 'full' })
 
         editor.commands.setTextSelection({ from: selection.$from.pos, to: selection.$to.pos })
     }, [cueText, editor])
