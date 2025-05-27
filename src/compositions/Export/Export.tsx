@@ -1,4 +1,5 @@
 import { FC, FocusEvent, FormEvent, ReactElement } from 'react'
+
 import { Icon } from '@app-components'
 
 import './Export.scss'
@@ -19,7 +20,7 @@ export const Export: FC<ExportProps> = ({
         onExport(formdata.get('filename') as string)
     }
 
-    const selectName = (event: FocusEvent<HTMLInputElement>) => {
+    const handleFilenameInputFocus = (event: FocusEvent<HTMLInputElement>) => {
         const filename = event.currentTarget.value.split('.')[0]
         event.currentTarget.setSelectionRange(0, filename.length)
     }
@@ -39,7 +40,13 @@ export const Export: FC<ExportProps> = ({
 
                 <label>
                     Filename
-                    <input type="text" name="filename" defaultValue="captions.vtt" required onFocus={selectName} />
+                    <input
+                        type="text"
+                        name="filename"
+                        defaultValue="captions.vtt"
+                        required
+                        onFocus={handleFilenameInputFocus}
+                    />
                 </label>
 
                 <button className="button button--primary" type="submit">Export...</button>
