@@ -1,6 +1,6 @@
 import { CaptionStyles } from '@app-entities'
 
-export const captionStylesToCss = (styles: CaptionStyles, selector: string): string => `.${selector} {
+export const captionStylesToCss = (styles: CaptionStyles, selector: string): string => `${selector} {
     font-family: ${styles.fontFamily};
     font-weight: ${styles.fontVariant};
     font-size: max(calc(${styles.fontSize} / 16 * 5cqh), 14px);
@@ -17,12 +17,12 @@ export const captionStylesToCss = (styles: CaptionStyles, selector: string): str
     padding-bottom: ${styles.box.padding.bottom}px;
     padding-left: ${styles.box.padding.left}px;
     
-    text-shadow: ${styles.shadow.map((shadow) => `
+    text-shadow: ${styles.shadow.length ? styles.shadow.map((shadow) => `
         ${shadow.offsetX}px ${shadow.offsetY}px ${shadow.blur}px ${shadow.color}
-    `).join(', ')};
+    `.trim()).join(', ') : 'none'};
     
     animation: 
         ${styles.transition.start.preset} ${styles.transition.start.duration}s ${styles.transition.start.easing},
-        ${styles.transition.end.preset} ${styles.transition.end.duration}s ${styles.transition.end.easing} calc(var(--cue-duration) - ${styles.transition.end.duration}s);
+        ${styles.transition.end.preset} ${styles.transition.end.duration}s ${styles.transition.end.easing} calc(var(--cue-duration) - ${styles.transition.end.duration}s)
     ;
-}`
+}`.split('\n').filter(line => !! line.trim()).join('\n')

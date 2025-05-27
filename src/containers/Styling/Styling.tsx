@@ -3,7 +3,13 @@ import { FC, ReactElement, useEffect } from 'react'
 import { useTypedSelector } from '@app-redux'
 import { captionStylesToCss, toKebabCase } from '@app-helpers'
 import { Tab, Tabs } from '@app-components'
-import { ConnectedCueStyles, ConnectedGlobalStyles, ConnectedPresets, ConnectedTextControls } from '@app-connectors'
+import {
+    ConnectedCueStyles,
+    ConnectedGlobalStyles,
+    ConnectedPresets,
+    ConnectedTextControls,
+    ConnectedExport,
+} from '@app-connectors'
 
 import './Styling.scss'
 
@@ -22,14 +28,14 @@ export const Styling: FC<StylingProps> = ({
             return
         }
 
-        cueStyleElement.innerHTML = captionStylesToCss(globalStyles, 'cue__text')
+        cueStyleElement.innerHTML = captionStylesToCss(globalStyles, '.cue__text')
 
         presets.forEach((preset) => {
             if (! cueStyleElement) {
                 return
             }
 
-            cueStyleElement.innerHTML += captionStylesToCss(preset.styles, toKebabCase(preset.name))
+            cueStyleElement.innerHTML += captionStylesToCss(preset.styles, `.${toKebabCase(preset.name)}`)
         })
 
     }, [globalStyles, presets, cueStyleElement])
@@ -69,7 +75,9 @@ export const Styling: FC<StylingProps> = ({
                     <h2 className="sr-only">Cue Styles</h2>
                     <ConnectedCueStyles />
                 </Tab>
-                <Tab name="Export">Export</Tab>
+                <Tab name="Export">
+                    <ConnectedExport />
+                </Tab>
             </Tabs>
         </div>
     )
