@@ -1,0 +1,28 @@
+.font-input {
+    flex-direction: row;
+
+    &__input {
+        flex-grow: 1;
+
+        &::-webkit-calendar-picker-indicator {
+            transform: translateY(-.25rem);
+        }
+    }
+
+    &__help-text {
+        position: absolute;
+        inset-inline-end: var(--spacing-s);
+        z-index: 3;
+        margin-block: var(--spacing-s);
+        border: var(--border-popover);
+        border-radius: var(--border-radius);
+        padding: var(--spacing-xs) var(--spacing-s);
+        width: min(15rem, 100%);
+        background-color: var(--color-popover-bg);
+        box-shadow: 0 0 .5rem #00000055;
+    }
+
+    &__help-button {
+        height: 100%;
+    }
+}
