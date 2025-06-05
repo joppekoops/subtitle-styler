@@ -1,4 +1,5 @@
 .font-input {
+    position: relative;
     flex-direction: row;
 
     &__input {
@@ -11,7 +12,7 @@
 
     &__help-text {
         position: absolute;
-        inset-inline-end: var(--spacing-s);
+        inset-inline-end: calc(-1 * var(--spacing-s));
         z-index: 3;
         margin-block: var(--spacing-s);
         border: var(--border-popover);
