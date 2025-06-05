@@ -5,6 +5,7 @@ import AlignRight from './AlignRight.svg'
 import Bold from './Bold.svg'
 import Cross from './Cross.svg'
 import Error from './Error.svg'
+import Info from './Info.svg'
 import Italics from './Italics.svg'
 import Manual from './Manual.svg'
 import More from './More.svg'
@@ -20,6 +21,7 @@ export const icons = {
     bold: Bold,
     cross: Cross,
     error: Error,
+    info: Info,
     italics: Italics,
     manual: Manual,
     more: More,

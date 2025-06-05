@@ -1,5 +1,6 @@
 export * from './AccessibilityWarning/AccessibilityWarningCard'
 export * from './Cue/Cue'
+export * from './FontInput/FontInput'
 export * from './Icon/Icon'
 export * from './OptionsBar/OptionsBar'
 export * from './RangeSlider/RangeSlider'

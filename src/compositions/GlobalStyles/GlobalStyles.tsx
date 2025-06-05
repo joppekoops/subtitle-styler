@@ -1,7 +1,15 @@
 import { ChangeEvent, FC, ReactElement } from 'react'
 
 import { CaptionStyles } from '@app-entities'
-import { Icon, OptionsBar, ToggleButton, ShadowControls, RangeSlider, AccessibilityWarningCard } from '@app-components'
+import {
+    Icon,
+    OptionsBar,
+    ToggleButton,
+    ShadowControls,
+    RangeSlider,
+    AccessibilityWarningCard,
+    FontInput,
+} from '@app-components'
 import { checkColorContrast } from '@app-a11y'
 import { PositionControls } from '@app-compositions'
 
@@ -28,15 +36,12 @@ export const GlobalStyles: FC<GlobalStylesProps> = ({
                 <h3>Typography</h3>
 
                 <div className="global-styles__control-row">
-                    <label className="full-width">
-                        <span className="sr-only">Font family</span>
-                        <select name="fontFamily" value={globalStyles.fontFamily} onChange={onInput}>
-                            <option value="sans-serif">Sans Serif</option>
-                            <option value="serif">Serif</option>
-                            <option value="monospace">Monospace</option>
-                            <option value="fantasy">Fantasy</option>
-                        </select>
-                    </label>
+                    <FontInput
+                        label="Font Family"
+                        name="fontFamily"
+                        value={globalStyles.fontFamily}
+                        onChange={onInput}
+                    />
                 </div>
 
                 <div className="global-styles__control-row">
