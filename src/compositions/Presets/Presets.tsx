@@ -4,7 +4,7 @@ import { FC, ReactElement, useRef, useState } from 'react'
 
 import { CaptionStyles, Preset } from '@app-entities'
 import { addSuffixIfNameExists, toKebabCase } from '@app-helpers'
-import { useDialogDismiss } from '@app-hooks'
+import { useDialogDismiss, useTemporaryToggle } from '@app-hooks'
 import { Icon } from '@app-components'
 
 import './Presets.scss'
@@ -39,6 +39,7 @@ export const Presets: FC<PresetsProps> = ({
     className = '',
 }): ReactElement => {
     const [isOpen, setIsOpen] = useState(false)
+    const [isSaved, triggerIsSaved] = useTemporaryToggle(1000)
 
     const select = useRef<HTMLDivElement>(null)
     const { show } = useContextMenu()
@@ -51,11 +52,18 @@ export const Presets: FC<PresetsProps> = ({
     const handleCreatePreset = () => {
         const name = prompt('Enter preset name')
         name && onAddPreset(addSuffixIfNameExists(name, presets))
+        triggerIsSaved()
     }
 
     const handleCreateEmptyPreset = () => {
         const name = prompt('Enter preset name')
         name && onAddEmptyPreset(addSuffixIfNameExists(name, presets))
+        triggerIsSaved()
+    }
+
+    const handleSavePreset = () => {
+        selectedPreset && onUpdatePreset(presets.indexOf(selectedPreset))
+        triggerIsSaved()
     }
 
     const handleSelectPreset = (preset: Preset | null) => {
@@ -77,7 +85,10 @@ export const Presets: FC<PresetsProps> = ({
                         {selectedPreset
                             ?
                             <div className={`presets__option-preview cue ${toKebabCase(selectedPreset.name)}`}>
-                                <span className="presets__option-preview__text cue__text">{selectedPreset.name}</span>
+                                <span className={`presets__option-preview__text ${isSaved ? 'presets__option-preview__text__saving' : ''} cue__text`}>
+                                    {selectedPreset.name}
+                                </span>
+
                                 {! selectedPreset.builtIn && ! isEqual(selectedPreset.styles, globalStyles) &&
                                     <span className="presets__unsaved-indicator" title="unsaved changes" />
                                 }
@@ -182,7 +193,7 @@ export const Presets: FC<PresetsProps> = ({
                     type="button"
                     className="button button--primary"
                     disabled={! selectedPreset || selectedPreset.builtIn || isEqual(selectedPreset.styles, globalStyles)}
-                    onClick={() => selectedPreset && onUpdatePreset(presets.indexOf(selectedPreset))}
+                    onClick={handleSavePreset}
                 >
                     Save
                 </button>

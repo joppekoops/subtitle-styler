@@ -95,18 +95,25 @@ export const styleSlice = createSlice({
             state.globalStyles.shadow.splice(action.payload, 1)
         },
         addPreset(state, action) {
-            state.presets.push({
+            const preset = {
                 name: action.payload,
                 builtIn: false,
                 styles: state.globalStyles,
-            })
+            }
+
+            state.presets.push(preset)
+            state.selectedPreset = preset
         },
         addEmptyPreset(state, action) {
-            state.presets.push({
+            const preset = {
                 name: action.payload,
                 builtIn: false,
                 styles: initialState.globalStyles,
-            })
+            }
+
+            state.presets.push(preset)
+            state.selectedPreset = preset
+            state.globalStyles = preset.styles
         },
         removePreset(state, action) {
             state.presets.splice(action.payload, 1)
